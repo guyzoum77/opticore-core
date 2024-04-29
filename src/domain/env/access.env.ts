@@ -1,4 +1,4 @@
-import {dotenv} from "../../presentation/components/sharedModules.component";
+import { dotenv } from "../..";
 
 /**
  * Get env variables user, password and database.

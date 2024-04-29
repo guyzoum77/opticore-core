@@ -1,4 +1,4 @@
-import {express} from "../../presentation/components/sharedModules.component";
+import express from "express";
 
 /**
  * This is the register where we define all application routes.json.

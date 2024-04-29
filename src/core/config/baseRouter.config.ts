@@ -1,4 +1,4 @@
-import {express} from "../../presentation/components/sharedModules.component";
+import express from "express";
 
 
 /**

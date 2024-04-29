@@ -1,4 +1,4 @@
-import {LoggerFormat} from "./sharedModules.component";
+import LoggerFormat from "../../core/utils/logs/logger.utils";
 
 export class LoggerComponent {
     private static logger: LoggerFormat = new LoggerFormat();

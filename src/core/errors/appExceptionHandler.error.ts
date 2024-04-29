@@ -1,4 +1,4 @@
-import {HttpStatusCodesConstant} from "../../domain/constants/httpStatusCodes.constant";
+import { HttpStatusCodesConstant } from "../../domain/constants/httpStatusCodes.constant";
 
 
 /**

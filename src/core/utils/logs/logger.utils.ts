@@ -1,16 +1,17 @@
-import {
-    fs, DailyRotateFile, format, winston, injectable
-} from "../../../presentation/components/sharedModules.component";
-import {LogLevelEnum} from "../../../domain/enums/logLevel.enum";
+import { injectable } from "inversify";
+import winston, { format } from "winston";
+import { LogLevelEnum } from "../../../domain/enums/logLevel.enum";
+import {DailyRotateFile, fs } from "../../..";
 
 
 export type LogMessage = string;
 export type LogContext = object;
 
+
 /**
  * A class to log in production all interaction with the application.
  */
-@injectable() // Coming from inversify
+@injectable()
 export default class LoggerUtils {
     private _logger: winston.Logger;
     private static logDirectory: string | undefined = "./logs";

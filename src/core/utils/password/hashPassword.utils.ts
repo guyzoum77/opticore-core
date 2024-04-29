@@ -1,4 +1,4 @@
-import {crypto} from "../../../presentation/components/sharedModules.component";
+import crypto from "crypto";
 import {LoggerComponent} from "../../../presentation/components/logger.component";
 
 
