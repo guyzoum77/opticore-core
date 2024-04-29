@@ -1,0 +1,20 @@
+import {express} from "../../index";
+
+export default class SuccessResponseHttp {
+    /**
+     *
+     * @param res
+     * @param status
+     * @param context
+     * @param successMessage
+     * @param apiVersion
+     */
+    static response(res: express.Response, status: number, context: string, successMessage: string, apiVersion: any) {
+        return res.status(200).json({
+            "@context": context,
+            message: successMessage,
+            responseStatus: status,
+            version: apiVersion
+        });
+    }
+}

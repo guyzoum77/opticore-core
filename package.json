@@ -1,6 +1,6 @@
 {
   "name": "opticore-core-module",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "all modules  core",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -64,6 +64,7 @@
     "@types/cors": "^2.8.17",
     "@types/edit-json-file": "^1.7.3",
     "@types/express": "^4.17.21",
+    "@types/gradient-string": "^1.1.6",
     "@types/helmet": "^4.0.0",
     "@types/hpp": "^0.2.6",
     "@types/jest": "^29.5.12",

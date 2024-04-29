@@ -1,0 +1,22 @@
+import {express} from "../../index";
+
+export default class SuccessResponseWithDataHttp {
+    /**
+     *
+     * @param res
+     * @param status
+     * @param context
+     * @param successMessage
+     * @param data
+     * @param apiVersion
+     */
+    static response (res: express.Response, status: number, context: string, successMessage: string, data: any, apiVersion: any) {
+        return res.status(200).json({
+            "@context": context,
+            message: successMessage,
+            dataResponse: data,
+            responseStatus: status,
+            version: apiVersion
+        });
+    }
+}

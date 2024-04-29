@@ -10,9 +10,6 @@ import fs from "fs";
 import { createLogger, transports } from "winston";
 import path from "path";
 import appRoot from "app-root-path";
-import passport, {Strategy} from "passport";
-import {Strategy as JwtStr, StrategyOptions, ExtractJwt} from 'passport-jwt';
-import {Strategy as LocalStrategy, VerifyFunction, IStrategyOptions} from "passport-local";
 import randToken from "rand-token";
 import crypto from "crypto";
 import { PrismaClient } from '@prisma/client';
@@ -21,6 +18,7 @@ const winston = require('winston');
 import {format} from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 import DateDiff from "date-diff";
+import {JwtPayload} from "jsonwebtoken";
 
 
 import Exception from "./application/exceptions/messages.exception";
@@ -42,15 +40,57 @@ import {RSAKeyDecryption} from "./core/utils/cryptography/decryption/rsaKey.decr
 import {RSAKeyEncryption} from "./core/utils/cryptography/encryption/rsaKey.encryption";
 import {ValidatePasswordUtils} from "./core/utils/password/validatePassword.utils";
 import {HashPasswordUtils} from "./core/utils/password/hashPassword.utils";
+import {serverExecutionTimeUtils} from "./core/utils/serverExecutionTime.utils";
+import SuccessResponseWithDataHttp from "./application/http/successResponseWithData.http";
+import SuccessResponseHttp from "./application/http/successResponse.http";
+import ErrorResponseHttp from "./application/http/errorResponse.http";
 
 
-export type { IStrategyOptions, VerifyFunction } from "passport-local";
+
 export {
-    express, Validator, jsonWebToken, corsOrigin, cookieParser, mySQL, createLogger, format, transports, bcrypt, fs,
-    dotenv, LoggerFormat, ServerEnvConfig, passport, Strategy, crypto, ExtractJwt, randToken,
-    appRoot, path, ExceptionHandlerError, AccessEnv, PrismaClient, LocalStrategy, JwtStr, injectable,
-    winston, DailyRotateFile, DateDiff, HttpStatusCodesConstant, LoggerComponent, RSAKeyDecryption, RSAKeyEncryption,
-    ValidatePasswordUtils, HashPasswordUtils, RegisterRoute, Exception, CheckerDatabaseConnectionService, BaseRouterConfig,
-    CorsOptionsConfig, DbConnexionConfig, AppExceptionHandlerError, LogLevelEnum, RoleEnum
+    express,
+    Validator,
+    jsonWebToken,
+    corsOrigin,
+    cookieParser,
+    mySQL,
+    createLogger,
+    format,
+    transports,
+    bcrypt,
+    fs,
+    dotenv,
+    LoggerFormat,
+    ServerEnvConfig,
+    crypto,
+    randToken,
+    appRoot,
+    path,
+    ExceptionHandlerError,
+    AccessEnv,
+    PrismaClient,
+    injectable,
+    winston, DailyRotateFile,
+    DateDiff,
+    HttpStatusCodesConstant,
+    LoggerComponent,
+    RSAKeyDecryption,
+    RSAKeyEncryption,
+    ValidatePasswordUtils,
+    HashPasswordUtils,
+    RegisterRoute,
+    Exception,
+    CheckerDatabaseConnectionService,
+    BaseRouterConfig,
+    CorsOptionsConfig,
+    DbConnexionConfig,
+    AppExceptionHandlerError,
+    LogLevelEnum,
+    RoleEnum,
+    serverExecutionTimeUtils,
+    SuccessResponseWithDataHttp,
+    SuccessResponseHttp,
+    ErrorResponseHttp,
 };
+
 
