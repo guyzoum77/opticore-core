@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "module": "CommonJS",
+    "target": "ES2022",
+    "moduleResolution": "Node10",
+    "declaration": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "outDir": "dir"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}
