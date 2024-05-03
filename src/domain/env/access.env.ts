@@ -4,6 +4,14 @@ import { dotenv } from "../..";
  * Get env variables user, password and database.
  */
 export class AccessEnv {
+    static prodEnv(): string {
+        return String(dotenv.config()?.parsed?.ENV_PROD);
+    }
+
+    static devEnv(): string {
+        return String(dotenv.config()?.parsed?.ENV_DEV);
+    }
+
     static dataBasePort(): string {
         return String(dotenv.config()?.parsed?.DATA_BASE_PORT);
     }
