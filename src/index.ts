@@ -14,7 +14,7 @@ import randToken from "rand-token";
 import crypto from "crypto";
 import { PrismaClient } from '@prisma/client';
 import {injectable} from "inversify"; // For dependency injection
-const winston = require('winston');
+import winston from 'winston';
 import {format} from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 import DateDiff from "date-diff";
