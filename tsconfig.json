@@ -5,15 +5,15 @@
     "esModuleInterop": true,
     "strictNullChecks": true,
     "module": "CommonJS",
-    "target": "ES2022",
-    "moduleResolution": "Node10",
+    "target": "ES2017",
+    "moduleResolution": "Node",
     "declaration": true,
     "isolatedModules": true,
     "noEmit": false,
     "types": ["reflect-metadata"],
     "experimentalDecorators": true,
-    "outDir": "dir"
+    "outDir": "./dist"
   },
-  "include": ["src"],
+  "include": ["./src"],
   "exclude": ["node_modules"]
 }

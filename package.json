@@ -1,10 +1,11 @@
 {
   "name": "opticore-core-module",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "all modules  core",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup"
