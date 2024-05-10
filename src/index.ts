@@ -1,5 +1,5 @@
 import express from "express";
-import Validator from "validatorjs";
+import Validator from 'validatorjs';
 import jsonWebToken from "jsonwebtoken";
 import corsOrigin from "cors";
 import cookieParser from "cookie-parser";
@@ -55,9 +55,7 @@ import AsymmetricCryptionDataWithPublicRSAKeyService
 
 export {
     colors,
-    express,
-    Validator,
-    jsonWebToken,
+    express, jsonWebToken,
     corsOrigin,
     cookieParser,
     mySQL,
@@ -72,6 +70,7 @@ export {
     dotenv,
     LoggerFormat,
     ServerEnvConfig,
+    Validator,
     crypto,
     randToken,
     appRoot,
