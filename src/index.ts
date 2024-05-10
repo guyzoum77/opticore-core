@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import mySQL from "mysql";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import colors from "ansi-colors";
 import fs from "fs";
 import { createLogger, transports } from "winston";
 import path from "path";
@@ -14,15 +15,17 @@ import randToken from "rand-token";
 import crypto from "crypto";
 import { PrismaClient } from '@prisma/client';
 import {injectable} from "inversify"; // For dependency injection
+import {Db, MongoClient} from 'mongodb';
 import winston from 'winston';
 import {format} from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 import DateDiff from "date-diff";
-import {JwtPayload} from "jsonwebtoken";
+import stream from "stream";
+import {Client, Pool, PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig} from "pg";
 
 
 import Exception from "./application/exceptions/messages.exception";
-import CheckerDatabaseConnectionService from "./application/services/checkerDatabaseConnection.service";
+import CheckerMySqlDatabaseConnectionService from "./application/services/checkerMySqlDatabaseConnection.service";
 import {BaseRouterConfig} from "./core/config/baseRouter.config";
 import CorsOptionsConfig from "./core/config/corsOptions.config";
 import DbConnexionConfig from "./core/config/dbConnexion.config";
@@ -50,19 +53,22 @@ import AsymmetricCryptionDataWithPublicRSAKeyService
     from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
 
 
-
 export {
+    colors,
     express,
     Validator,
     jsonWebToken,
     corsOrigin,
     cookieParser,
     mySQL,
+    Client,
     createLogger,
     format,
     transports,
     bcrypt,
     fs,
+    Db,
+    MongoClient,
     dotenv,
     LoggerFormat,
     ServerEnvConfig,
@@ -70,13 +76,14 @@ export {
     randToken,
     appRoot,
     path,
+    stream,
     ExceptionHandlerError,
     AccessEnv,
     PrismaClient,
     injectable,
     winston, DailyRotateFile,
     DateDiff,
-    HttpStatusCodesConstant,
+    Pool, HttpStatusCodesConstant,
     LoggerComponent,
     RSAKeyDecryption,
     RSAKeyEncryption,
@@ -84,7 +91,7 @@ export {
     HashPasswordUtils,
     RegisterRoute,
     Exception,
-    CheckerDatabaseConnectionService,
+    CheckerMySqlDatabaseConnectionService,
     BaseRouterConfig,
     CorsOptionsConfig,
     DbConnexionConfig,
@@ -98,5 +105,6 @@ export {
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService
 };
+export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
 
 

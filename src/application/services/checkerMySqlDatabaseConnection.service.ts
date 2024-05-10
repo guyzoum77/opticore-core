@@ -1,8 +1,5 @@
 import {Exception, ExceptionHandlerError, HttpStatusCodesConstant, LoggerComponent, mySQL } from "../..";
 
-
-
-
 /**
  *
  * @param dbConnection
@@ -10,12 +7,15 @@ import {Exception, ExceptionHandlerError, HttpStatusCodesConstant, LoggerCompone
  *
  * Return void
  */
-export default function CheckerDatabaseConnectionService(dbConnection: any): void {
+export default function CheckerMySqlDatabaseConnectionService(dbConnection: any): void {
     dbConnection.connect((err: mySQL.MysqlError): void => {
         if (err) {
             LoggerComponent.logErrorMessage(err.message, "MysqlError connection");
             throw new ExceptionHandlerError(
-                err.message, "MysqlError connection", HttpStatusCodesConstant.UNAUTHORIZED,true
+                err.message,
+                "MysqlError connection",
+                HttpStatusCodesConstant.UNAUTHORIZED,
+                true
             );
         }
 
@@ -28,14 +28,17 @@ export default function CheckerDatabaseConnectionService(dbConnection: any): voi
             if (endConnectionErr) {
                 LoggerComponent.logErrorMessage(endConnectionErr.message, "MysqlError")
                 throw new ExceptionHandlerError(
-                    endConnectionErr.message, "MysqlError", HttpStatusCodesConstant.UNAUTHORIZED,true
+                    endConnectionErr.message,
+                    "MysqlError",
+                    HttpStatusCodesConstant.UNAUTHORIZED,
+                    true
                 );
             }
             const data = {
                 successMessage: Exception.dbConnexionClosed,
                 status: HttpStatusCodesConstant.SERVICE_UNAVAILABLE
             }
-            LoggerComponent.logSuccessMessage(JSON.stringify(data), "MySql connection");
+            LoggerComponent.logSuccessMessage(data, "MySql connection");
         });
     });
 }
