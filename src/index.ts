@@ -8,6 +8,7 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import colors from "ansi-colors";
 import fs from "fs";
+import passport from "passport";
 import { createLogger, transports } from "winston";
 import path from "path";
 import appRoot from "app-root-path";
@@ -22,6 +23,7 @@ import DailyRotateFile from "winston-daily-rotate-file";
 import DateDiff from "date-diff";
 import stream from "stream";
 import {Client, Pool, PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig} from "pg";
+
 
 
 import Exception from "./application/exceptions/messages.exception";
@@ -47,12 +49,14 @@ import {serverExecutionTimeUtils} from "./core/utils/serverExecutionTime.utils";
 import SuccessResponseWithDataHttp from "./application/http/successResponseWithData.http";
 import SuccessResponseHttp from "./application/http/successResponse.http";
 import ErrorResponseHttp from "./application/http/errorResponse.http";
-import AsymmetricCryptionDataWithPrivateRSAKeyService
-    from "./application/services/asymmetricCryptionDataWithPrivateRSAKey.service";
-import AsymmetricCryptionDataWithPublicRSAKeyService
-    from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
+import AsymmetricCryptionDataWithPrivateRSAKeyService from "./application/services/asymmetricCryptionDataWithPrivateRSAKey.service";
+import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
 
 
+const prisma = new PrismaClient();
+
+
+export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
 export {
     colors,
     express, jsonWebToken,
@@ -73,12 +77,14 @@ export {
     Validator,
     crypto,
     randToken,
+    passport,
     appRoot,
     path,
     stream,
     ExceptionHandlerError,
     AccessEnv,
     PrismaClient,
+    prisma,
     injectable,
     winston, DailyRotateFile,
     DateDiff,
@@ -104,6 +110,3 @@ export {
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService
 };
-export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
-
-
