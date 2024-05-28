@@ -53,9 +53,6 @@ import AsymmetricCryptionDataWithPrivateRSAKeyService from "./application/servic
 import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
 
 
-const prisma = new PrismaClient();
-
-
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
 export {
     colors,
@@ -84,7 +81,6 @@ export {
     ExceptionHandlerError,
     AccessEnv,
     PrismaClient,
-    prisma,
     injectable,
     winston, DailyRotateFile,
     DateDiff,
