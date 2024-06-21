@@ -10,7 +10,12 @@ export default class SuccessResponseWithDataHttp {
      * @param data
      * @param apiVersion
      */
-    static response (res: express.Response, status: number, context: string, successMessage: string, data: any, apiVersion: any) {
+    static response (res: express.Response,
+                     status: number,
+                     context: string,
+                     successMessage: string,
+                     data: any,
+                     apiVersion: any): express.Response<any, Record<string, any>> {
         return res.status(200).json({
             "@context": context,
             message: successMessage,

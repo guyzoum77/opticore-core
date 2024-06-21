@@ -11,6 +11,7 @@ export default class RegisterRoute {
     }
 
     routers (): express.Router[] {
-        return [];
+        return [
+        ];
     }
 }

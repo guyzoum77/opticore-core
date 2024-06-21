@@ -10,6 +10,12 @@ import {
 
 
 export default class AsymmetricCryptionDataWithPublicRSAKeyService {
+    /**
+     *
+     * @param rsaKey
+     * @param keyType
+     * @protected
+     */
     protected static verifyExistingKey(rsaKey: string, keyType: string): ExceptionHandlerError | string {
         if (!rsaKey) {
             LoggerComponent.logErrorMessage(keyType + Exception.rsaKeyNotFound, Exception.errorNameRsaVerifyExistingKey);
@@ -23,6 +29,12 @@ export default class AsymmetricCryptionDataWithPublicRSAKeyService {
         return rsaKey;
     }
 
+    /**
+     *
+     * @param publicKey
+     * @param payload
+     * @private
+     */
     private static encryptionWithPublicKey(publicKey: string, payload: any): Buffer {
         this.verifyExistingKey(publicKey, "Public");
 
@@ -39,6 +51,13 @@ export default class AsymmetricCryptionDataWithPublicRSAKeyService {
         }
     }
 
+    /**
+     *
+     * @param privateKey
+     * @param publicKey
+     * @param payload
+     * @private
+     */
     private static decryptionWithPrivateKey(privateKey: string, publicKey: string, payload: any): Buffer {
         this.verifyExistingKey(publicKey, "Public");
 
@@ -55,6 +74,12 @@ export default class AsymmetricCryptionDataWithPublicRSAKeyService {
         }
     }
 
+    /**
+     *
+     * @param publicKey
+     * @param payload
+     * @private
+     */
     private static signWithPublicRSAKey(publicKey: string, payload: any): string {
         this.verifyExistingKey(publicKey, "Private");
 
@@ -64,6 +89,12 @@ export default class AsymmetricCryptionDataWithPublicRSAKeyService {
         return sign.sign(publicKey, 'base64');
     }
 
+    /**
+     *
+     * @param privateKey
+     * @param publicKey
+     * @param payload
+     */
     public static verifyPublicRSAKey(privateKey: string, publicKey: string, payload: any) {
         try {
             const verify: crypto.Verify = crypto.createVerify('SHA256');

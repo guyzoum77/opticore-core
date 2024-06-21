@@ -2,15 +2,21 @@ import {Client, LoggerComponent, CustomTypesConfig} from "../..";
 import {ConnectionOptions} from "tls";
 import stream from "stream";
 
-export default async function CheckerPostgresDatabaseConnectionService(
-    connectionString: string | any, keepAlive?: boolean | undefined, stream?: () => stream.Duplex | undefined,
-    statement_timeout?: false | number | undefined, ssl?: boolean | ConnectionOptions | undefined,
-    query_timeout?: number | undefined, keepAliveInitialDelayMillis?: number | undefined,
-    idle_in_transaction_session_timeout?: number | undefined, application_name?: string | undefined,
-    connectionTimeoutMillis?: number | undefined, types?: CustomTypesConfig | undefined, options?: string | undefined) {
-    const client: Client = new Client({
+export default async function CheckerPostgresDatabaseConnectionService(connectionString: string | any,
+                                                                       keepAlive?: boolean | undefined,
+                                                                       stream?: () => stream.Duplex | undefined,
+                                                                       statement_timeout?: false | number | undefined,
+                                                                       ssl?: boolean | ConnectionOptions | undefined,
+                                                                       query_timeout?: number | undefined,
+                                                                       keepAliveInitialDelayMillis?: number | undefined,
+                                                                       idle_in_transaction_session_timeout?: number | undefined,
+                                                                       application_name?: string | undefined,
+                                                                       connectionTimeoutMillis?: number | undefined,
+                                                                       types?: CustomTypesConfig | undefined,
+                                                                       options?: string | undefined): Promise<void> {
+    const configOptions = {
         connectionString: connectionString,
-        keepAlive: keepAlive, 
+        keepAlive: keepAlive,
         stream: stream,
         statement_timeout: statement_timeout,
         ssl: ssl,
@@ -21,15 +27,18 @@ export default async function CheckerPostgresDatabaseConnectionService(
         connectionTimeoutMillis: connectionTimeoutMillis,
         types: types,
         options: options
-    });
+    };
+    const client: Client = new Client(configOptions);
     await client.connect();
-    await client.end().then(
-        (): void => {
-            LoggerComponent.logSuccessMessage("Connection closed successfully", "Postgres close connection");
-        },
-        (onRejected: any) => {
-            LoggerComponent.logSuccessMessage(onRejected, "Postgres connection");
-        }).catch((onError: any) => {
-            LoggerComponent.logSuccessMessage(onError, "Postgres connection");
-        });
+    await client.end().then((): void => {
+        LoggerComponent.logSuccessMessage(
+            "Connection closed successfully",
+            "Postgres close connection");
+        }, (onRejected: any): void => {
+        LoggerComponent.logSuccessMessage(
+            onRejected,
+            "Postgres connection");
+    }).catch((onError: any): void => {
+        LoggerComponent.logSuccessMessage(onError, "Postgres connection");
+    });
 }

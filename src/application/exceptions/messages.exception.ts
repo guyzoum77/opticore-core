@@ -2,9 +2,12 @@ export default class MessagesException {
     static dbConnexionSuccess: string = "The database connection was successful  🚀";
     static dbConnexionError: string = "An error occurred while connecting to the database";
     static dbConnexionClosed: string = "MySQL connection is closed";
+    static mysqlErrorCon: string = "MysqlError connection";
     static mySQLError: string = "MysqlError";
+    static mySqlCloseConnection: string = "MySql close connection";
     static userNotExist: string = "User do not exist.";
     static wrongPassword: string = "Password incorrect";
+    static erNotSupportedAuthMode: string = "Oops ! Database credentials (user and password) are not correct.";
     static tokenNotProvided: string = "No token provided.";
     static middlewareError: string = "error from UserAuthenticateMiddleware";
     static ExpiresToken: string = "Expires Token. You're not authorize";
@@ -22,5 +25,13 @@ export default class MessagesException {
     static signatureRSAKeyFailed: string = "Signature verification failed.";
     static verifyPublicKeyError: string = "After checking, we noticed that someone tried to recover data, but to no avail.";
     static verifyPrivateKeyError: string = "After checking, we noticed that someone tried to recover data, but to no avail.";
-    static UnableAccount = "Oops... your account is inactive. Please verify your email account or spam to confirm your registration. Or try to contact the admin if you doesn't receive email account registration."
+    static UnableAccount: string = "Oops... your account is inactive. Please verify your email account or spam to confirm your registration. Or try to contact the admin if you doesn't receive email account registration."
+
+    static accessDeniedToDBCon(user: string): string {
+        return `Access denied for user ${user}. Try to check database credentials if user`+
+            `or password is correct, we have : '${user}'@'localhost'`;
+    }
+    static unknownDB(password: string): string {
+        return `Database ${password} is unknown. Please try to use Database CLI to create your database, or do it manually in your Database Management System`
+    }
 }

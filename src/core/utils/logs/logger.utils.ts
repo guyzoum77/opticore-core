@@ -68,7 +68,6 @@ export default class LoggerUtils {
             new winston.transports.Console({
                 format: this._getFormatForConsole(),
             }),
-
         ];
 
         if (process.env.NODE_ENV === env) {

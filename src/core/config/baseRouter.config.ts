@@ -14,8 +14,9 @@ export class BaseRouterConfig<T, U> {
     constructor (TController: new () => T, UMiddleware?: new () => U) {
         this.router = express.Router();
         this.controller = new TController();
-        this.middleware = UMiddleware ? new UMiddleware() : null;
-
+        this.middleware = UMiddleware
+            ? new UMiddleware()
+            : null;
         this.routes();
     }
 

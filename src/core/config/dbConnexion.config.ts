@@ -37,23 +37,16 @@ export default class DbConnexionConfig extends ServerEnvConfig {
 
     /**
      * MySQL database connection with an optional arguments
+     * Establish the connection between app and Database Management System.
+     * Inside this class, a checker verify if database credentials is right,
+     * and it's show off in log that the connection has been created successfully.
+     * But if any error is occurring during trying connection, it's specify that error by stack traces.
      */
-    public databaseMySQLConnexionConfig(optionalArgumentConnection: string | any) {
-        const url: string = `mysql://${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}${optionalArgumentConnection}`;
-        try {
-            const dbConnection: mySQL.Connection = mySQL.createConnection(url);
-            CheckerMySqlDatabaseConnectionService(dbConnection);
-        } catch (err: any) {
-            this.loggerFormat.logError(err.message, err);
-            throw new ExceptionHandlerError(
-                err.message,
-                "MysqlError",
-                err.code = "ER_ACCESS_DENIED_ERROR"
-                    ? HttpStatusCodesConstant.UNAUTHORIZED
-                    : HttpStatusCodesConstant.GONE,
-                true
-            );
-        }
+    public databaseMySQLConnexionConfig(optionalArgumentConnection: string | any): void {
+        const dbURL: string = `${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
+        const url: string = `mysql://${dbURL}${optionalArgumentConnection}`;
+        const dbConnection: mySQL.Connection = mySQL.createConnection(url);
+        CheckerMySqlDatabaseConnectionService(dbConnection, this.user, this.dbName);
     }
 
 
@@ -63,8 +56,9 @@ export default class DbConnexionConfig extends ServerEnvConfig {
      *
      * Mongo database connection with optional connection arguments
      */
-    public async databaseMongoDBConnectionConfig(optionalArgumentConnection: any) {
-        const url: string = `mongodb://${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}${optionalArgumentConnection}`;
+    public async databaseMongoDBConnectionConfig(optionalArgumentConnection: any): Promise<void> {
+        const dbUrl: string = `${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
+        const url: string = `mongodb://${dbUrl}${optionalArgumentConnection}`;
         try {
             await CheckerMongoDatabaseConnectionService(url, this.user, this.password, this.dbName);
             LoggerComponent.logSuccessMessage("Connection successfully.", "Mongo connection");
@@ -129,11 +123,16 @@ export default class DbConnexionConfig extends ServerEnvConfig {
      * Postgres database connection with optional connection arguments
      */
     public async databasePostgresDBConnectionConfig(keepAlive?: boolean | undefined,
-                                                    stream?: () => stream.Duplex | undefined, statement_timeout?: false | number | undefined,
-                                                    ssl?: boolean | ConnectionOptions | undefined, query_timeout?: number | undefined,
-                                                    keepAliveInitialDelayMillis?: number | undefined, idle_in_transaction_session_timeout?: number | undefined,
-                                                    application_name?: string | undefined, connectionTimeoutMillis?: number | undefined,
-                                                    types?: CustomTypesConfig | undefined, options?: string | undefined) {
+                                                    stream?: () => stream.Duplex | undefined,
+                                                    statement_timeout?: false | number | undefined,
+                                                    ssl?: boolean | ConnectionOptions | undefined,
+                                                    query_timeout?: number | undefined,
+                                                    keepAliveInitialDelayMillis?: number | undefined,
+                                                    idle_in_transaction_session_timeout?: number | undefined,
+                                                    application_name?: string | undefined,
+                                                    connectionTimeoutMillis?: number | undefined,
+                                                    types?: CustomTypesConfig | undefined,
+                                                    options?: string | undefined): Promise<void> {
         const url: string = `postgresql:/${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
         try {
             await CheckerPostgresDatabaseConnectionService(
