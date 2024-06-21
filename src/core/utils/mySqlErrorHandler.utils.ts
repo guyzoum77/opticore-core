@@ -8,7 +8,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             LoggerComponent.logErrorMessage(Exception.errorDBHost(dbHost!), Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(
                 `${colors.bgRed(`${colors.white(err.message +`\n${Exception.erNotSupportedAuthMode}`)}`)}`,
-                Exception.mysqlErrorCon,
+                `${colors.red(Exception.mysqlErrorCon)}`,
                 HttpStatusCodesConstant.UNAUTHORIZED,
                 true
             );
@@ -16,7 +16,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             LoggerComponent.logErrorMessage(Exception.erNotSupportedAuthMode, Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(
                 `${colors.bgRed(`${colors.white(err.message +`\n${Exception.erNotSupportedAuthMode}`)}`)}`,
-                Exception.mysqlErrorCon,
+                `${colors.red(Exception.mysqlErrorCon)}`,
                 HttpStatusCodesConstant.UNAUTHORIZED,
                 true
             );
@@ -24,7 +24,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             LoggerComponent.logErrorMessage(Exception.accessDeniedToDBCon(user!, password!), Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(
                 `${colors.bgRed(`${colors.white(err.message +`\n${Exception.accessDeniedToDBCon(user!, password!)}`)}`)}`,
-                Exception.mysqlErrorCon,
+                `${colors.red(Exception.mysqlErrorCon)}`,
                 HttpStatusCodesConstant.UNAUTHORIZED,
                 true
             );
@@ -32,7 +32,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             LoggerComponent.logErrorMessage(err.message, Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(
                 `${colors.bgRed(`${colors.white(err.message +`\n${Exception.unknownDB(database!)}`)}`)}`,
-                Exception.mysqlErrorCon,
+                `${colors.red(Exception.mysqlErrorCon)}`,
                 HttpStatusCodesConstant.NOT_FOUND,
                 true
             );
@@ -40,7 +40,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             LoggerComponent.logErrorMessage(err.message, Exception.mySQLError)
             throw new ExceptionHandlerError(
                 `${colors.bgRed(`${colors.white(err.message)}`)}`,
-                "MysqlError",
+                `${colors.red("MysqlError")}`,
                 HttpStatusCodesConstant.GONE,
                 true
             );
