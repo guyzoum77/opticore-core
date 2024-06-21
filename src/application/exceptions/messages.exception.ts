@@ -1,3 +1,5 @@
+import {colors} from "../../index";
+
 export default class MessagesException {
     static dbConnexionSuccess: string = "The database connection was successful  🚀";
     static dbConnexionError: string = "An error occurred while connecting to the database";
@@ -27,16 +29,15 @@ export default class MessagesException {
     static verifyPrivateKeyError: string = "After checking, we noticed that someone tried to recover data, but to no avail.";
     static UnableAccount: string = "Oops... your account is inactive. Please verify your email account or spam to confirm your registration. Or try to contact the admin if you doesn't receive email account registration."
 
-    static accessDeniedToDBCon(user: string): string {
-        return `Access denied for user ${user}. Try to check database credentials if user`+
-            `or password is correct, we have : '${user}'@'localhost'`;
+    static accessDeniedToDBCon(user: string, password: string): string {
+        return `Access denied for user ${user}. Database credentials in .env file are User: ${user} and Password: ${password}  `+
+            `'${user}''${password}'@'localhost'`;
     }
     static unknownDB(password: string): string {
         return `Database ${password} is unknown. Please try to use Database CLI to create your database, or do it manually in your Database Management System`
     }
 
     static errorDBHost(host: string): string {
-        return `A database host ${host} does not allow connection. Please either set the host like this: localhost`;
+        return `A database host ${host} does not allow connection. Please either set the host like this: ${colors.bgRed(`${colors.white(`localhost`)}`)} in your .env file`;
     }
-
 }

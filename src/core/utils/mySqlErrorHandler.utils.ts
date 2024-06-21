@@ -1,11 +1,13 @@
-import {Exception, ExceptionHandlerError, HttpStatusCodesConstant, LoggerComponent, mySQL} from "../../index";
+import {colors, Exception, ExceptionHandlerError, HttpStatusCodesConstant, LoggerComponent, mySQL} from "../../index";
 
-export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | null, database?: string | null, user?: string | null): void {
+export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | null,
+                                       database?: string | null, user?: string | null,
+                                       password?: string | null): void {
     switch (err.code) {
         case "EAI_AGAIN":
             LoggerComponent.logErrorMessage(Exception.errorDBHost(dbHost!), Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(
-                err.message +`\n${Exception.erNotSupportedAuthMode}`,
+                `${colors.bgRed(`${colors.white(err.message +`\n${Exception.erNotSupportedAuthMode}`)}`)}`,
                 Exception.mysqlErrorCon,
                 HttpStatusCodesConstant.UNAUTHORIZED,
                 true
@@ -13,15 +15,15 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
         case "ER_NOT_SUPPORTED_AUTH_MODE":
             LoggerComponent.logErrorMessage(Exception.erNotSupportedAuthMode, Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(
-                err.message +`\n${Exception.erNotSupportedAuthMode}`,
+                `${colors.bgRed(`${colors.white(err.message +`\n${Exception.erNotSupportedAuthMode}`)}`)}`,
                 Exception.mysqlErrorCon,
                 HttpStatusCodesConstant.UNAUTHORIZED,
                 true
             );
         case "ER_ACCESS_DENIED_ERROR":
-            LoggerComponent.logErrorMessage(Exception.accessDeniedToDBCon(user!), Exception.mysqlErrorCon);
+            LoggerComponent.logErrorMessage(Exception.accessDeniedToDBCon(user!, password!), Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(
-                err.message +`\n${Exception.accessDeniedToDBCon(user!)}`,
+                `${colors.bgRed(`${colors.white(err.message +`\n${Exception.accessDeniedToDBCon(user!, password!)}`)}`)}`,
                 Exception.mysqlErrorCon,
                 HttpStatusCodesConstant.UNAUTHORIZED,
                 true
@@ -29,7 +31,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
         case "ER_BAD_DB_ERROR":
             LoggerComponent.logErrorMessage(err.message, Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(
-                err.message +`\n${Exception.unknownDB(database!)}`,
+                `${colors.bgRed(`${colors.white(err.message +`\n${Exception.unknownDB(database!)}`)}`)}`,
                 Exception.mysqlErrorCon,
                 HttpStatusCodesConstant.NOT_FOUND,
                 true
@@ -37,7 +39,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
         default:
             LoggerComponent.logErrorMessage(err.message, Exception.mySQLError)
             throw new ExceptionHandlerError(
-                err.message,
+                `${colors.bgRed(`${colors.white(err.message)}`)}`,
                 "MysqlError",
                 HttpStatusCodesConstant.GONE,
                 true
