@@ -30,7 +30,8 @@ export default class MessagesException {
     static UnableAccount: string = "Oops... your account is inactive. Please verify your email account or spam to confirm your registration. Or try to contact the admin if you doesn't receive email account registration."
 
     static accessDeniedToDBCon(user: string, password: string): string {
-        return `Access denied for user ${user}. Database credentials in .env file are User: ${user} and Password: ${password}.  '${user}''${password}'@'localhost'`;
+        return `Access denied for user ${user}. Database credentials in .env file are User: ${user} and Password: ${password}.  '${user}''${password}'@'localhost'`+
+               `.\nTry to set user and password in .env file`;
     }
     static unknownDB(password: string): string {
         return `Database ${password} is unknown. Please try to use Database CLI to create your database, or do it manually in your Database Management System`
