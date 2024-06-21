@@ -46,7 +46,7 @@ export default class DbConnexionConfig extends ServerEnvConfig {
         const dbURL: string = `${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
         const url: string = `mysql://${dbURL}${optionalArgumentConnection}`;
         const dbConnection: mySQL.Connection = mySQL.createConnection(url);
-        CheckerMySqlDatabaseConnectionService(dbConnection, this.user, this.dbName);
+        CheckerMySqlDatabaseConnectionService(dbConnection, this.user, this.dbName, this.dbHost);
     }
 
 

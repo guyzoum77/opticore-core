@@ -1,25 +1,21 @@
-import {Exception, ExceptionHandlerError, HttpStatusCodesConstant, LoggerComponent, mySQL } from "../..";
-import {exceptions} from "winston";
+import {Exception, HttpStatusCodesConstant, LoggerComponent, mySQL } from "../..";
+import {mySqlErrorHandlerUtils} from "../../core/utils/mySqlErrorHandler.utils";
+
 
 /**
  *
  * @param dbConnection
  * @param user
  * @param database
+ * @param dbHost
  * @constructor
  *
  * Return void
  */
-export default function CheckerMySqlDatabaseConnectionService(dbConnection: any, user: string, database: string): void {
+export default function CheckerMySqlDatabaseConnectionService(dbConnection: any, user: string, database: string, dbHost: string): void {
     dbConnection.connect((err: mySQL.MysqlError): void => {
         if (err) {
-            LoggerComponent.logErrorMessage(err.message, Exception.mysqlErrorCon);
-            throw new ExceptionHandlerError(
-                err.message,
-                Exception.mysqlErrorCon,
-                HttpStatusCodesConstant.UNAUTHORIZED,
-                true
-            );
+            mySqlErrorHandlerUtils(err, dbHost);
         }
 
         const data = {
@@ -29,40 +25,7 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: any,
         LoggerComponent.logSuccessMessage(JSON.stringify(data), Exception.mysqlErrorCon);
         dbConnection.end((endConErr: mySQL.MysqlError): void => {
             if (endConErr) {
-                switch (endConErr.code) {
-                    case "ER_NOT_SUPPORTED_AUTH_MODE":
-                        LoggerComponent.logErrorMessage(Exception.erNotSupportedAuthMode, Exception.mysqlErrorCon);
-                        throw new ExceptionHandlerError(
-                            endConErr.message +`\n${Exception.erNotSupportedAuthMode}`,
-                            Exception.mysqlErrorCon,
-                            HttpStatusCodesConstant.UNAUTHORIZED,
-                            true
-                        );
-                    case "ER_ACCESS_DENIED_ERROR":
-                        LoggerComponent.logErrorMessage(Exception.accessDeniedToDBCon(user), Exception.mysqlErrorCon);
-                        throw new ExceptionHandlerError(
-                            endConErr.message +`\n${Exception.accessDeniedToDBCon(user)}`,
-                            Exception.mysqlErrorCon,
-                            HttpStatusCodesConstant.UNAUTHORIZED,
-                            true
-                        );
-                    case "ER_BAD_DB_ERROR":
-                        LoggerComponent.logErrorMessage(endConErr.message, Exception.mysqlErrorCon);
-                        throw new ExceptionHandlerError(
-                            endConErr.message +`\n${Exception.unknownDB(database)}`,
-                            Exception.mysqlErrorCon,
-                            HttpStatusCodesConstant.NOT_FOUND,
-                            true
-                        );
-                    default:
-                        LoggerComponent.logErrorMessage(endConErr.message, Exception.mySQLError)
-                        throw new ExceptionHandlerError(
-                            endConErr.message,
-                            "MysqlError",
-                            HttpStatusCodesConstant.GONE,
-                            true
-                        );
-                }
+                mySqlErrorHandlerUtils(err, null, database, user);
             }
             const data = {
                 successMessage: Exception.dbConnexionClosed,

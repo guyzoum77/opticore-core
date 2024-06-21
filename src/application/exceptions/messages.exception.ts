@@ -34,4 +34,9 @@ export default class MessagesException {
     static unknownDB(password: string): string {
         return `Database ${password} is unknown. Please try to use Database CLI to create your database, or do it manually in your Database Management System`
     }
+
+    static errorDBHost(host: string): string {
+        return `A database host ${host} does not allow connection. Please either set the host like this: localhost`;
+    }
+
 }
