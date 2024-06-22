@@ -94,7 +94,8 @@ export default class LoggerUtils {
             format.printf((info: any) => {
                 return `${new Date(info.timestamp)} | [${info.level}] | [CONTEXT] ${info.message} | ${new Date(info.timestamp).toLocaleTimeString()}`
             }),
-            format.colorize({ all: true , level: true, message: true, colors: { info: 'green', warn: 'cyan', error: 'red' } })
+            format.colorize({ all: true , level: true, message: true })
+            //colors: { info: 'green', warn: 'cyan', error: 'red' }
         );
     }
 

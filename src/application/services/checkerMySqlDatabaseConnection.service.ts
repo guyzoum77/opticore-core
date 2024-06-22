@@ -33,7 +33,7 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQ
                 successMessage: Exception.dbConnexionClosed,
                 status: HttpStatusCodesConstant.SERVICE_UNAVAILABLE
             }
-            LoggerComponent.logInfoMessage(JSON.stringify(closingData), Exception.mySqlCloseConnection);
+            LoggerComponent.logWarnMessage(JSON.stringify(closingData), Exception.mySqlCloseConnection);
         });
     });
 }
