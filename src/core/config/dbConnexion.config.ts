@@ -62,7 +62,7 @@ export default class DbConnexionConfig extends ServerEnvConfig {
         const url: string = `mongodb://${dbUrl}${optionalArgumentConnection}`;
         try {
             await CheckerMongoDatabaseConnectionService(url, this.user, this.password, this.dbName);
-            LoggerComponent.logSuccessMessage("Connection successfully.", "Mongo connection");
+            LoggerComponent.logInfoMessage("Connection successfully.", "Mongo connection");
         } catch (e: any) {
             if (e.code === 18) {
                 this.loggerFormat.logError("Authentication failed, be sure the credentials is correct!", e.code);
@@ -150,7 +150,7 @@ export default class DbConnexionConfig extends ServerEnvConfig {
                 types,
                 options
             );
-            LoggerComponent.logSuccessMessage("Connection successfully.", "Postgres connection");
+            LoggerComponent.logInfoMessage("Connection successfully.", "Postgres connection");
         } catch (err: any) {
             throw new ExceptionHandlerError(
                 `${err.message}`,
