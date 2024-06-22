@@ -24,7 +24,7 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQ
             successMessage: Exception.dbConnexionSuccess,
             status: HttpStatusCodesConstant.OK
         };
-        LoggerComponent.logSuccessMessage(JSON.stringify(data), Exception.mysqlErrorCon);
+        LoggerComponent.logInfoMessage(JSON.stringify(data), Exception.mysqlErrorCon);
         dbConnection.end((endConErr: mySQL.MysqlError | undefined): void => {
             if (endConErr) {
                 mySqlErrorHandlerUtils(err, null, database, user, password);

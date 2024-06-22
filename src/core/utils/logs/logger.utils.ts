@@ -21,25 +21,22 @@ export default class LoggerUtils {
         this._createLogDir();
     }
 
-    public logInfo(msg: LogMessage, context?: LogContext) {
-        this._log(msg, LogLevelEnum.INFO, context);
+    public logInfo(msg: LogMessage, context?: LogContext): void {
+        this._logInfo(msg, LogLevelEnum.INFO, context);
     }
-    public logSuccess(msg: LogMessage, context?: LogContext) {
-        this._log(msg, LogLevelEnum.SUCCESS, context);
+    public logWarn(msg: LogMessage, context?: LogContext): void {
+        this._logWarn(msg, LogLevelEnum.WARN, context);
     }
-    public logWarn(msg: LogMessage, context?: LogContext) {
-        this._log(msg, LogLevelEnum.WARN, context);
+    public logError(msg: LogMessage, context?: LogContext): void {
+        this._logError(msg, LogLevelEnum.ERROR, context);
     }
-    public logError(msg: LogMessage, context?: LogContext) {
-        this._log(msg, LogLevelEnum.ERROR, context);
-    }
-    public logDebug(msg: LogMessage, context?: LogContext) {
+    public logDebug(msg: LogMessage, context?: LogContext): void {
         if (process.env.NODE_ENV !== "production") {
-            this._log(msg, LogLevelEnum.DEBUG, context); // Don"t log debug in production
+            this._logDebug(msg, LogLevelEnum.DEBUG, context); // Don"t log debug in production
         }
     }
 
-    public createLogInFile(msg: LogMessage, context?: LogContext) {
+    public createLogInFile(msg: LogMessage, context?: LogContext): winston.Logger {
         return winston.createLogger({
             transports: LoggerUtils._getTransports("development", "dev"),
         });
@@ -56,17 +53,26 @@ export default class LoggerUtils {
         }
     }
 
-    private _log(msg: LogMessage, level: LogLevelEnum, context?: LogContext) {
-        this._logger.log(level, msg, {context});
+    private _logInfo(msg: LogMessage, level: LogLevelEnum, context?: LogContext): void {
+        this._logger.info(level, msg, {context});
+    }
+    private _logWarn(msg: LogMessage, level: LogLevelEnum, context?: LogContext): void {
+        this._logger.alert(level, msg, {context});
+    }
+    private _logError(msg: LogMessage, level: LogLevelEnum, context?: LogContext): void {
+        this._logger.error(level, msg, {context});
+    }
+    private _logDebug(msg: LogMessage, level: LogLevelEnum, context?: LogContext): void {
+        this._logger.debug(level, msg, {context});
     }
 
-    private _initializeWinston() {
+    private _initializeWinston(): winston.Logger {
         return winston.createLogger({
             transports: LoggerUtils._getTransports("production", "prod"),
         });
     }
 
-    private static _getTransports(env: string, logFileName: string) {
+    private static _getTransports(env: string, logFileName: string): any[] {
         const transports: any[] = [
             new winston.transports.Console({
                 format: this._getFormatForConsole(),
@@ -88,7 +94,7 @@ export default class LoggerUtils {
             format.printf((info: any) => {
                 return `${new Date(info.timestamp)} | [${info.level}] | [CONTEXT] ${info.message} | ${new Date(info.timestamp).toLocaleTimeString()}`
             }),
-            format.colorize({ all: true , level: true, message: true, colors: { success: 'green', info: 'cyan', error: 'red' } })
+            format.colorize({ all: true , level: true, message: true, colors: { info: 'green', warn: 'cyan', error: 'red' } })
         );
     }
 

@@ -13,17 +13,16 @@ export class LoggerComponent {
             { date: new Date(), level: "info", message: infoMessage, author: author }
         );
     }
-    static logSuccessMessage (successMessage: string | any, author: string | any) {
+    static logWarnMessage (warnMessage: string | any, author: string | any) {
         this.logger.createLogInFile(
-            successMessage,
-            { date: new Date(), level: "success", message: successMessage, author: author }
+            warnMessage,
+            { date: new Date(), level: "warn", message: warnMessage, author: author }
         );
-        this.logger.logSuccess(
-            successMessage,
-            { date: new Date(), level: "success", message: successMessage, author: author }
+        this.logger.logWarn(
+            warnMessage,
+            { date: new Date(), level: "warn", message: warnMessage, author: author }
         );
     }
-
     static logErrorMessage (errorMessage: string | any, author: string | any)  {
         this.logger.createLogInFile(
             errorMessage,
