@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import winston, { format } from "winston";
 import { LogLevelEnum } from "../../../domain/enums/logLevel.enum";
-import {DailyRotateFile, fs } from "../../..";
+import {colors, DailyRotateFile, fs} from "../../..";
 
 
 export type LogMessage = string;
@@ -81,7 +81,7 @@ export default class LoggerUtils {
         return format.combine(
             format.timestamp(),
             format.printf((info: any) => {
-                return `${new Date(info.timestamp)} | [${info.level}] | [CONTEXT] ${info.message} | ${new Date(info.timestamp).toLocaleTimeString()}`
+                return `${colors.blue(`${new Date(info.timestamp)}`)} [${info.level}] ${info.message} ${new Date(info.timestamp).toLocaleTimeString()}`
             }),
             format.colorize({all: true})
         );
