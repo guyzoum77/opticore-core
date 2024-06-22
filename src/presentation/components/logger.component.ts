@@ -18,7 +18,7 @@ export class LoggerComponent {
             successMessage,
             { date: new Date(), level: "success", message: successMessage, author: author }
         );
-        this.logger.logInfo(
+        this.logger.logSuccess(
             successMessage,
             { date: new Date(), level: "success", message: successMessage, author: author }
         );
