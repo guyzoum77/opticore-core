@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import winston, { format } from "winston";
 import { LogLevelEnum } from "../../../domain/enums/logLevel.enum";
-import {colors, DailyRotateFile, fs} from "../../..";
+import {DailyRotateFile, fs } from "../../..";
 
 
 export type LogMessage = string;
@@ -54,20 +54,7 @@ export default class LoggerUtils {
     }
 
     private _log(msg: LogMessage, level: LogLevelEnum, context?: LogContext) {
-        switch (LogLevelEnum) {  // @ts-ignore
-            case LogLevelEnum.DEBUG:
-                this._logger.debug(level, msg, {context});
-                break; // @ts-ignore
-            case LogLevelEnum.WARN:
-                this._logger.warn(level, msg, {context});
-                break; // @ts-ignore
-            case LogLevelEnum.ERROR:
-                this._logger.error(level, msg, {context});
-                break; // @ts-ignore
-            case LogLevelEnum.INFO:
-                this._logger.info(level, msg, {context});
-                break;
-        }
+        this._logger.log(level, msg, {context});
     }
 
     private _initializeWinston() {
@@ -94,7 +81,7 @@ export default class LoggerUtils {
         return format.combine(
             format.timestamp(),
             format.printf((info: any) => {
-                return `${colors.blue(`${new Date(info.timestamp)}`)} [${info.level}] ${info.message} ${new Date(info.timestamp).toLocaleTimeString()}`
+                return `${new Date(info.timestamp)} | [${info.level}] | [CONTEXT] ${info.message} | ${new Date(info.timestamp).toLocaleTimeString()}`
             }),
             format.colorize({all: true})
         );
