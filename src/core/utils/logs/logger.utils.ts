@@ -24,6 +24,9 @@ export default class LoggerUtils {
     public logInfo(msg: LogMessage, context?: LogContext) {
         this._log(msg, LogLevelEnum.INFO, context);
     }
+    public logSuccess(msg: LogMessage, context?: LogContext) {
+        this._log(msg, LogLevelEnum.SUCCESS, context);
+    }
     public logWarn(msg: LogMessage, context?: LogContext) {
         this._log(msg, LogLevelEnum.WARN, context);
     }
@@ -77,17 +80,19 @@ export default class LoggerUtils {
         return transports;
     }
 
-    private static _getFormatForConsole() {
+    private static _getFormatForConsole(): winston.Logform.Format {
         return format.combine(
+            format.errors({stack: true}),
+            format.splat(),
             format.timestamp(),
             format.printf((info: any) => {
                 return `${new Date(info.timestamp)} | [${info.level}] | [CONTEXT] ${info.message} | ${new Date(info.timestamp).toLocaleTimeString()}`
             }),
-            format.colorize({all: true})
+            format.colorize({ all: true , level: true, message: true, colors: { success: 'green', info: 'cyan', error: 'red' } })
         );
     }
 
-    private static _getFileTransport(logFileName: string) {
+    private static _getFileTransport(logFileName: string): DailyRotateFile {
         return new DailyRotateFile({
             filename: `${logFileName}-%DATE%.log`,
             dirname: this.logDirectory,
