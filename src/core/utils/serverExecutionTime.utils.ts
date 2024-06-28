@@ -1,13 +1,14 @@
-import gradient from "gradient-string";
 import process from "node:process";
+import {styleText} from "node:util";
+import {UtilityUtils} from "./utility.utils";
 
-export function serverExecutionTimeUtils(host: any, env: any, port: number) {
-    const hrStart = process.hrtime();
-    const hrEnd = process.hrtime(hrStart);
-
-    return console.log(gradient(`cyan`, `pink`, `orange`)(`╭──────────────────────────────────────────────────────╮\n` +
-        `       Environnement: ${env}                          \n` +
-        `       ${host} listening on the port ${port}          \n` +
-        `       server execution time ${hrEnd[1]/1000}s        \n` +
-        `╰──────────────────────────────────────────────────────╯`));
+export function serverExecutionTimeUtils(host: any, env: any, port: number): void {
+    const utility: UtilityUtils = new UtilityUtils();
+    const hrStart: [number, number] = process.hrtime();
+    const hrEnd: [number, number] = process.hrtime(hrStart);
+    const okServer: string = "[Ok] Server is starting";
+    const ndVrs: string = `The Web server is using Node ${utility.getVersions()}`;
+    const url: string = `http://${host}:${port}`;
+    const startingTime: string = `Ready in: ${hrEnd[1]/1000}s`;
+    console.log(styleText('bgGreen', `\n\n ${okServer}\n       ${ndVrs}       ${url}\n       ${startingTime}\n`));
 }

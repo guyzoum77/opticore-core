@@ -21,22 +21,22 @@ export default class LoggerUtils {
         this._createLogDir();
     }
 
-    public logInfo(msg: LogMessage, context?: LogContext) {
+    public logInfo(msg: LogMessage, context?: LogContext): void {
         this._log(msg, LogLevelEnum.INFO, context);
     }
-    public logWarn(msg: LogMessage, context?: LogContext) {
+    public logWarn(msg: LogMessage, context?: LogContext): void {
         this._log(msg, LogLevelEnum.WARN, context);
     }
-    public logError(msg: LogMessage, context?: LogContext) {
+    public logError(msg: LogMessage, context?: LogContext): void {
         this._log(msg, LogLevelEnum.ERROR, context);
     }
-    public logDebug(msg: LogMessage, context?: LogContext) {
+    public logDebug(msg: LogMessage, context?: LogContext): void {
         if (process.env.NODE_ENV !== "production") {
             this._log(msg, LogLevelEnum.DEBUG, context); // Don"t log debug in production
         }
     }
 
-    public createLogInFile(msg: LogMessage, context?: LogContext) {
+    public createLogInFile(msg: LogMessage, context?: LogContext): winston.Logger {
         return winston.createLogger({
             transports: LoggerUtils._getTransports("development", "dev"),
         });
@@ -53,7 +53,7 @@ export default class LoggerUtils {
         }
     }
 
-    private _log(msg: LogMessage, level: LogLevelEnum, context?: LogContext) {
+    private _log(msg: LogMessage, level: LogLevelEnum, context?: LogContext): void {
         this._logger.log(level, msg, {context});
     }
 
@@ -63,7 +63,7 @@ export default class LoggerUtils {
         });
     }
 
-    private static _getTransports(env: string, logFileName: string) {
+    private static _getTransports(env: string, logFileName: string): any[] {
         const transports: any[] = [
             new winston.transports.Console({
                 format: this._getFormatForConsole(),
@@ -77,7 +77,7 @@ export default class LoggerUtils {
         return transports;
     }
 
-    private static _getFormatForConsole() {
+    private static _getFormatForConsole(): winston.Logform.Format {
         return format.combine(
             format.timestamp(),
             format.printf((info: any) => {
@@ -87,7 +87,7 @@ export default class LoggerUtils {
         );
     }
 
-    private static _getFileTransport(logFileName: string) {
+    private static _getFileTransport(logFileName: string): DailyRotateFile {
         return new DailyRotateFile({
             filename: `${logFileName}-%DATE%.log`,
             dirname: this.logDirectory,

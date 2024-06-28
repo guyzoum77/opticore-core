@@ -16,6 +16,7 @@ import randToken from "rand-token";
 import crypto from "crypto";
 import { PrismaClient } from '@prisma/client';
 import {injectable} from "inversify"; // For dependency injection
+import {ExpressRoutesUtils} from "./core/utils/expressRoutes.utils"
 import {Db, MongoClient} from 'mongodb';
 import winston from 'winston';
 import {format} from "winston";
@@ -51,6 +52,8 @@ import SuccessResponseHttp from "./application/http/successResponse.http";
 import ErrorResponseHttp from "./application/http/errorResponse.http";
 import AsymmetricCryptionDataWithPrivateRSAKeyService from "./application/services/asymmetricCryptionDataWithPrivateRSAKey.service";
 import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
+import {UtilityUtils} from "./core/utils/utility.utils";
+
 
 
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
@@ -89,7 +92,9 @@ export {
     RSAKeyDecryption,
     RSAKeyEncryption,
     ValidatePasswordUtils,
+    ExpressRoutesUtils,
     HashPasswordUtils,
+    UtilityUtils,
     RegisterRoute,
     Exception,
     CheckerMySqlDatabaseConnectionService,
