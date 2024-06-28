@@ -1,3 +1,6 @@
+import {colors, fs, path} from "../../index";
+import process from "node:process";
+
 export class UtilityUtils {
     private formatMemoryUsage(data: any): string {
         return `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
@@ -25,7 +28,7 @@ export class UtilityUtils {
             "Actual memory used during the execution": this.formatMemoryUsage(memoryData.heapUsed),
             "V8 external memory": this.formatMemoryUsage(memoryData.external),
             "Memory usage user": this.formatMemoryUsage(process.cpuUsage().user),
-            "Memory usage system": process.cpuUsage().system,
+            "Memory usage system": this.formatMemoryUsage(process.cpuUsage().system),
         }
 
         return {
@@ -39,9 +42,40 @@ export class UtilityUtils {
     }
 
     public getProjectInfo() {
+        const startTime = process.hrtime();
+        const endTime = process.hrtime(startTime);
+        const executionTime = (endTime[0] * 1e9 + endTime[1]) / 1e6; // Convertir en millisecondes
         return {
-            "projectPath": process.cwd()
+            "projectPath": path.join(process.cwd()),
+            "startingTime": `${executionTime.toFixed(5)} ms`
+        }
+    }
+    private getEnvFileLoading(filePath: string): void {
+        const fullPath: string = path.resolve(process.cwd(), filePath);
+        if (fs.existsSync(fullPath)) {
+            const env: string = fs.readFileSync(fullPath, 'utf-8');
+            const lines: string[] = env.split('\n');
+
+            lines.forEach((line: string): void => {
+                const match: RegExpMatchArray | null = line.match(/^([^#=]+)=([^#]+)$/);
+                if (match) {
+                    const key: string = match[1].trim();
+                    process.env[key] = match[2].trim();
+                }
+            });
         }
     }
 
+    public getServerRunningMode(development: string, production: string, ): string {
+        /**
+         *  Load environment variables from the .env file
+         */
+        this.getEnvFileLoading('.env');
+        const isDevelopment: boolean = process.env.NODE_ENV === 'development';
+        if (isDevelopment) {
+            return `The server is running in ${colors.bgBlue(`${colors.bold(`${development}`)}`)} mode`;
+        } else {
+            return `The server is running in ${colors.bgBlue(`${colors.bold(`${production}`)}`)} mode`;
+        }
+    }
 }
