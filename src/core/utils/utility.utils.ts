@@ -133,7 +133,7 @@ export class UtilityUtils {
     /**
      * Return an Object containing a project path and running server time
      */
-    public getProjectInfo(): Object {
+    public getProjectInfo() {
         const startTime:[number, number] = process.hrtime();
         const endTime:[number, number] = process.hrtime(startTime);
         const executionTime: number = (endTime[0] * 1e9 + endTime[1]) / 1e6; // Convertir en millisecondes
