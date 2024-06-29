@@ -46,13 +46,14 @@ import {RSAKeyDecryption} from "./core/utils/cryptography/decryption/rsaKey.decr
 import {RSAKeyEncryption} from "./core/utils/cryptography/encryption/rsaKey.encryption";
 import {ValidatePasswordUtils} from "./core/utils/password/validatePassword.utils";
 import {HashPasswordUtils} from "./core/utils/password/hashPassword.utils";
-import {serverExecutionTimeUtils} from "./core/utils/serverExecutionTime.utils";
 import SuccessResponseWithDataHttp from "./application/http/successResponseWithData.http";
 import SuccessResponseHttp from "./application/http/successResponse.http";
 import ErrorResponseHttp from "./application/http/errorResponse.http";
 import AsymmetricCryptionDataWithPrivateRSAKeyService from "./application/services/asymmetricCryptionDataWithPrivateRSAKey.service";
 import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
 import {UtilityUtils} from "./core/utils/utility.utils";
+import {requestsStoredUtils} from "./core/utils/requestsStored.utils";
+
 
 
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
@@ -87,7 +88,8 @@ export {
     injectable,
     winston, DailyRotateFile,
     DateDiff,
-    Pool, HttpStatusCodesConstant,
+    Pool,
+    HttpStatusCodesConstant,
     LoggerComponent,
     RSAKeyDecryption,
     RSAKeyEncryption,
@@ -95,6 +97,7 @@ export {
     ExpressRoutesUtils,
     HashPasswordUtils,
     UtilityUtils,
+    requestsStoredUtils,
     RegisterRoute,
     Exception,
     CheckerMySqlDatabaseConnectionService,
@@ -104,7 +107,6 @@ export {
     AppExceptionHandlerError,
     LogLevelEnum,
     RoleEnum,
-    serverExecutionTimeUtils,
     SuccessResponseWithDataHttp,
     SuccessResponseHttp,
     ErrorResponseHttp,
