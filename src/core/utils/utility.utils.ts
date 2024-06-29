@@ -191,7 +191,7 @@ export class UtilityUtils {
         // Creating padded messages
         const msg0: string = ' '.padEnd(paddingLength, ' ');
         const msg1: string = ' [OK] Web server listening';
-        const msg2Value: string = `${colors.bgBlue(`${colors.bold(`${nodeVersion}}`)}`)}`;
+        const msg2Value: string = `${colors.bgBlue(`${colors.bold(`${nodeVersion}`)}`)}`;
         const msg2: string = ` The Web server is using Node.js version`;
         const msg3Value: string = `${colors.bgBlue(`${colors.bold(`${startingTime}`)}`)}`;
         const msg3: string = ` Startup time:`;

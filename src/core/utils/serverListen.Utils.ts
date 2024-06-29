@@ -3,7 +3,7 @@ import {Server} from "node:net";
 import colors from "ansi-colors";
 
 export class ServerListenUtils {
-    public utility: UtilityUtils = new UtilityUtils();
+    private utility: UtilityUtils = new UtilityUtils();
     public webServerOnStartEvent(app: express.Application, host: string, port: number,
                                   appModules: NodeJS.Module[] | undefined, loadingTime: any) {
         const webServer: Server = app.listen(port, host, () => {
@@ -26,9 +26,9 @@ export class ServerListenUtils {
         return webServer;
     }
 
-    public webServerOnListeningEvent(app: express.Application, host: string, port: number,
+    public webServerOnListeningEvent(webServer: Server, app: express.Application, host: string, port: number,
                                      appModules: NodeJS.Module[] | undefined, loadingTime: any) {
-        this.webServerOnStartEvent(app, host, port, appModules, loadingTime).on(
+        webServer.on(
             "listening",
             () => {
                 const currentDatePath = `[${colors.green(` Route stored `)}] ${loadingTime}`;
