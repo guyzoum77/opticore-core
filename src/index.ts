@@ -55,11 +55,11 @@ import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/service
 import {UtilityUtils} from "./core/utils/utility.utils";
 
 
-
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
 export {
     colors,
-    express, jsonWebToken,
+    express,
+    jsonWebToken,
     corsOrigin,
     cookieParser,
     mySQL,
