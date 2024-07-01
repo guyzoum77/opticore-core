@@ -33,6 +33,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
 }
 
 function logErrorName() {
+    console.log('');
     console.log(chalk.bgRed.white(''.padEnd(18, ' ')));
     let msg: string = colors.bold(' Errors occurring ');
     console.log(chalk.bgRed.white(msg.padEnd(17.6, ' ')));
