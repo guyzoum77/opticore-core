@@ -75,11 +75,11 @@ export class UtilityUtils {
         );
         if (featuresModule) {
             console.log(chalk.bgGreen.white(''.padEnd(17, ' ')));
-            const msg: string = colors.bold(' Features Module ');
+            const msg: string = colors.bold(' Features modules created');
             console.log(chalk.bgGreen.white(msg.padEnd(17, ' ')));
             console.log(chalk.bgGreen.white(''.padEnd(17, ' ')));
             featuresModule?.map((feature: NodeJS.Module) => {
-                console.log(`[ ${colors.cyan(`${colors.bold(`Feature created`)}`)} ] ${loadingTime} | ${colors.cyan(`info`)} | [ ${colors.yellowBright('loaded module')} ] ${colors.green(`${feature.loaded}`)} | [ feature name ] ${colors.green(`${path.basename(feature?.id)}`)}`);
+                console.log(`[ ${colors.cyan(`${colors.bold(`Feature`)}`)} ] ${loadingTime} | ${colors.cyan(`info`)} | [ ${colors.yellowBright('loaded module')} ] ${colors.green(`${feature.loaded}`)} | [ feature name ] ${colors.green(`${path.basename(feature?.id)}`)}`);
             });
         }
     }
