@@ -18,16 +18,16 @@ export function requestsStoredUtils(app: express.Application, loadingTime: any, 
         ).map((route): void => {
                 switch (route.method) {
                     case 'POST':
-                        console.log(`${name} | ${loadingTime} | ${colors.cyan(`info`)} [ ${colors.white(`Host`)} ] ${colors.green(`http://${host}:${port}`)} - [ ${colors.white(`Route`)} ] ${colors.yellow(`${route.path}`)} - [ Method ] ${colors.yellow(`${route.method}`)}`);
+                        console.log(`[ ${name} ] | ${loadingTime} | ${colors.cyan(`info`)} [ ${colors.white(`Host`)} ] ${colors.green(`http://${host}:${port}`)} - [ ${colors.white(`Route`)} ] ${colors.yellow(`${route.path}`)} - [ Method ] ${colors.yellow(`${route.method}`)}`);
                         break;
                     case 'GET':
-                        console.log(`${name} | ${colors.cyan(`info`)} [ ${colors.white(`Host`)} ] ${colors.green(`http://${host}:${port}`)} - [ ${colors.white(`Route`)} ] ${colors.green(`${route.path}`)} - [ Method ] ${colors.green(`${route.method}`)}`);
+                        console.log(`[ ${name} ] | ${loadingTime} | ${colors.cyan(`info`)} [ ${colors.white(`Host`)} ] ${colors.green(`http://${host}:${port}`)} - [ ${colors.white(`Route`)} ] ${colors.green(`${route.path}`)} - [ Method ] ${colors.green(`${route.method}`)}`);
                         break;
                     case 'PUT':
-                        console.log(`${name} | ${colors.cyan(`info`)} [ ${colors.white(`Host`)} ] ${colors.green(`http://${host}:${port}`)} - [ ${colors.white(`Route`)} ] ${colors.blue(`${route.path}`)} - [ Method ] ${colors.blue(`${route.method}`)}`);
+                        console.log(`[ ${name} ] | ${loadingTime} | ${colors.cyan(`info`)} [ ${colors.white(`Host`)} ] ${colors.green(`http://${host}:${port}`)} - [ ${colors.white(`Route`)} ] ${colors.blue(`${route.path}`)} - [ Method ] ${colors.blue(`${route.method}`)}`);
                         break;
                     case 'DELETE':
-                        console.log(`${name} | ${colors.cyan(`info`)} [ ${colors.white(`Host`)} ] ${colors.green(`http://${host}:${port}`)} - [ ${colors.white(`Route`)} ] ${colors.red(`${route.path}`)} - [ Method ] ${colors.red(`${route.method}`)}`);
+                        console.log(`[ ${name} ] | ${loadingTime} | ${colors.cyan(`info`)} [ ${colors.white(`Host`)} ] ${colors.green(`http://${host}:${port}`)} - [ ${colors.white(`Route`)} ] ${colors.red(`${route.path}`)} - [ Method ] ${colors.red(`${route.method}`)}`);
                         break;
                 }
             }
