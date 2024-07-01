@@ -27,7 +27,7 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQ
         LoggerComponent.logInfoMessage(JSON.stringify(data), Exception.mysqlErrorCon);
         dbConnection.end((endConErr: mySQL.MysqlError | undefined): void => {
             if (endConErr) {
-                mySqlErrorHandlerUtils(err, null, database, user, password);
+                return mySqlErrorHandlerUtils(err, null, database, user, password);
             }
             const closingData: Object = {
                 successMessage: Exception.dbConnexionClosed,

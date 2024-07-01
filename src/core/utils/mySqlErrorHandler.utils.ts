@@ -3,6 +3,8 @@ import {colors, Exception, ExceptionHandlerError, HttpStatusCodesConstant, Logge
 export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | null,
                                        database?: string | null, user?: string | null,
                                        password?: string | null): void {
+    const dateTime: string = `${(new Date().getMonth())}-${(new Date().getDate())}-${(new Date().getFullYear())} ${(new Date().getHours())}:${(new Date().getMinutes())}:${(new Date().getSeconds())}`;
+
     switch (err.code) {
         case "EAI_AGAIN":
             LoggerComponent.logErrorMessage(Exception.errorDBHost(dbHost!), Exception.mysqlErrorCon);
@@ -22,12 +24,14 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             );
         case "ER_ACCESS_DENIED_ERROR":
             LoggerComponent.logErrorMessage(Exception.accessDeniedToDBCon(user!, password!), Exception.mysqlErrorCon);
-            throw new ExceptionHandlerError(
-                `${colors.bgRed(`${colors.white(err.message +`\n${Exception.accessDeniedToDBCon(user!, password!)}`)}`)}`,
-                `${colors.red(Exception.mysqlErrorCon)}`,
-                HttpStatusCodesConstant.UNAUTHORIZED,
-                true
-            );
+            console.log(`${[ `${colors.red('DataBase connection')}` ]} | ${dateTime} | ${colors.red(`${colors.bold(`error`)}`)} | [ ${colors.red(`Type error`)} ] - ER_ACCESS_DENIED_ERROR - ${Exception.accessDeniedToDBCon(user!, password!)} - ${Exception.mysqlErrorCon} - [ ${colors.red(`${colors.bold(`HttpCode`)}`)} ] ${HttpStatusCodesConstant.UNAUTHORIZED} `)
+            // throw new ExceptionHandlerError(
+            //     `${colors.bgRed(`${colors.white(err.message +`\n${Exception.accessDeniedToDBCon(user!, password!)}`)}`)}`,
+            //     `${colors.red(Exception.mysqlErrorCon)}`,
+            //     HttpStatusCodesConstant.UNAUTHORIZED,
+            //     true
+            // );
+            break;
         case "ER_BAD_DB_ERROR":
             LoggerComponent.logErrorMessage(err.message, Exception.mysqlErrorCon);
             throw new ExceptionHandlerError(

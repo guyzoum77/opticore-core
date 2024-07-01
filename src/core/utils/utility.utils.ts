@@ -75,7 +75,7 @@ export class UtilityUtils {
         );
         if (featuresModule) {
             console.log(chalk.bgGreen.white(''.padEnd(17, ' ')));
-            const msg: string = colors.bold(' Features modules created');
+            const msg: string = colors.bold(' Features module');
             console.log(chalk.bgGreen.white(msg.padEnd(17, ' ')));
             console.log(chalk.bgGreen.white(''.padEnd(17, ' ')));
             featuresModule?.map((feature: NodeJS.Module) => {
