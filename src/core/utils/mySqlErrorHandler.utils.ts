@@ -24,13 +24,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             );
         case "ER_ACCESS_DENIED_ERROR":
             LoggerComponent.logErrorMessage(Exception.accessDeniedToDBCon(user!, password!), Exception.mysqlErrorCon);
-            console.log(`${[ `${colors.red('DataBase connection')}` ]} | ${dateTime} | ${colors.red(`${colors.bold(`error`)}`)} | [ ${colors.red(`Type error`)} ] - ER_ACCESS_DENIED_ERROR - ${Exception.accessDeniedToDBCon(user!, password!)} - ${Exception.mysqlErrorCon} - [ ${colors.red(`${colors.bold(`HttpCode`)}`)} ] ${HttpStatusCodesConstant.UNAUTHORIZED} `)
-            // throw new ExceptionHandlerError(
-            //     `${colors.bgRed(`${colors.white(err.message +`\n${Exception.accessDeniedToDBCon(user!, password!)}`)}`)}`,
-            //     `${colors.red(Exception.mysqlErrorCon)}`,
-            //     HttpStatusCodesConstant.UNAUTHORIZED,
-            //     true
-            // );
+            console.log(`[ ${colors.red('DataBase connection')} ] | ${dateTime} | [ ${colors.red(`${colors.bold(`error`)}`)} ] | [ ${colors.bold(`Type error`)} ] ${colors.red(`${Exception.mysqlErrorCon} : ${colors.bold(`ER_ACCESS_DENIED_ERROR`)}`)} - [ ${colors.bold(`Error message`)} ] ${colors.red(`${Exception.accessDeniedToDBCon(user!, password!)}`)} - [ ${colors.red(`${colors.bold(`HttpCode`)}`)} ] ${HttpStatusCodesConstant.UNAUTHORIZED} `)
             break;
         case "ER_BAD_DB_ERROR":
             LoggerComponent.logErrorMessage(err.message, Exception.mysqlErrorCon);
