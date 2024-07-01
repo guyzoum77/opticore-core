@@ -3,6 +3,7 @@ import {Server} from "node:net";
 import colors from "ansi-colors";
 import {IncomingMessage, ServerResponse} from "node:http";
 import EventEmitter from "node:events";
+import chalk from "chalk";
 
 
 export class ServerListenUtils {
@@ -77,7 +78,14 @@ export class ServerListenUtils {
     public onRequestEvent(webServer: Server, app: express.Application, host: string, port: number,
                                      appModules: NodeJS.Module[] | undefined, loadingTime: any) {
         webServer.on("request", (req: IncomingMessage, res: ServerResponse) => {
-            const currentDatePath = `Request called`;
+            const currentDatePath: string = `Request called`;
+            const name: string = `${colors.green(` ${currentDatePath} `)}`;
+            console.log('');
+            console.log(chalk.bgGreen.white(''.padEnd(18, ' ')));
+            const msg: string = colors.bold(` ${name} `);
+            console.log(chalk.bgGreen.white(msg.padEnd(17, ' ')));
+            console.log(chalk.bgGreen.white(''.padEnd(18.5, ' ')));
+
             switch (res.statusCode) {
                 case 200:
                     switch (req.method) {
