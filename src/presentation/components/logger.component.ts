@@ -9,17 +9,9 @@ export class LoggerComponent {
             infoMessage,
             { date: `${colors.blue(`${new Date()}`)}`, level: `${colors.bgGreen(`${colors.white("info")}`)}`, message: infoMessage, author: author }
         );
-        this.logger.logInfo(
-            infoMessage,
-            { date: `${colors.blue(`${new Date()}`)}`, level: `${colors.bgGreen(`${colors.white("info")}`)}`, message: infoMessage, author: author }
-        );
     }
     static logWarnMessage (warnMessage: string | any, author: string | any): void {
         this.logger.createLogInFile(
-            warnMessage,
-            { date: `${colors.blue(`${new Date()}`)}`, level: `${colors.bgCyan(`${colors.white("warn")}`)}`, message: warnMessage, author: author }
-        );
-        this.logger.logWarn(
             warnMessage,
             { date: `${colors.blue(`${new Date()}`)}`, level: `${colors.bgCyan(`${colors.white("warn")}`)}`, message: warnMessage, author: author }
         );
@@ -29,10 +21,6 @@ export class LoggerComponent {
             errorMessage,
             { date: `${colors.blue(`${new Date()}`)}`, level: `${colors.bgRed(`${colors.white("error")}`)}`, message: errorMessage, author: author }
 
-        );
-        this.logger.logError(
-            errorMessage,
-            { date: `${colors.blue(`${new Date()}`)}`, level: `${colors.bgRed(`${colors.white("error")}`)}`, message: errorMessage, author: author }
         );
     }
 }
