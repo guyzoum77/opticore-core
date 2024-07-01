@@ -18,22 +18,24 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQ
                                                               password: string): void {
     dbConnection.connect((err: mySQL.MysqlError): void => {
         if (err) {
-            mySqlErrorHandlerUtils(err, dbHost, null, null, password);
+            return mySqlErrorHandlerUtils(err, dbHost, null, null, password);
+        } else {
+            const data: Object = {
+                successMessage: Exception.dbConnexionSuccess,
+                status: HttpStatusCodesConstant.OK
+            };
+            LoggerComponent.logInfoMessage(JSON.stringify(data), Exception.mysqlErrorCon);
+            dbConnection.end((endConErr: mySQL.MysqlError | undefined): void => {
+                if (endConErr) {
+                    return mySqlErrorHandlerUtils(err, null, database, user, password);
+                } else {
+                    const closingData: Object = {
+                        successMessage: Exception.dbConnexionClosed,
+                        status: HttpStatusCodesConstant.SERVICE_UNAVAILABLE
+                    }
+                    LoggerComponent.logWarnMessage(JSON.stringify(closingData), Exception.mySqlCloseConnection);
+                }
+            });
         }
-        const data: Object = {
-            successMessage: Exception.dbConnexionSuccess,
-            status: HttpStatusCodesConstant.OK
-        };
-        LoggerComponent.logInfoMessage(JSON.stringify(data), Exception.mysqlErrorCon);
-        dbConnection.end((endConErr: mySQL.MysqlError | undefined): void => {
-            if (endConErr) {
-                return mySqlErrorHandlerUtils(err, null, database, user, password);
-            }
-            const closingData: Object = {
-                successMessage: Exception.dbConnexionClosed,
-                status: HttpStatusCodesConstant.SERVICE_UNAVAILABLE
-            }
-            LoggerComponent.logWarnMessage(JSON.stringify(closingData), Exception.mySqlCloseConnection);
-        });
     });
 }
