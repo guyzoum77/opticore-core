@@ -2,9 +2,13 @@ import {express, requestsStoredUtils, UtilityUtils} from "../../index";
 import {Server} from "node:net";
 import colors from "ansi-colors";
 import {IncomingMessage, ServerResponse} from "node:http";
+import EventEmitter from "node:events";
+
 
 export class ServerListenUtils {
     private utility: UtilityUtils = new UtilityUtils();
+    public app: express.Application = express();
+    public errorEmitter: EventEmitter = new EventEmitter();
 
     /**
      *
@@ -34,12 +38,11 @@ export class ServerListenUtils {
             console.log('');
             this.utility.loadFeaturesModulesCreated(appModules, loadingTime);
             console.log('');
-            process.on("uncaughtException", (err: Error) => {
-                console.log("error is :", err);
-
-            });
+        }).on("error", (err: Error) => {
+            console.error("Stack trace error is :", err);
         });
     }
+
 
     /**
      *
@@ -143,6 +146,36 @@ export class ServerListenUtils {
                 default: // @ts-ignore
                     console.log(`[ ${colors.white(`${currentDatePath}`)} ] ${loadingTime} | ${colors.white(`${res.statusMessage}`)} [ Host ] http://${host}:${port} - [ Route ] ${req.originalUrl} - [ Status ] ${colors.white(`${res.req.socket._httpMessage.statusCode}`)}`);
                     break;
+            }
+        });
+    }
+
+    public stackTraceErrorHandling() {
+        // Listener for error events
+        this.errorEmitter.on('error', (error: Error) => {
+            console.error('An error occurred:', error.stack);
+            // You can also log the error to a file or send it to an external service here
+        });
+
+        // Catch uncaught exceptions
+        process.on('uncaughtException', (error: Error) => {
+            this.errorEmitter.emit('error', error);
+        });
+
+        // Catch unhandled promise rejections
+        process.on('unhandledRejection', (reason: any, promise: Promise<any>) => {
+            const error: Error = new Error(`Unhandled Rejection: ${reason}`);
+            this.errorEmitter.emit('error', error);
+        });
+
+        // Express error-handling middleware
+        this.app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+            if (err) {
+                this.errorEmitter.emit('error', err);
+                console.log("error stack is :", err);
+                res.status(500).send('An internal server error occurred');
+            } else {
+                next();
             }
         });
     }
