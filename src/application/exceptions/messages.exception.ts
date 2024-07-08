@@ -10,6 +10,7 @@ export default class MessagesException {
     static userNotExist: string = "User do not exist.";
     static wrongPassword: string = "Password incorrect";
     static erNotSupportedAuthMode: string = "Oops ! Database credentials (user and password) are not correct.";
+    static invalidRequest: string = "Invalid request";
     static tokenNotProvided: string = "No token provided.";
     static middlewareError: string = "error from UserAuthenticateMiddleware";
     static ExpiresToken: string = "Expires Token. You're not authorize";

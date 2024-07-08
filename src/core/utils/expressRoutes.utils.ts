@@ -1,9 +1,6 @@
-import {path} from "../../index";
-import express from "express";
+import {path, express} from "../../index";
+import {RouteLoggedInterface} from "../interfaces/routeLogged.interface";
 
-interface RouteLogged {
-    [key: string]: boolean;
-}
 export class ExpressRoutesUtils {
 
     private defaultOptions = {
@@ -12,6 +9,11 @@ export class ExpressRoutesUtils {
         logger: console.info,
         color: true,
     };
+
+    /**
+     *
+     * @param regexp
+     */
     static getPathFromRegex(regexp: RegExp): string {
         return regexp
             .toString()
@@ -20,6 +22,13 @@ export class ExpressRoutesUtils {
             .replace(/\\\//g, '/')
             .replace('(?:/(?=$))', '');
     }
+
+    /**
+     *
+     * @param acc
+     * @param stack
+     * @private
+     */
     private combineStacks(acc: any, stack: any): any[] {
         if (stack.handle.stack) {
             const routerPath: string = ExpressRoutesUtils.getPathFromRegex(stack.regexp);
@@ -27,6 +36,12 @@ export class ExpressRoutesUtils {
         }
         return [...acc, stack];
     }
+
+    /**
+     *
+     * @param app
+     * @private
+     */
     private getStacks(app: express.Application) {
         // Express 3
         if (app.routes) {
@@ -55,6 +70,11 @@ export class ExpressRoutesUtils {
         return [];
     }
 
+    /**
+     *
+     * @param app
+     * @param opts
+     */
     public expressListRoutes(app: express.Application, opts: any): any[] {
         const stacks = this.getStacks(app);
         const options = { ...this.defaultOptions, ...opts };
@@ -63,7 +83,7 @@ export class ExpressRoutesUtils {
         if (stacks) {
             for (const stack of stacks) {
                 if (stack.route) {
-                    const routeLogged: RouteLogged = {};
+                    const routeLogged: RouteLoggedInterface = {};
                     for (const route of stack.route.stack) {
                         const method = route.method ? route.method.toUpperCase() : null;
                         if (!routeLogged[method] && method) {

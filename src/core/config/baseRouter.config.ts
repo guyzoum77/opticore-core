@@ -1,10 +1,9 @@
-import express from "express";
-
-
 /**
- * BaseRouterConfig is a class taking in parameters
+ * BaseRouterConfig is a class taking in parameter
  * controller and optional middleware
  */
+import {express} from "../../index";
+
 
 export class BaseRouterConfig<T, U> {
     public router: express.Router;

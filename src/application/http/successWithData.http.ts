@@ -1,6 +1,6 @@
 import {express} from "../../index";
 
-export default class SuccessResponseWithDataHttp {
+export default class SuccessWithDataHttp {
     /**
      *
      * @param res

@@ -14,7 +14,8 @@ import {MysqlError} from "mysql";
  *
  * Return void
  */
-export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQL.Connection, user: string, database: string, dbHost: string,
+export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQL.Connection, user: string,
+                                                              database: string, dbHost: string,
                                                               password: string): void {
     dbConnection.connect((err: mySQL.MysqlError): void => {
         if (err) {

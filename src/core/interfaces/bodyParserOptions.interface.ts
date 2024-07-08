@@ -1,0 +1,3 @@
+interface BodyParserOptionsInterface {
+    type: string;
+}

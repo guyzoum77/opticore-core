@@ -46,15 +46,18 @@ import {RSAKeyDecryption} from "./core/utils/cryptography/decryption/rsaKey.decr
 import {RSAKeyEncryption} from "./core/utils/cryptography/encryption/rsaKey.encryption";
 import {ValidatePasswordUtils} from "./core/utils/password/validatePassword.utils";
 import {HashPasswordUtils} from "./core/utils/password/hashPassword.utils";
-import SuccessResponseWithDataHttp from "./application/http/successResponseWithData.http";
-import SuccessResponseHttp from "./application/http/successResponse.http";
-import ErrorResponseHttp from "./application/http/errorResponse.http";
+import SuccessWithDataHttp from "./application/http/successWithData.http";
+import SuccessHttp from "./application/http/success.http";
+import ErrorHttp from "./application/http/error.http";
 import AsymmetricCryptionDataWithPrivateRSAKeyService from "./application/services/asymmetricCryptionDataWithPrivateRSAKey.service";
 import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
 import {UtilityUtils} from "./core/utils/utility.utils";
 import {requestsStoredUtils} from "./core/utils/requestsStored.utils";
 import {ServerListenUtils} from "./core/utils/serverListen.Utils";
-
+import {jsonBodyParserType} from "./core/middleware/types/json.type";
+import {rawBodyParserType} from "./core/middleware/types/raw.type";
+import {textBodyParserType} from "./core/middleware/types/text.type";
+import {urlencodedBodyParserType} from "./core/middleware/types/urlencoded.type";
 
 
 
@@ -101,6 +104,10 @@ export {
     UtilityUtils,
     requestsStoredUtils,
     ServerListenUtils,
+    jsonBodyParserType,
+    rawBodyParserType,
+    textBodyParserType,
+    urlencodedBodyParserType,
     RegisterRoute,
     Exception,
     CheckerMySqlDatabaseConnectionService,
@@ -110,9 +117,9 @@ export {
     AppExceptionHandlerError,
     LogLevelEnum,
     RoleEnum,
-    SuccessResponseWithDataHttp,
-    SuccessResponseHttp,
-    ErrorResponseHttp,
+    SuccessWithDataHttp,
+    SuccessHttp,
+    ErrorHttp,
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService
 };

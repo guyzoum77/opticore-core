@@ -1,19 +1,22 @@
-import {express, Validator} from "../../index";
+import {express} from "../../index";
 
-export default class ErrorResponseHttp {
+export default class SuccessHttp {
     /**
      *
      * @param res
      * @param status
-     * @param message
+     * @param context
+     * @param successMessage
      * @param apiVersion
      */
     static response(res: express.Response,
                     status: number,
-                    message: string | Validator.ValidationErrors,
+                    context: string,
+                    successMessage: string,
                     apiVersion: any): express.Response<any, Record<string, any>> {
-        return res.status(status).json({
-            errorMessage: message,
+        return res.status(200).json({
+            "@context": context,
+            message: successMessage,
             responseStatus: status,
             version: apiVersion
         });
