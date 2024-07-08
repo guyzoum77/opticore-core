@@ -1,7 +1,7 @@
 import {Exception, express, HttpStatusCodesConstant} from "../../index";
-import {logErrorMessageUtils} from "../utils/logErrorMessage.utils";
 import {ParseFunctionType} from "../types/parseFunction.type";
 import {BodyParserOptionsInterface} from "../interfaces/bodyParserOptions.interface";
+import {LogMessageUtils} from "../utils/logMessage.utils";
 
 /**
  *
@@ -31,7 +31,7 @@ export function bodyParserMiddleware(parseFunction: ParseFunctionType, options: 
                 });
 
                 req.on("error", (err: any): void => {
-                    logErrorMessageUtils("Error receiving data", "Request error", "Type error",
+                    LogMessageUtils.error("Error receiving data", "Request error", "Type error",
                         Exception.invalidRequest, "Error message", `${res.send(err.message)}`,
                         HttpStatusCodesConstant.BAD_REQUEST);
                 })
