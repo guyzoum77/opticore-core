@@ -1,3 +1,3 @@
-interface BodyParserOptionsInterface {
+export interface BodyParserOptionsInterface {
     type: string;
 }

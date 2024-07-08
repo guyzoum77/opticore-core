@@ -1,4 +1,5 @@
 import {bodyParserMiddleware} from "../bodyParser.middleware";
+import {BodyParserOptionsInterface} from "../../interfaces/bodyParserOptions.interface";
 
 /**
  *

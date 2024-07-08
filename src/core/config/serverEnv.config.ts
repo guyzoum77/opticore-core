@@ -2,7 +2,7 @@ import { dotenv } from "../..";
 
 
 /**
- * ServerEnvConfig is an abstract class which allows with its methods to obtain
+ * ServerEnvConfig is an abstract class that allows with its methods getting
  * the values of the variables defined in the .env file
  */
 export abstract class ServerEnvConfig {

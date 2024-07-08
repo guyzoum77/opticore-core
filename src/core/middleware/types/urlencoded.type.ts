@@ -1,5 +1,6 @@
 import {bodyParserMiddleware} from "../bodyParser.middleware";
 import {parseUrlencodedUtils} from "../../utils/parseUrlencoded.utils";
+import {BodyParserOptionsInterface} from "../../interfaces/bodyParserOptions.interface";
 
 /**
  *
