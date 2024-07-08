@@ -58,6 +58,7 @@ import {jsonBodyParserType} from "./core/types/json.type";
 import {rawBodyParserType} from "./core/types/raw.type";
 import {textBodyParserType} from "./core/types/text.type";
 import {urlencodedBodyParserType} from "./core/types/urlencoded.type";
+import {LogMessageUtils} from "./core/utils/logMessage.utils";
 
 
 
@@ -104,6 +105,7 @@ export {
     UtilityUtils,
     requestsStoredUtils,
     ServerListenUtils,
+    LogMessageUtils,
     jsonBodyParserType,
     rawBodyParserType,
     textBodyParserType,
