@@ -46,9 +46,6 @@ import {RSAKeyDecryption} from "./core/utils/cryptography/decryption/rsaKey.decr
 import {RSAKeyEncryption} from "./core/utils/cryptography/encryption/rsaKey.encryption";
 import {ValidatePasswordUtils} from "./core/utils/password/validatePassword.utils";
 import {HashPasswordUtils} from "./core/utils/password/hashPassword.utils";
-import SuccessWithDataHttp from "./application/http/successWithData.http";
-import SuccessHttp from "./application/http/success.http";
-import ErrorHttp from "./application/http/error.http";
 import AsymmetricCryptionDataWithPrivateRSAKeyService from "./application/services/asymmetricCryptionDataWithPrivateRSAKey.service";
 import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
 import {UtilityUtils} from "./core/utils/utility.utils";
@@ -59,6 +56,7 @@ import {rawBodyParserType} from "./core/types/raw.type";
 import {textBodyParserType} from "./core/types/text.type";
 import {urlencodedBodyParserType} from "./core/types/urlencoded.type";
 import {LogMessageUtils} from "./core/utils/logMessage.utils";
+import {ResponseHttp} from "./application/http/response.http";
 
 
 
@@ -119,9 +117,7 @@ export {
     AppExceptionHandlerError,
     LogLevelEnum,
     RoleEnum,
-    SuccessWithDataHttp,
-    SuccessHttp,
-    ErrorHttp,
     AsymmetricCryptionDataWithPrivateRSAKeyService,
-    AsymmetricCryptionDataWithPublicRSAKeyService
+    AsymmetricCryptionDataWithPublicRSAKeyService,
+    ResponseHttp
 };
