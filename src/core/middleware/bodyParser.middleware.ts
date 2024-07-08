@@ -1,6 +1,7 @@
 import {Exception, express, HttpStatusCodesConstant} from "../../index";
 import {logMessageUtils} from "../utils/logMessage.utils";
 import {ParseFunctionType} from "../types/parseFunction.type";
+import {BodyParserOptionsInterface} from "../interfaces/bodyParserOptions.interface";
 
 export function bodyParserMiddleware(parseFunction: ParseFunctionType, options: BodyParserOptionsInterface) {
     return function (req: express.Request, res: express.Response, next: express.NextFunction): void {
