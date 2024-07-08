@@ -1,6 +1,7 @@
-import {Client, LoggerComponent, CustomTypesConfig} from "../..";
+import {Client, CustomTypesConfig, HttpStatusCodesConstant} from "../..";
 import {ConnectionOptions} from "tls";
 import stream from "stream";
+import {LogMessageUtils} from "../../core/utils/logMessage.utils";
 
 export default async function CheckerPostgresDatabaseConnectionService(connectionString: string | any,
                                                                        keepAlive?: boolean | undefined,
@@ -30,15 +31,32 @@ export default async function CheckerPostgresDatabaseConnectionService(connectio
     };
     const client: Client = new Client(configOptions);
     await client.connect();
-    await client.end().then((): void => {
-        LoggerComponent.logSuccessMessage(
-            "Connection closed successfully",
-            "Postgres close connection");
-        }, (onRejected: any): void => {
-        LoggerComponent.logSuccessMessage(
-            onRejected,
-            "Postgres connection");
-    }).catch((onError: any): void => {
-        LoggerComponent.logSuccessMessage(onError, "Postgres connection");
+    await client.end().then(
+        (): void => {
+            LogMessageUtils.success(
+                "Postgres client end success",
+                "Connection closed successfully",
+                "Postgres client is close connection.",
+            );
+        },
+        (onRejected: any): void => {
+            LogMessageUtils.error("Postgres client end error",
+                "Rejected",
+                "Postgres client end rejected",
+                "End client rejected",
+                "Rejected",
+                onRejected,
+                HttpStatusCodesConstant.BAD_REQUEST
+            );
+        }
+    ).catch((onError: any): void => {
+        LogMessageUtils.error("Postgres connection error",
+            "Exception",
+            "Error exception",
+            "Exception handling",
+            "Postgres connection exception handling",
+            onError.message,
+            HttpStatusCodesConstant.BAD_REQUEST
+        );
     });
 }

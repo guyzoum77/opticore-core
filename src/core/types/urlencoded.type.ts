@@ -1,6 +1,6 @@
-import {bodyParserMiddleware} from "../bodyParser.middleware";
-import {parseUrlencodedUtils} from "../../utils/parseUrlencoded.utils";
-import {BodyParserOptionsInterface} from "../../interfaces/bodyParserOptions.interface";
+import {bodyParserMiddleware} from "../middleware/bodyParser.middleware";
+import {parseUrlencodedUtils} from "../utils/parseUrlencoded.utils";
+import {BodyParserOptionsInterface} from "../interfaces/bodyParserOptions.interface";
 
 /**
  *

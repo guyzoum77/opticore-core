@@ -54,10 +54,10 @@ import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/service
 import {UtilityUtils} from "./core/utils/utility.utils";
 import {requestsStoredUtils} from "./core/utils/requestsStored.utils";
 import {ServerListenUtils} from "./core/utils/serverListen.Utils";
-import {jsonBodyParserType} from "./core/middleware/types/json.type";
-import {rawBodyParserType} from "./core/middleware/types/raw.type";
-import {textBodyParserType} from "./core/middleware/types/text.type";
-import {urlencodedBodyParserType} from "./core/middleware/types/urlencoded.type";
+import {jsonBodyParserType} from "./core/types/json.type";
+import {rawBodyParserType} from "./core/types/raw.type";
+import {textBodyParserType} from "./core/types/text.type";
+import {urlencodedBodyParserType} from "./core/types/urlencoded.type";
 
 
 
