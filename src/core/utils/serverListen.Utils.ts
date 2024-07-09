@@ -1,4 +1,4 @@
-import {express, requestsStoredUtils, UtilityUtils} from "../../index";
+import {express, HttpStatusCodesConstant, LogMessageUtils, requestsStoredUtils, UtilityUtils} from "../../index";
 import {Server} from "node:net";
 import colors from "ansi-colors";
 import {IncomingMessage, ServerResponse} from "node:http";
@@ -18,11 +18,12 @@ export class ServerListenUtils {
      * @param port
      * @param appModules
      * @param loadingTime
+     * @param dbConnection
      *
-     * Return
+     * Return node Server
      */
-    public onStartEvent(app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined,
-                        loadingTime: any): Server {
+    public onStartEvent(app: express.Application, host: string, port: number,
+                        appModules: NodeJS.Module[] | undefined, loadingTime: any, dbConnection?: () => {} ): Server {
         return app.listen(port, host, (): void => {
             this.utility.infoServer(
                 this.utility.getVersions().nodeVersion,
@@ -39,15 +40,25 @@ export class ServerListenUtils {
             console.log('');
             this.utility.loadFeaturesModulesCreated(appModules, loadingTime);
             console.log('');
+            if (dbConnection) {
+                dbConnection();
+            }
         }).on("error", (err: Error) => {
-            console.error("Stack trace error is :", err);
+            LogMessageUtils.error(
+                "Server start error",
+                "Error",
+                "Stack trace error",
+                err.stack,
+                err.name,
+                err.message,
+                HttpStatusCodesConstant.SERVICE_UNAVAILABLE
+            )
         });
     }
 
 
     /**
      *
-     * @param webServer
      * @param app
      * @param host
      * @param port
@@ -56,9 +67,9 @@ export class ServerListenUtils {
      *
      * Return
      */
-    public onListeningEvent(webServer: Server, app: express.Application, host: string, port: number,
+    public onListeningEvent(app: express.Application, host: string, port: number,
                                      appModules: NodeJS.Module[] | undefined, loadingTime: any) {
-        webServer.on(
+        this.onStartEvent(app, host, port, appModules, loadingTime).on(
             "listening",
             () => {
                 requestsStoredUtils(app, loadingTime, host, port);
@@ -68,16 +79,14 @@ export class ServerListenUtils {
 
     /**
      *
-     * @param webServer
      * @param app
      * @param host
      * @param port
      * @param appModules
      * @param loadingTime
      */
-    public onRequestEvent(webServer: Server, app: express.Application, host: string, port: number,
-                                     appModules: NodeJS.Module[] | undefined, loadingTime: any) {
-        webServer.on("request", (req: IncomingMessage, res: ServerResponse) => {
+    public onRequestEvent(app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined, loadingTime: any) {
+        this.onStartEvent(app, host, port, appModules, loadingTime).on("request", (req: IncomingMessage, res: ServerResponse) => {
             const currentDatePath: string = `Request called`;
             const name: string = `${colors.green(` ${currentDatePath} `)}`;
             console.log('');
