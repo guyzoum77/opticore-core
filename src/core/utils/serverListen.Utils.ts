@@ -18,12 +18,11 @@ export class ServerListenUtils {
      * @param port
      * @param appModules
      * @param loadingTime
-     * @param dbConnection
      *
-     * Return node Server
+     * Return node server
      */
-    public onStartEvent(app: express.Application, host: string, port: number,
-                        appModules: NodeJS.Module[] | undefined, loadingTime: any, dbConnection?: () => {} ): Server {
+    public onStartEvent(app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined,
+                        loadingTime: any): Server {
         return app.listen(port, host, (): void => {
             this.utility.infoServer(
                 this.utility.getVersions().nodeVersion,
@@ -40,9 +39,6 @@ export class ServerListenUtils {
             console.log('');
             this.utility.loadFeaturesModulesCreated(appModules, loadingTime);
             console.log('');
-            if (dbConnection) {
-                dbConnection();
-            }
         }).on("error", (err: Error) => {
             LogMessageUtils.error(
                 "Server start error",
@@ -59,6 +55,7 @@ export class ServerListenUtils {
 
     /**
      *
+     * @param webServer
      * @param app
      * @param host
      * @param port
@@ -67,9 +64,9 @@ export class ServerListenUtils {
      *
      * Return
      */
-    public onListeningEvent(app: express.Application, host: string, port: number,
-                                     appModules: NodeJS.Module[] | undefined, loadingTime: any) {
-        this.onStartEvent(app, host, port, appModules, loadingTime).on(
+    public onListeningEvent(webServer: Server, app: express.Application, host: string, port: number,
+                            appModules: NodeJS.Module[] | undefined, loadingTime: any) {
+        webServer.on(
             "listening",
             () => {
                 requestsStoredUtils(app, loadingTime, host, port);
@@ -79,14 +76,16 @@ export class ServerListenUtils {
 
     /**
      *
+     * @param webServer
      * @param app
      * @param host
      * @param port
      * @param appModules
      * @param loadingTime
      */
-    public onRequestEvent(app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined, loadingTime: any) {
-        this.onStartEvent(app, host, port, appModules, loadingTime).on("request", (req: IncomingMessage, res: ServerResponse) => {
+    public onRequestEvent(webServer: Server, app: express.Application, host: string, port: number,
+                          appModules: NodeJS.Module[] | undefined, loadingTime: any) {
+        webServer.on("request", (req: IncomingMessage, res: ServerResponse) => {
             const currentDatePath: string = `Request called`;
             const name: string = `${colors.green(` ${currentDatePath} `)}`;
             console.log('');
@@ -167,12 +166,22 @@ export class ServerListenUtils {
         });
     }
 
-    public stackTraceErrorHandling() {
+    public stackTraceErrorHandling(): void {
         // Listener for error events
-        this.errorEmitter.on('error', (error: Error) => {
-            console.error('An error occurred:', error.stack);
-            // You can also log the error to a file or send it to an external service here
-        });
+        this.errorEmitter.on(
+            'error',
+            (error: Error): void => {
+                LogMessageUtils.error(
+                    "Error emitter",
+                    "Error",
+                    "Stack trace error",
+                    error.stack,
+                    error.name,
+                    error.message,
+                    HttpStatusCodesConstant.SERVICE_UNAVAILABLE
+                );
+            }
+        );
 
         // Catch uncaught exceptions
         process.on('uncaughtException', (error: Error) => {
@@ -191,6 +200,15 @@ export class ServerListenUtils {
                 this.errorEmitter.emit('error', err);
                 console.log("error stack is :", err);
                 res.status(500).send('An internal server error occurred');
+                LogMessageUtils.error(
+                    "Express error-handling middleware",
+                    "Express error",
+                    "Stack trace error",
+                    err.stack,
+                    err.name,
+                    err.message,
+                    HttpStatusCodesConstant.SERVICE_UNAVAILABLE
+                )
             } else {
                 next();
             }
