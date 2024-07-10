@@ -12,6 +12,6 @@ export class LogMessageUtils {
     }
 
     static requestError(title: string, errorName: string, errorMessage: string, errorCode: number): void {
-        console.log(`[ ${colors.red(`${title}`)} ] ${dateTimeFormattedUtils()} | ${colors.bgRed(`${colors.white(` ERROR `)}`)} [ ${errorName} ] ${errorMessage} - [ Status ] ${colors.bgCyan(`${colors.white(`${errorCode}`)}`)}`);
+        console.log(`[ ${colors.red(`${title}`)} ] ${dateTimeFormattedUtils()} | ${colors.bgRed(`${colors.white(` ERROR `)}`)} ${colors.red(`[ ${errorName} ]`)} ${colors.red(`${errorMessage}`)} - [ Status ] ${colors.bgCyan(`${colors.white(`${errorCode}`)}`)}`);
     }
 }
