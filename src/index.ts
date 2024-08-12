@@ -55,7 +55,7 @@ import {urlencodedBodyParserType} from "./core/types/urlencoded.type";
 import {LogMessageUtils} from "./core/utils/logMessage.utils";
 import {ResponseHttp} from "./application/http/response.http";
 import {getAccessEnv} from "./domain/env/access.env";
-
+import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
 
 
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
@@ -77,6 +77,7 @@ export {
     dotenv,
     LoggerFormat,
     ServerEnvConfig,
+    dateTimeFormattedUtils,
     Validator,
     crypto,
     randToken,
