@@ -1,10 +1,11 @@
 import {ServerConfigInterface} from "../interfaces/serverConfig.interface";
-import {serverListen} from "../../../dist";
+
 import express from "express";
 import {getAccessEnv} from "../../domain/env/access.env";
 import {dateTimeFormattedUtils} from "./dateTimeFormatted.utils";
+import {ServerListenUtils} from "./serverListen.Utils";
 
-const webServer: serverListen = new serverListen();
+const webServer: ServerListenUtils = new ServerListenUtils();
 export const serverParams: ServerConfigInterface = {
     server: webServer.onStartEvent(
         express.application,
