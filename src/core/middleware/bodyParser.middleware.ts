@@ -31,10 +31,16 @@ export function bodyParserMiddleware(parseFunction: ParseFunctionType, options: 
                 });
 
                 req.on("error", (err: any): void => {
-                    LogMessageUtils.error("Error receiving data", "Request error", "Type error",
-                        Exception.invalidRequest, "Error message", `${res.send(err.message)}`,
-                        HttpStatusCodesConstant.BAD_REQUEST);
-                })
+                    LogMessageUtils.error(
+                        "Error receiving data",
+                        "Request error",
+                        "Type error",
+                        Exception.invalidRequest,
+                        "Error message",
+                        `${res.send(err.message)}`,
+                        HttpStatusCodesConstant.BAD_REQUEST
+                    );
+                });
             })()
             : ((): void => {
                 next();

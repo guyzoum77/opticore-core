@@ -25,21 +25,18 @@ import DateDiff from "date-diff";
 import stream from "stream";
 import {Client, Pool, PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig} from "pg";
 
-
-
 import Exception from "./application/exceptions/messages.exception";
 import CheckerMySqlDatabaseConnectionService from "./application/services/checkerMySqlDatabaseConnection.service";
 import {BaseRouterConfig} from "./core/config/baseRouter.config";
 import CorsOptionsConfig from "./core/config/corsOptions.config";
 import DbConnexionConfig from "./core/config/dbConnexion.config";
 import {ServerEnvConfig} from "./core/config/serverEnv.config";
-import AppExceptionHandlerError from "./core/errors/appExceptionHandler.error";
+import StackTraceError from "./core/handlers/errors/base/stackTraceError";
 import RegisterRoute from "./core/router/register.route";
 import LoggerFormat from "./core/utils/logs/logger.utils";
 import {LogLevelEnum} from "./domain/enums/logLevel.enum";
 import {RoleEnum} from "./domain/enums/role.enum";
-import ExceptionHandlerError from "./core/errors/appExceptionHandler.error";
-import {AccessEnv} from "./domain/env/access.env";
+import ExceptionHandlerError from "./core/handlers/errors/base/stackTraceError";
 import {HttpStatusCodesConstant} from "./domain/constants/httpStatusCodes.constant";
 import {LoggerComponent} from "./presentation/components/logger.component";
 import {RSAKeyDecryption} from "./core/utils/cryptography/decryption/rsaKey.decryption";
@@ -57,6 +54,7 @@ import {textBodyParserType} from "./core/types/text.type";
 import {urlencodedBodyParserType} from "./core/types/urlencoded.type";
 import {LogMessageUtils} from "./core/utils/logMessage.utils";
 import {ResponseHttp} from "./application/http/response.http";
+import {getAccessEnv} from "./domain/env/access.env";
 
 
 
@@ -86,8 +84,8 @@ export {
     appRoot,
     path,
     stream,
+    getAccessEnv,
     ExceptionHandlerError,
-    AccessEnv,
     PrismaClient,
     injectable,
     winston, DailyRotateFile,
@@ -114,7 +112,7 @@ export {
     BaseRouterConfig,
     CorsOptionsConfig,
     DbConnexionConfig,
-    AppExceptionHandlerError,
+    StackTraceError,
     LogLevelEnum,
     RoleEnum,
     AsymmetricCryptionDataWithPrivateRSAKeyService,

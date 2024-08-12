@@ -1,53 +1,20 @@
 import { dotenv } from "../..";
 
 /**
- * Get env variables user, password and database.
+ * Get env variables
  */
-export class AccessEnv {
-    static appHost(): string {
-        return String(dotenv.config()?.parsed?.APP_HOST);
-    }
 
-    static appPort(): string {
-        return String(dotenv.config()?.parsed?.APP_PORT);
-    }
-
-    static prodEnv(): string {
-        return String(dotenv.config()?.parsed?.ENV_PROD);
-    }
-
-    static devEnv(): string {
-        return String(dotenv.config()?.parsed?.ENV_DEV);
-    }
-
-    static dataBaseHost(): string {
-        return String(dotenv.config()?.parsed?.DATA_BASE_HOST);
-    }
-
-    static dataBasePort(): string {
-        return String(dotenv.config()?.parsed?.DATA_BASE_PORT);
-    }
-
-    static user(): string {
-        return String(dotenv.config()?.parsed?.DATA_BASE_USER);
-    }
-    
-    static password(): string {
-        return String(dotenv.config()?.parsed?.DATA_BASE_PASSWORD);
-    }
-
-    static dataBaseName(): string {
-        return String(dotenv.config()?.parsed?.DATA_BASE_NAME);
-    }
-
-    static apiVersion(): string {
-        return String(dotenv.config()?.parsed?.API_VERSION);
-    }
-
-    static usernameField(): string {
-        return String(dotenv.config()?.parsed?.USERNAME_FIELD);
-    }
-    static passwordField(): string {
-        return String(dotenv.config()?.parsed?.PASSWORD_FIELD);
-    }
+export const getAccessEnv = {
+    appHost: String(dotenv.config()?.parsed?.APP_HOST),
+    appPort: String(dotenv.config()?.parsed?.APP_PORT),
+    prodEnv: String(dotenv.config()?.parsed?.ENV_PROD),
+    devEnv: String(dotenv.config()?.parsed?.ENV_DEV),
+    dataBaseHost: String(dotenv.config()?.parsed?.DATA_BASE_HOST),
+    dataBasePort: String(dotenv.config()?.parsed?.DATA_BASE_PORT),
+    dataBaseUser: String(dotenv.config()?.parsed?.DATA_BASE_USER),
+    dataBasePassword: String(dotenv.config()?.parsed?.DATA_BASE_PASSWORD),
+    dataBaseName: String(dotenv.config()?.parsed?.DATA_BASE_NAME),
+    apiVersion: String(dotenv.config()?.parsed?.API_VERSION),
+    usernameField: String(dotenv.config()?.parsed?.USERNAME_FIELD),
+    passwordField: String(dotenv.config()?.parsed?.PASSWORD_FIELD)
 }

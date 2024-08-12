@@ -20,7 +20,6 @@ export class LoggerComponent {
         this.logger.createLogInFile(
             errorMessage,
             { date: `${colors.blue(`${new Date()}`)}`, level: `${colors.bgRed(`${colors.white("error")}`)}`, message: errorMessage, author: author }
-
         );
     }
 }

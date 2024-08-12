@@ -158,7 +158,7 @@ export class UtilityUtils {
                 const match: RegExpMatchArray | null = line.match(/^([^#=]+)=([^#]+)$/);
                 if (match) {
                     const key: string = match[1].trim();
-                    process.env[key] = match[2].trim();
+                    process.env[key]  = match[2].trim();
                 }
             });
         }
@@ -213,5 +213,4 @@ export class UtilityUtils {
         console.log(`${(`Memory usage by system :`)} ${colors.cyan(`${colors.bold(`${system}`)}`)}`);
         console.log(``);
     }
-
 }

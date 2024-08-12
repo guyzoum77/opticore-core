@@ -1,16 +1,16 @@
-import { HttpStatusCodesConstant } from "../../domain/constants/httpStatusCodes.constant";
+import { HttpStatusCodesConstant } from "../../../../domain/constants/httpStatusCodes.constant";
 
 
 /**
  * Handling and catch a Node.js error.
  */
-export default class AppExceptionHandlerError extends Error {
+export default class StackTraceError extends Error {
     public readonly name: string;
-    public readonly httpCode: HttpStatusCodesConstant;
+    public readonly httpCode: HttpStatusCodesConstant | any;
     public readonly isOperational: boolean;
 
     // Centralized error objet that derives from Node's Error.
-    constructor(props: string | undefined, name: string, httpCode: HttpStatusCodesConstant, isOperational: boolean) {
+    constructor(props: string | undefined, name: string, httpCode: HttpStatusCodesConstant | any, isOperational: boolean) {
         super(props);
 
         Object.setPrototypeOf(this, new.target.prototype);
