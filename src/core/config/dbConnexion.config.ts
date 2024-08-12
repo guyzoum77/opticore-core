@@ -1,9 +1,8 @@
 import {
     CheckerMySqlDatabaseConnectionService, ExceptionHandlerError,
     HttpStatusCodesConstant, LoggerFormat, mySQL, stream,
-    LoggerComponent, CustomTypesConfig
+    LoggerComponent, CustomTypesConfig, getAccessEnv
 } from "../..";
-import { AccessEnv } from "../../domain/env/access.env";
 import { ServerEnvConfig } from "./serverEnv.config";
 import CheckerMongoDatabaseConnectionService from "../../application/services/checkerMongoDatabaseConnection.service";
 import CheckerPostgresDatabaseConnectionService
@@ -18,11 +17,11 @@ import {ConnectionOptions} from "tls";
  * the .env environment file to establish the connection with the database service.
  */
 export default class DbConnexionConfig extends ServerEnvConfig {
-    private dbPort: string   = AccessEnv.dataBasePort();
-    private user: string     = AccessEnv.user();
-    private password: string = AccessEnv.password();
-    private dbName: string   = AccessEnv.dataBaseName();
-    private dbHost: string   = AccessEnv.dataBaseHost();
+    private dbPort: string   = getAccessEnv.dataBasePort;
+    private user: string     = getAccessEnv.dataBaseUser;
+    private password: string = getAccessEnv.dataBasePassword;
+    private dbName: string   = getAccessEnv.dataBaseName;
+    private dbHost: string   = getAccessEnv.dataBaseHost;
 
     public loggerFormat: LoggerFormat;
 
