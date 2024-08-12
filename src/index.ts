@@ -47,7 +47,7 @@ import AsymmetricCryptionDataWithPrivateRSAKeyService from "./application/servic
 import AsymmetricCryptionDataWithPublicRSAKeyService from "./application/services/asymmetricCryptionDataWithPublicRSAKey.service";
 import {UtilityUtils} from "./core/utils/utility.utils";
 import {requestsStoredUtils} from "./core/utils/requestsStored.utils";
-import {ServerListenUtils} from "./core/utils/serverListen.Utils";
+import {ServerListenUtils as serverListen} from "./core/utils/serverListen.Utils";
 import {jsonBodyParserType} from "./core/types/json.type";
 import {rawBodyParserType} from "./core/types/raw.type";
 import {textBodyParserType} from "./core/types/text.type";
@@ -100,7 +100,7 @@ export {
     HashPasswordUtils,
     UtilityUtils,
     requestsStoredUtils,
-    ServerListenUtils,
+    serverListen,
     LogMessageUtils,
     jsonBodyParserType,
     rawBodyParserType,
