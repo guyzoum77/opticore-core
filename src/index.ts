@@ -56,7 +56,7 @@ import {LogMessageUtils} from "./core/utils/logMessage.utils";
 import {ResponseHttp} from "./application/http/response.http";
 import {getAccessEnv} from "./domain/env/access.env";
 import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
-
+import {database} from "opticore-database";
 
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
 export {
@@ -66,6 +66,7 @@ export {
     corsOrigin,
     cookieParser,
     mySQL,
+    database,
     Client,
     createLogger,
     format,
@@ -120,3 +121,4 @@ export {
     AsymmetricCryptionDataWithPublicRSAKeyService,
     ResponseHttp
 };
+
