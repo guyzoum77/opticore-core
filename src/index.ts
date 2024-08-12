@@ -57,6 +57,9 @@ import {ResponseHttp} from "./application/http/response.http";
 import {getAccessEnv} from "./domain/env/access.env";
 import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
 import {database} from "opticore-database";
+import {serverParams} from "./core/utils/serverParams.utils";
+import {setupServerConfig} from "./core/config/setupServer.config";
+
 
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
 export {
@@ -67,6 +70,8 @@ export {
     cookieParser,
     mySQL,
     database,
+    serverParams,
+    setupServerConfig,
     Client,
     createLogger,
     format,
