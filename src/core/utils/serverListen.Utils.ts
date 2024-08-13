@@ -214,15 +214,132 @@ export class ServerListenUtils {
         });
 
         process.on(event.exit, (code: number) => {
-            LogMessageUtils.error(
-                "Exited",
-                "process exited",
-                `exited code: ${code}`,
-                "exit",
-                "exit with code",
-                `Process exited with code: ${code}`,
-                status.SERVICE_UNAVAILABLE
-            );
+            switch (code) {
+                case 0:
+                    LogMessageUtils.success("Exited", "completed", "The process finished as expected and everything worked correctly");
+                    break;
+                case 1:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "General Errors",
+                        `errors`,
+                        "exit",
+                        "exit with code",
+                        "Something went wrong",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break
+                case 2:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "Misuse of shell builtins",
+                        `Misuse`,
+                        "Incorrect use",
+                        "shell commands",
+                        "Incorrect using of shell commands",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+                case 126:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "Command invoked cannot execute",
+                        `command invoked`,
+                        "invoked",
+                        "not executable",
+                        "The command is found but is not executable (e.g., trying to execute a directory)",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break
+                case 127:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "Command not found",
+                        `command not found`,
+                        "not found",
+                        "not found",
+                        "The command was not found in the system's PATH or is misspelled",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+                case 128:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "Invalid argument to exit",
+                        "Invalid argument",
+                        "argument to exit",
+                        "invalid argument",
+                        "The command was not found in the system's PATH or is misspelled",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+                case 130:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "Script terminated by Control-C",
+                        "Script terminated",
+                        "terminated",
+                        "terminated by Control-C",
+                        "Indicates that the script was manually terminated by the user using the Control-C (SIGINT) signal",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+                case 137:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "Termination by SIGKILL (or out of memory)",
+                        "termination",
+                        "SIGKILL",
+                        "termination by SIGKILL",
+                        "Indicates that the process was terminated by a SIGKILL signal, possibly due to an out-of-memory situation",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+                case 139:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "Segmentation fault",
+                        "Segmentation",
+                        "illegal memory address",
+                        "process accessed",
+                        "Indicates that the process accessed an illegal memory address (segfault)",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+                case 143:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "termination by SIGTERM",
+                        "termination",
+                        "fault",
+                        "process received a SIGTERM",
+                        "Indicates that the process received a SIGTERM signal to terminate",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+                case 255:
+                    LogMessageUtils.error(
+                        "Exited",
+                        "exit status out of range",
+                        "out of range",
+                        "status out",
+                        "exit status out",
+                        "Indicates an exit code that is outside the allowable range (0-255 for Unix-like systems)",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+                default:
+                    LogMessageUtils.error(
+                        "Exited",
+                         "Errors",
+                        `errors`,
+                        "exit",
+                        "exit with code",
+                        "Error is occurring",
+                        status.SERVICE_UNAVAILABLE
+                    );
+                    break;
+            }
         });
 
         process.on(event.rejectionHandled, (promise: Promise<any>) => {
