@@ -39,10 +39,6 @@ export class ServerListenUtils {
                 this.utility.getUsageMemory().user,
                 this.utility.getUsageMemory().system
             );
-            this.utility.loadMainAppEntry(appModules, loadingTime);
-            this.utility.loadRouterModule(appModules, loadingTime);
-            console.log('');
-            this.utility.loadFeaturesModulesCreated(appModules, loadingTime);
             console.log('');
         }).on("error", (err: Error) => {
             LogMessageUtils.error(
@@ -176,9 +172,9 @@ export class ServerListenUtils {
                 "Event error",
                 "Error",
                 "Stack trace error",
-                error.stack,
-                error.name,
-                error.message,
+                error,
+                "error",
+                error,
                 status.SERVICE_UNAVAILABLE
             );
         });
