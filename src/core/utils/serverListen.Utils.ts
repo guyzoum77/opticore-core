@@ -184,187 +184,167 @@ export class ServerListenUtils {
          *  Process event listeners
          */
         process.on(event.beforeExit, (code: number) => {
-            this.errorEmitter.emit(eventName.error, (error: Error) => {
+            setTimeout(() => {
+                console.log();
                 LogMessageUtils.error(
                     "BeforeExit",
                     "process before exit",
                     `exit code: ${code}`,
-                    error.stack,
-                    error.name,
-                    error.message,
+                    "before exit",
+                    "exit with code",
+                    `Process will exit with code: ${code}`,
                     status.SERVICE_UNAVAILABLE
                 );
-            });
+                process.exit(code)
+            }, 100)
+
         });
 
         process.on(event.disconnect, () => {
-            this.errorEmitter.emit(eventName.error, (error: Error) => {
-                LogMessageUtils.error(
-                    "Disconnected",
-                    "process disconnected",
-                    `disconnected`,
-                    error.stack,
-                    error.name,
-                    error.message,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+            LogMessageUtils.error(
+                "Disconnected",
+                "process disconnected",
+                `disconnected`,
+                "child process",
+                "process disconnected",
+                "Child process disconnected",
+                status.SERVICE_UNAVAILABLE
+            );
+            process.exit();
         });
 
         process.on(event.exit, (code: number) => {
-            this.errorEmitter.emit(eventName.error, (error: Error) => {
-                LogMessageUtils.error(
-                    "Exited",
-                    "process exited",
-                    `exited code: ${code}`,
-                    error.stack,
-                    error.name,
-                    error.message,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+            LogMessageUtils.error(
+                "Exited",
+                "process exited",
+                `exited code: ${code}`,
+                "exit",
+                "exit with code",
+                `Process exited with code: ${code}`,
+                status.SERVICE_UNAVAILABLE
+            );
         });
 
         process.on(event.rejectionHandled, (promise: Promise<any>) => {
-            this.errorEmitter.emit(eventName.error, (error: Error) => {
-                LogMessageUtils.error(
-                    "PromiseRejectionHandled",
-                    "rejection promise",
-                    "rejection",
-                    error.stack,
-                    error.name,
-                    `${error.message} : ${promise}`,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+            LogMessageUtils.error(
+                "PromiseRejectionHandled",
+                "rejection promise",
+                "rejection",
+                "RejectionHandled",
+                "promise",
+                `Promise rejection is handled at : ${promise}`,
+                status.SERVICE_UNAVAILABLE
+            );
         });
 
-        process.on(event.uncaughtException, (error: Error) => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "UncaughtException",
-                    "uncaught exception handled",
-                    "exception",
-                    error.stack,
-                    error.name,
-                    error.message,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+        process.on(event.uncaughtException, (error: any) => {
+            LogMessageUtils.error(
+                "UncaughtException",
+                "uncaught exception handled",
+                "exception",
+                error.stack,
+                error.name,
+                error.message,
+                status.SERVICE_UNAVAILABLE
+            );
         });
 
-        process.on(event.uncaughtExceptionMonitor, (error: Error) => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "UncaughtExceptionMonitor",
-                    "uncaught exception handled",
-                    "exception",
-                    error.stack,
-                    error.name,
-                    error.message,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+        process.on(event.uncaughtExceptionMonitor, (error: any) => {
+            LogMessageUtils.error(
+                "UncaughtExceptionMonitor",
+                "uncaught exception handled",
+                "exception",
+                error.stack,
+                error.name,
+                error.message,
+                status.SERVICE_UNAVAILABLE
+            );
         });
 
         process.on(event.unhandledRejection, (reason: any, promise: Promise<any>) => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "UnhandledRejection",
-                    "Unhandled rejection",
-                    "exception",
-                    "unhandledRejection",
-                    "unhandledRejection",
-                    `${reason} -- ${promise}`,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+            LogMessageUtils.error(
+                "UnhandledRejection",
+                "Unhandled rejection",
+                "exception",
+                "unhandledRejection",
+                "unhandledRejection",
+                `Unhandled Rejection at: Promise ${promise} -- reason ${reason}`,
+                status.SERVICE_UNAVAILABLE
+            );
         });
 
-        process.on(event.warning, (warning: Error) => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "Warning",
-                    "warning",
-                    "warning",
-                    warning.stack,
-                    warning.name,
-                    warning.message,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+        process.on(event.warning, (warning: any) => {
+            LogMessageUtils.error(
+                "Warning",
+                "warning",
+                "warning",
+                warning.stack,
+                warning.name,
+                warning.message,
+                status.SERVICE_UNAVAILABLE
+            );
         });
 
         process.on(event.message, (message: any, sendHandle: any) => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "Message",
-                    "message exception",
-                    "message",
-                    "Process message received",
-                    "message received",
-                    message,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+            LogMessageUtils.error(
+                "Message",
+                "message exception",
+                "message",
+                "Process message received",
+                "message received",
+                `process got message ${message}`,
+                status.SERVICE_UNAVAILABLE
+            );
         });
 
-        process.on(event.multipleResolves, (type: string, promise: Promise<any>, value: any) => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "multipleResolves",
-                    "resolves",
-                    "resolves detected",
-                    "detection",
-                    "Multiple resolves detected",
-                    `${type} -- ${promise} -- ${value.toString()}`,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
+        process.on(event.multipleResolves, (type: string, promise: Promise<any>, reason: any) => {
+            LogMessageUtils.error(
+                "multipleResolves",
+                "resolves",
+                "resolves detected",
+                "detection",
+                `Multiple resolves detected : ${type}`,
+                `${promise} -- ${reason}`,
+                status.SERVICE_UNAVAILABLE
+            );
         });
 
-        process.on(event.worker, (worker: any) => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "worker",
-                    "Worker event",
-                    "event detected",
-                    "detection",
-                    "Worker event detected",
-                    worker,
-                    status.SERVICE_UNAVAILABLE
-                );
-            });
-        });
+        // process.on(event.worker, (worker: any) => {
+        //     LogMessageUtils.error(
+        //         "worker",
+        //         "Worker event",
+        //         "event detected",
+        //         "detection",
+        //         "Worker event detected",
+        //         worker,
+        //         status.SERVICE_UNAVAILABLE
+        //     );
+        // });
 
         // Handle specific signals
         process.on(event.sigint, () => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "SIGINT",
-                    "SIGINT",
-                    "SIGINT",
-                    "received",
-                    "SIGINT",
-                    "Process received SIGINT",
-                    status.NOT_ACCEPTABLE
-                );
-            });
+            LogMessageUtils.error(
+                "SIGINT",
+                "SIGINT",
+                "SIGINT",
+                "received",
+                "SIGINT",
+                `Process ${process.pid} has been interrupted`,
+                status.NOT_ACCEPTABLE
+            );
             process.exit(0);
         });
 
-        process.on(event.sigterm, () => {
-            this.errorEmitter.emit(eventName.error, () => {
-                LogMessageUtils.error(
-                    "SIGTERM",
-                    "SIGTERM",
-                    "SIGTERM",
-                    "received",
-                    "SIGTERM",
-                    "Process received SIGTERM",
-                    status.NOT_ACCEPTABLE
-                );
-            });
+        process.on(event.sigterm, (signal) => {
+            LogMessageUtils.error(
+                "SIGTERM",
+                "SIGTERM",
+                "SIGTERM",
+                "received",
+                signal,
+                `Process ${process.pid} received a SIGTERM signal`,
+                status.NOT_ACCEPTABLE
+            );
             process.exit(0);
         });
 
