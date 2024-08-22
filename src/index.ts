@@ -59,6 +59,9 @@ import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
 import {database} from "opticore-database";
 import {serverParams} from "./core/utils/serverParams.utils";
 import {setupServerConfig as server} from "./core/config/setupServer.config";
+import {loadKernel} from "./core/core.js";
+
+
 
 
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
@@ -79,6 +82,7 @@ export {
     bcrypt,
     fs,
     Db,
+    loadKernel,
     MongoClient,
     dotenv,
     LoggerFormat,

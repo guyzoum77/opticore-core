@@ -426,18 +426,6 @@ export class ServerListenUtils {
             );
         });
 
-        // process.on(event.worker, (worker: any) => {
-        //     LogMessageUtils.error(
-        //         "worker",
-        //         "Worker event",
-        //         "event detected",
-        //         "detection",
-        //         "Worker event detected",
-        //         worker,
-        //         status.SERVICE_UNAVAILABLE
-        //     );
-        // });
-
         // Handle specific signals
         process.on(event.sigint, () => {
             LogMessageUtils.error(
