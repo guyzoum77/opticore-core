@@ -1,12 +1,16 @@
 import {
-    CheckerMySqlDatabaseConnectionService, ExceptionHandlerError,
-    HttpStatusCodesConstant, LoggerFormat, mySQL, stream,
-    LoggerComponent, CustomTypesConfig, getAccessEnv
+    CheckerMySqlDatabaseConnectionService,
+    ExceptionHandlerError,
+    HttpStatusCodesConstant as status,
+    mySQL,
+    stream,
+    LoggerComponent,
+    CustomTypesConfig,
+    getAccessEnv,
+    LogMessageUtils
 } from "../..";
-import { ServerEnvConfig } from "./serverEnv.config";
 import CheckerMongoDatabaseConnectionService from "../../application/services/checkerMongoDatabaseConnection.service";
-import CheckerPostgresDatabaseConnectionService
-    from "../../application/services/checkerPostgresDatabaseConnection.service";
+import CheckerPostgresDatabaseConnectionService from "../../application/services/checkerPostgresDatabaseConnection.service";
 import {ConnectionOptions} from "tls";
 
 
@@ -16,23 +20,12 @@ import {ConnectionOptions} from "tls";
  * certain methods make it possible to retrieve the variables values defined in
  * the .env environment file to establish the connection with the database service.
  */
-export default class DbConnexionConfig extends ServerEnvConfig {
+export default class DbConnexionConfig {
     private dbPort: string   = getAccessEnv.dataBasePort;
     private user: string     = getAccessEnv.dataBaseUser;
     private password: string = getAccessEnv.dataBasePassword;
     private dbName: string   = getAccessEnv.dataBaseName;
     private dbHost: string   = getAccessEnv.dataBaseHost;
-
-    public loggerFormat: LoggerFormat;
-
-    /**
-     *
-     * @param logger
-     */
-    constructor(logger: LoggerFormat) {
-        super();
-        this.loggerFormat = logger;
-    }
 
 
     /**
@@ -64,41 +57,69 @@ export default class DbConnexionConfig extends ServerEnvConfig {
             LoggerComponent.logInfoMessage("Connection successfully.", "Mongo connection");
         } catch (e: any) {
             if (e.code === 18) {
-                this.loggerFormat.logError("Authentication failed, be sure the credentials is correct!", e.code);
+                LogMessageUtils.error(
+                    "MongoDB connection",
+                    "authentication failed",
+                    "failed",
+                    e.code,
+                    "bad credentials",
+                    "Authentication failed, be sure the credentials is correct!",
+                    status.UNAUTHORIZED
+                );
                 throw new ExceptionHandlerError(
                     "Authentication failed, be sure the credentials is correct!",
                     "MongoConnectionError",
-                    HttpStatusCodesConstant.UNAUTHORIZED,
+                    status.UNAUTHORIZED,
                     true
                 );
             }
             if (e.cause.code === 'ERR_INVALID_URL') {
-                this.loggerFormat.logError(`Unable to parse ${this.dbHost}:${this.dbPort} with URL`, e.code);
+                LogMessageUtils.error(
+                    "MongoDB connection",
+                    "unable to parse",
+                    "url",
+                    e.code,
+                    "parse url",
+                    `Unable to parse ${this.dbHost}:${this.dbPort} with URL`,
+                    status.BAD_REQUEST
+                );
                 throw new ExceptionHandlerError(
                     `Unable to parse ${this.dbHost}:${this.dbPort} with URL`,
                     "MongoConnectionError",
-                    HttpStatusCodesConstant.BAD_REQUEST,
+                    status.BAD_REQUEST,
                     true
                 );
             }
             if (e.code === undefined) {
-                this.loggerFormat.logError(
+                LogMessageUtils.error(
+                    "MongoDB connection",
+                    "MongoServer selection error",
+                    "MongoServer",
+                    e.code,
+                    "undefined",
                     `MongoServerSelectionError: getaddrinfo EAI_AGAIN (${this.dbHost} is not allow to database connection)`,
-                    e.code
+                    status.BAD_REQUEST
                 );
                 throw new ExceptionHandlerError(
                     `MongoServerSelectionError: getaddrinfo EAI_AGAIN (${this.dbHost} is not allow to database connection)`,
                     "MongoConnectionError",
-                    HttpStatusCodesConstant.BAD_REQUEST,
+                    status.BAD_REQUEST,
                     true
                 );
-            }
-            else {
-                this.loggerFormat.logError(`${e.message}`, e.code);
+            } else {
+                LogMessageUtils.error(
+                    "MongoDB connection",
+                    "MongoConnection error",
+                    "",
+                    e.code,
+                    "",
+                    e.message,
+                    status.NOT_ACCEPTABLE
+                );
                 throw new ExceptionHandlerError(
                     `${e.message}`,
                     "MongoConnectionError",
-                    HttpStatusCodesConstant.NOT_ACCEPTABLE,
+                    status.NOT_ACCEPTABLE,
                     true
                 );
             }
@@ -154,7 +175,7 @@ export default class DbConnexionConfig extends ServerEnvConfig {
             throw new ExceptionHandlerError(
                 `${err.message}`,
                 "PostgresConnectionError",
-                HttpStatusCodesConstant.NOT_ACCEPTABLE,
+                status.NOT_ACCEPTABLE,
                 true
             );
         }

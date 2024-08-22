@@ -86,7 +86,7 @@ export class ServerListenUtils {
     public onRequestEvent(webServer: Server, app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined, loadingTime: any) {
         webServer.on("request", (req: IncomingMessage, res: ServerResponse) => {
             const currentDatePath: string = `Request called`;
-            const name: string = `${colors.green(` ${currentDatePath} `)}`;
+            const name: string = `${colors.white(` ${currentDatePath} `)}`;
             console.log('');
             console.log(chalk.bgGreen.white(''.padEnd(18, ' ')));
             const msg: string = colors.bold(` ${name} `);

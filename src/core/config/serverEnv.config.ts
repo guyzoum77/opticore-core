@@ -28,7 +28,7 @@ export abstract class ServerEnvConfig {
     public createPathEnv (path: string): string {
         const arrEnv: Array<string> = ["env"];
         if (path.length > 0 ) {
-            const stringToArray = path.split(".");
+            const stringToArray: string[] = path.split(".");
             arrEnv.unshift(...stringToArray);
         }
         return "." + arrEnv.join(".")
