@@ -5,9 +5,9 @@ import {HttpStatusCodesConstant as status} from "../domain/constants/httpStatusC
 import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
 
 
-export async function loadKernel(Kernel) {
+export async function loadKernel(Kernel: any) {
     try {
-        const routesApp: Awaited<any>[] = await Promise.all(Kernel.map(async(loader): Promise<()=> express.Router[]> => {
+        const routesApp: Awaited<any>[] = await Promise.all(Kernel.map(async(loader: any): Promise<()=> express.Router[]> => {
             const module = await loader();
             return module.routers;
         }));
