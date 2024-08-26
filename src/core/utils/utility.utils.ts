@@ -114,8 +114,7 @@ export class UtilityUtils {
         }
     }
 
-    public infoServer(nodeVersion: string, startingTime: any, host: string, port: number, rss: string, heapUsed: string,
-                      user: string, system: string): void {
+    public infoServer(nodeVersion: string, startingTime: any, host: string, port: number, rss: string, heapUsed: string, user: string, system: string): void {
         // Padding length
         const paddingLength = 52;
 

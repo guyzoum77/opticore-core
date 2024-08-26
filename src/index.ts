@@ -59,7 +59,7 @@ import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
 import {database} from "opticore-database";
 import {serverParams} from "./core/utils/serverParams.utils";
 import {setupServerConfig as server} from "./core/config/setupServer.config";
-import {loadKernel} from "./core/core.js";
+import {loadKernel as Kernel} from "./core/core.js";
 
 
 
@@ -82,7 +82,7 @@ export {
     bcrypt,
     fs,
     Db,
-    loadKernel,
+    Kernel,
     MongoClient,
     dotenv,
     LoggerFormat,

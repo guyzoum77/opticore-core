@@ -6,7 +6,7 @@ import chalk from "chalk";
 export function requestsStoredUtils(app: express.Application, loadingTime: any, host: string, port: number) {
     const listRoutes: ExpressRoutesUtils = new ExpressRoutesUtils();
     if (listRoutes.expressListRoutes) {
-        const name: string = `${colors.green(` Route stored `)}`;
+        const name: string = `${colors.white(` Route stored `)}`;
         console.log(chalk.bgGreen.white(''.padEnd(17, ' ')));
         const msg: string = colors.bold(` ${name}  `);
         console.log(chalk.bgGreen.white(msg.padEnd(17, ' ')));
