@@ -7,6 +7,5 @@ export interface ServerConfigInterface {
     app: express.Application;
     host: string;
     port: number;
-    mainChildren: NodeModule[] | undefined;
     dateTimeUtils: typeof dateTimeFormattedUtils;
 }

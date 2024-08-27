@@ -1,6 +1,6 @@
 import {colors} from "../../index";
 
-export default class MessagesException {
+export class MessagesException {
     static dbConnexionSuccess: string = "The database connection was successful  🚀";
     static dbConnexionError: string = "An error occurred while connecting to the database";
     static dbConnexionClosed: string = "MySQL connection is closed";
@@ -29,6 +29,15 @@ export default class MessagesException {
     static verifyPublicKeyError: string = "After checking, we noticed that someone tried to recover data, but to no avail.";
     static verifyPrivateKeyError: string = "After checking, we noticed that someone tried to recover data, but to no avail.";
     static UnableAccount: string = "Oops... your account is inactive. Please verify your email account or spam to confirm your registration. Or try to contact the admin if you doesn't receive email account registration."
+    static webServer: string = "Web server";
+    static listening: string = "listening";
+    static webHost: string = "host";
+    static badHost: string = "bad host";
+    static hostNotFound: string = "not found";
+    static errorHostUrl: string = "The host and port are not define, please define them in .env";
+    static badPort: string = "bad port";
+    static errorPort: string = "The port is not correct. Please define a right port with number port.";
+    static errorHost: string = "The host can't be empty or blank. Please define a string host in .env";
 
     static accessDeniedToDBCon(user: string, password: string): string {
         return `Access denied for user ${user}. Database credentials in .env file are User: ${user} and Password: ${password}.  '${user}''${password}'@'localhost'. Try to set user and password in .env file`;

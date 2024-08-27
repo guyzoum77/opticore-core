@@ -6,6 +6,7 @@ import EventEmitter from "node:events";
 import chalk from "chalk";
 import {EventConstant as event} from "./constants/event.constant";
 import {eventNameErrorConstant as eventName} from "./constants/eventNameError.constant";
+import {MessagesException as msg} from "../../application/exceptions/messages.exception";
 
 
 export class ServerListenUtils {
@@ -22,23 +23,27 @@ export class ServerListenUtils {
      * @param app
      * @param host
      * @param port
-     * @param appModules
-     * @param loadingTime
      *
      * Return node server
      */
-    public onStartEvent(app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined, loadingTime: any): Server {
+    public onStartEvent(app: express.Application, host: string, port: number): Server {
         return app.listen(port, host, (): void => {
-            this.utility.infoServer(
-                this.utility.getVersions().nodeVersion,
-                this.utility.getProjectInfo().startingTime,
-                host,
-                port,
-                this.utility.getUsageMemory().rss,
-                this.utility.getUsageMemory().heapUsed,
-                this.utility.getUsageMemory().user,
-                this.utility.getUsageMemory().system
-            );
+            host === "" && port === 0
+                ? LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHostUrl, status.BAD_REQUEST)
+                : host === ""
+                    ? LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHost, status.BAD_REQUEST)
+                    : port === 0
+                        ? LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badPort, msg.badPort, msg.errorPort, status.BAD_REQUEST)
+                        : this.utility.infoServer(
+                            this.utility.getVersions().nodeVersion,
+                            this.utility.getProjectInfo().startingTime,
+                            host,
+                            port,
+                            this.utility.getUsageMemory().rss,
+                            this.utility.getUsageMemory().heapUsed,
+                            this.utility.getUsageMemory().user,
+                            this.utility.getUsageMemory().system
+                        );
             console.log('');
         }).on("error", (err: Error) => {
             LogMessageUtils.error(
@@ -60,12 +65,11 @@ export class ServerListenUtils {
      * @param app
      * @param host
      * @param port
-     * @param appModules
      * @param loadingTime
      *
      * Return
      */
-    public onListeningEvent(webServer: Server, app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined, loadingTime: any) {
+    public onListeningEvent(webServer: Server, app: express.Application, host: string, port: number, loadingTime: any) {
         webServer.on(
             "listening",
             () => {
@@ -80,10 +84,9 @@ export class ServerListenUtils {
      * @param app
      * @param host
      * @param port
-     * @param appModules
      * @param loadingTime
      */
-    public onRequestEvent(webServer: Server, app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined, loadingTime: any) {
+    public onRequestEvent(webServer: Server, app: express.Application, host: string, port: number, loadingTime: any) {
         webServer.on("request", (req: IncomingMessage, res: ServerResponse) => {
             const currentDatePath: string = `Request called`;
             const name: string = `${colors.white(` ${currentDatePath} `)}`;
