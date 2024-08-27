@@ -29,17 +29,17 @@ export class ServerListenUtils {
      */
     public onStartEvent(app: express.Application, host: string, port: number, appModules: NodeJS.Module[] | undefined, loadingTime: any): Server {
         return app.listen(port, host, (): void => {
-            // this.utility.infoServer(
-            //     this.utility.getVersions().nodeVersion,
-            //     this.utility.getProjectInfo().startingTime,
-            //     host,
-            //     port,
-            //     this.utility.getUsageMemory().rss,
-            //     this.utility.getUsageMemory().heapUsed,
-            //     this.utility.getUsageMemory().user,
-            //     this.utility.getUsageMemory().system
-            // );
-            // console.log('');
+            this.utility.infoServer(
+                this.utility.getVersions().nodeVersion,
+                this.utility.getProjectInfo().startingTime,
+                host,
+                port,
+                this.utility.getUsageMemory().rss,
+                this.utility.getUsageMemory().heapUsed,
+                this.utility.getUsageMemory().user,
+                this.utility.getUsageMemory().system
+            );
+            console.log('');
         }).on("error", (err: Error) => {
             LogMessageUtils.error(
                 "Server start error",
