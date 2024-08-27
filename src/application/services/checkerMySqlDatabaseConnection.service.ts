@@ -1,6 +1,5 @@
 import {Exception, HttpStatusCodesConstant, LoggerComponent, mySQL } from "../..";
 import {mySqlErrorHandlerUtils} from "../../core/utils/mySqlErrorHandler.utils";
-import {MysqlError} from "mysql";
 
 
 /**

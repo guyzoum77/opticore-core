@@ -25,14 +25,12 @@ import DateDiff from "date-diff";
 import stream from "stream";
 import {Client, Pool, PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig} from "pg";
 
-import Exception from "./application/exceptions/messages.exception";
 import CheckerMySqlDatabaseConnectionService from "./application/services/checkerMySqlDatabaseConnection.service";
 import {BaseRouterConfig} from "./core/config/baseRouter.config";
 import CorsOptionsConfig from "./core/config/corsOptions.config";
 import DbConnexionConfig from "./core/config/dbConnexion.config";
 import {ServerEnvConfig} from "./core/config/serverEnv.config";
 import StackTraceError from "./core/handlers/errors/base/stackTraceError";
-import RegisterRoute from "./core/router/register.route";
 import LoggerFormat from "./core/utils/logs/logger.utils";
 import {LogLevelEnum} from "./domain/enums/logLevel.enum";
 import {RoleEnum} from "./domain/enums/role.enum";
@@ -60,6 +58,7 @@ import {database as createDatabase} from "opticore-database";
 import {serverParams} from "./core/utils/serverParams.utils";
 import {setupServerConfig as server} from "./core/config/setupServer.config";
 import {loadKernel as KernelModules} from "./core/core.js";
+import {MessagesException} from "./application/exceptions/messages.exception";
 
 
 
@@ -113,12 +112,11 @@ export {
     requestsStoredUtils,
     serverListen,
     LogMessageUtils,
+    MessagesException,
     jsonBodyParserType,
     rawBodyParserType,
     textBodyParserType,
     urlencodedBodyParserType,
-    RegisterRoute,
-    Exception,
     CheckerMySqlDatabaseConnectionService,
     BaseRouterConfig,
     CorsOptionsConfig,

@@ -144,7 +144,7 @@ export default class DbConnexionConfig {
      * Postgres database connection with optional connection arguments
      */
     public async databasePostgresDBConnectionChecker(keepAlive?: boolean | undefined,
-                                                    stream?: () => stream.Duplex | undefined,
+                                                    stream?: (() => (stream.Duplex | undefined)) | undefined,
                                                     statement_timeout?: false | number | undefined,
                                                     ssl?: boolean | ConnectionOptions | undefined,
                                                     query_timeout?: number | undefined,
