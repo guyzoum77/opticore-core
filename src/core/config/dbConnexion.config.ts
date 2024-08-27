@@ -35,7 +35,7 @@ export default class DbConnexionConfig {
      * and it's show off in log that the connection has been created successfully.
      * But if any error is occurring during trying connection, it's specify that error by stack traces.
      */
-    public databaseMySQLConnexionConfig(optionalArgumentConnection: string | any): void {
+    public databaseMySQLConnexionChecker(optionalArgumentConnection: string | any): void {
         const dbURL: string = `${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
         const url: string = `mysql://${dbURL}${optionalArgumentConnection}`;
         const dbConnection: mySQL.Connection = mySQL.createConnection(url);
@@ -49,7 +49,7 @@ export default class DbConnexionConfig {
      *
      * Mongo database connection with optional connection arguments
      */
-    public async databaseMongoDBConnectionConfig(optionalArgumentConnection: any): Promise<void> {
+    public async databaseMongoDBConnectionChecker(optionalArgumentConnection: any): Promise<void> {
         const dbUrl: string = `${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
         const url: string = `mongodb://${dbUrl}${optionalArgumentConnection}`;
         try {
@@ -143,7 +143,7 @@ export default class DbConnexionConfig {
      *
      * Postgres database connection with optional connection arguments
      */
-    public async databasePostgresDBConnectionConfig(keepAlive?: boolean | undefined,
+    public async databasePostgresDBConnectionChecker(keepAlive?: boolean | undefined,
                                                     stream?: () => stream.Duplex | undefined,
                                                     statement_timeout?: false | number | undefined,
                                                     ssl?: boolean | ConnectionOptions | undefined,

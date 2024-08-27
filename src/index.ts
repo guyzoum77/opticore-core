@@ -56,10 +56,10 @@ import {LogMessageUtils} from "./core/utils/logMessage.utils";
 import {ResponseHttp} from "./application/http/response.http";
 import {getAccessEnv} from "./domain/env/access.env";
 import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
-import {database} from "opticore-database";
+import {database as createDatabase} from "opticore-database";
 import {serverParams} from "./core/utils/serverParams.utils";
 import {setupServerConfig as server} from "./core/config/setupServer.config";
-import {loadKernel as Kernel} from "./core/core.js";
+import {loadKernel as KernelModules} from "./core/core.js";
 
 
 
@@ -72,7 +72,7 @@ export {
     corsOrigin,
     cookieParser,
     mySQL,
-    database,
+    createDatabase,
     serverParams,
     server,
     Client,
@@ -82,7 +82,7 @@ export {
     bcrypt,
     fs,
     Db,
-    Kernel,
+    KernelModules,
     MongoClient,
     dotenv,
     LoggerFormat,
