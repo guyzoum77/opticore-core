@@ -28,23 +28,25 @@ export class ServerListenUtils {
      */
     public onStartEvent(app: express.Application, host: string, port: number): Server {
         return app.listen(port, host, (): void => {
-            host === "" && port === 0
-                ? LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHostUrl, status.BAD_REQUEST)
-                : host === ""
-                    ? LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHost, status.BAD_REQUEST)
-                    : port === 0
-                        ? LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badPort, msg.badPort, msg.errorPort, status.BAD_REQUEST)
-                        : this.utility.infoServer(
-                            this.utility.getVersions().nodeVersion,
-                            this.utility.getProjectInfo().startingTime,
-                            host,
-                            port,
-                            this.utility.getUsageMemory().rss,
-                            this.utility.getUsageMemory().heapUsed,
-                            this.utility.getUsageMemory().user,
-                            this.utility.getUsageMemory().system
-                        );
-            console.log('');
+            if (host === "" && port === 0) {
+                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHostUrl, status.BAD_REQUEST)
+            } else if (host === "") {
+                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHost, status.BAD_REQUEST)
+            } else if (port === 0) {
+                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badPort, msg.badPort, msg.errorPort, status.BAD_REQUEST)
+            } else {
+                this.utility.infoServer(
+                    this.utility.getVersions().nodeVersion,
+                    this.utility.getProjectInfo().startingTime,
+                    host,
+                    port,
+                    this.utility.getUsageMemory().rss,
+                    this.utility.getUsageMemory().heapUsed,
+                    this.utility.getUsageMemory().user,
+                    this.utility.getUsageMemory().system
+                );
+                console.log('');
+            }
         }).on("error", (err: Error) => {
             LogMessageUtils.error(
                 "Server start error",
