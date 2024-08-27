@@ -29,11 +29,14 @@ export class ServerListenUtils {
     public onStartEvent(app: express.Application, host: string, port: number): Server {
         return app.listen(port, host, (): void => {
             if (host === "" && port === 0) {
-                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHostUrl, status.BAD_REQUEST)
+                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHostUrl, status.BAD_REQUEST);
+                process.exit();
             } else if (host === "") {
-                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHost, status.BAD_REQUEST)
+                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHost, status.BAD_REQUEST);
+                process.exit();
             } else if (port === 0) {
-                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badPort, msg.badPort, msg.errorPort, status.BAD_REQUEST)
+                LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badPort, msg.badPort, msg.errorPort, status.BAD_REQUEST);
+                process.exit();
             } else {
                 this.utility.infoServer(
                     this.utility.getVersions().nodeVersion,
