@@ -11,12 +11,9 @@ export const serverParams: ServerConfigInterface = {
         express.application,
         getAccessEnv.appHost,
         Number(getAccessEnv.appPort),
-        require.main?.children,
-        dateTimeFormattedUtils
     ),
     app: express.application,
     host: getAccessEnv.appHost,
     port: Number(getAccessEnv.appPort),
-    mainChildren: require.main?.children,
     dateTimeUtils: dateTimeFormattedUtils
 };
