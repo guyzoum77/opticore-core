@@ -58,7 +58,7 @@ import {database as createDatabase} from "opticore-database";
 import {serverParams} from "./core/utils/serverParams.utils";
 import {setupServerConfig as server} from "./core/config/setupServer.config";
 import {loadKernel as KernelModules} from "./core/core.js";
-import {MessagesException} from "./application/exceptions/messages.exception";
+import {MessagesException as Exception} from "./application/exceptions/messages.exception";
 
 
 
@@ -112,7 +112,7 @@ export {
     requestsStoredUtils,
     serverListen,
     LogMessageUtils,
-    MessagesException,
+    Exception,
     jsonBodyParserType,
     rawBodyParserType,
     textBodyParserType,
