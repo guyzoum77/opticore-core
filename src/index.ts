@@ -53,8 +53,7 @@ import {LogMessageUtils} from "./core/utils/logMessage.utils";
 import {ResponseHttp} from "./application/http/response.http";
 import {getAccessEnv} from "./domain/env/access.env";
 import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
-import {serverParams} from "./core/utils/serverParams.utils";
-import {setupServerConfig as server} from "./core/config/setupServer.config";
+import {setupServerConfig as serverWeb} from "./core/config/setupServer.config";
 import {loadKernel as KernelModules} from "./core/core.js";
 import {MessagesException as Exception} from "./application/exceptions/messages.exception";
 import {mySqlCheckerDatabase} from "./core/database/mySqlChecker.database";
@@ -72,8 +71,7 @@ export {
     corsOrigin,
     cookieParser,
     mySQL,
-    serverParams,
-    server,
+    serverWeb,
     Client,
     createLogger,
     format,

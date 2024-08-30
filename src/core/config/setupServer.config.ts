@@ -1,11 +1,15 @@
 import {ServerListenUtils} from "../utils/serverListen.Utils";
-import {ServerConfigInterface} from "../interfaces/serverConfig.interface";
+import express from "express";
+import {getAccessEnv} from "../../domain/env/access.env";
+import {dateTimeFormattedUtils} from "../utils/dateTimeFormatted.utils";
 
 
-export function setupServerConfig(webServer: ServerListenUtils, config: ServerConfigInterface) {
-    const { server, app, host, port, dateTimeUtils } = config;
+export function setupServerConfig() {
+    const app: express.Application = express();
+    const appModules: NodeJS.Module[] | undefined = require.main?.children;
+    const webServer: ServerListenUtils = new ServerListenUtils();
 
-    webServer.onStartEvent(app, host, port);
-    webServer.onListeningEvent(server, app, host, port, dateTimeUtils);
-    webServer.onRequestEvent(server, app, host, port, dateTimeUtils);
+    const server = webServer.onStartEvent(app, getAccessEnv.appHost, Number(getAccessEnv.appPort));
+    this.webServer.onListeningEvent(server, app, getAccessEnv.appHost, Number(this.port), dateTimeFormattedUtils);
+    this.webServer.onRequestEvent(server, app, getAccessEnv.appHost, Number(this.port), dateTimeFormattedUtils);
 }
