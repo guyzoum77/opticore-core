@@ -54,7 +54,7 @@ import {ResponseHttp} from "./application/http/response.http";
 import {getAccessEnv} from "./domain/env/access.env";
 import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
 import {setupServerConfig as serverWeb} from "./core/config/setupServer.config";
-import {loadKernel as KernelModules} from "./core/core.js";
+import {loadKernel as KernelModules} from "./core/core";
 import {MessagesException as Exception} from "./application/exceptions/messages.exception";
 import {mySqlCheckerDatabase} from "./core/database/mySqlChecker.database";
 import {mongoCheckerDatabase} from "./core/database/mongoChecker.database";
