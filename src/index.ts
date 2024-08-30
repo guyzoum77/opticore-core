@@ -28,7 +28,6 @@ import {Client, Pool, PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfi
 import CheckerMySqlDatabaseConnectionService from "./application/services/checkerMySqlDatabaseConnection.service";
 import {BaseRouterConfig} from "./core/config/baseRouter.config";
 import CorsOptionsConfig from "./core/config/corsOptions.config";
-import DbConnexionConfig from "./core/config/dbConnexion.config";
 import {ServerEnvConfig} from "./core/config/serverEnv.config";
 import StackTraceError from "./core/handlers/errors/base/stackTraceError";
 import LoggerFormat from "./core/utils/logs/logger.utils";
@@ -54,11 +53,13 @@ import {LogMessageUtils} from "./core/utils/logMessage.utils";
 import {ResponseHttp} from "./application/http/response.http";
 import {getAccessEnv} from "./domain/env/access.env";
 import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
-import {database as createDatabase} from "opticore-database";
 import {serverParams} from "./core/utils/serverParams.utils";
 import {setupServerConfig as server} from "./core/config/setupServer.config";
 import {loadKernel as KernelModules} from "./core/core.js";
 import {MessagesException as Exception} from "./application/exceptions/messages.exception";
+import {mySqlCheckerDatabase} from "./core/database/mySqlChecker.database";
+import {mongoCheckerDatabase} from "./core/database/mongoChecker.database";
+import {postgresCheckerDatabase} from "./core/database/postgresChecker.database";
 
 
 
@@ -71,7 +72,6 @@ export {
     corsOrigin,
     cookieParser,
     mySQL,
-    createDatabase,
     serverParams,
     server,
     Client,
@@ -86,6 +86,9 @@ export {
     dotenv,
     LoggerFormat,
     ServerEnvConfig,
+    mySqlCheckerDatabase,
+    mongoCheckerDatabase,
+    postgresCheckerDatabase,
     dateTimeFormattedUtils,
     Validator,
     crypto,
@@ -120,7 +123,6 @@ export {
     CheckerMySqlDatabaseConnectionService,
     BaseRouterConfig,
     CorsOptionsConfig,
-    DbConnexionConfig,
     StackTraceError,
     LogLevelEnum,
     RoleEnum,

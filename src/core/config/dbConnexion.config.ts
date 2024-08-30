@@ -20,7 +20,7 @@ import {ConnectionOptions} from "tls";
  * certain methods make it possible to retrieve the variables values defined in
  * the .env environment file to establish the connection with the database service.
  */
-export default class DbConnexionConfig {
+export class DbConnexionConfig {
     private dbPort: string   = getAccessEnv.dataBasePort;
     private user: string     = getAccessEnv.dataBaseUser;
     private password: string = getAccessEnv.dataBasePassword;

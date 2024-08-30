@@ -4,14 +4,11 @@ import express from "express";
 import {getAccessEnv} from "../../domain/env/access.env";
 import {dateTimeFormattedUtils} from "./dateTimeFormatted.utils";
 import {ServerListenUtils} from "./serverListen.Utils";
+import {Server} from "node:net";
 
-const webServer: ServerListenUtils = new ServerListenUtils();
+//const webServer: ServerListenUtils = new ServerListenUtils();
 export const serverParams: ServerConfigInterface = {
-    server: webServer.onStartEvent(
-        express.application,
-        getAccessEnv.appHost,
-        Number(getAccessEnv.appPort),
-    ),
+    server: Server,
     app: express.application,
     host: getAccessEnv.appHost,
     port: Number(getAccessEnv.appPort),

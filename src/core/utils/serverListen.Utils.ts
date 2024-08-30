@@ -410,7 +410,7 @@ export class ServerListenUtils {
             );
         });
 
-        process.on(event.message, (message: any, sendHandle: any) => {
+        process.on(event.message, (message: any) => {
             LogMessageUtils.error(
                 "Message",
                 "message exception",
