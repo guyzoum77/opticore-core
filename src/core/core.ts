@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import express from "express";
 import {LogMessageUtils} from "./utils/logMessage.utils.js";
 import {HttpStatusCodesConstant as status} from "../domain/constants/httpStatusCodes.constant";
 import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
@@ -7,7 +6,7 @@ import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
 
 export async function loadKernel(kernel: any) {
     try {
-        const routesApp: Awaited<any>[] = await Promise.all(kernel.map(loader => loader()));
+        const routesApp: Awaited<any>[] = await Promise.all(kernel.map((loader: any) => loader()));
 
         // @ts-ignore
         const routers = routesApp[0].registerRoutes;
