@@ -366,8 +366,7 @@ export class ServerListenUtils {
             );
         });
         process.on(event.uncaughtException, (error: any) => {
-            console.log("error from uncaughtException is :", error.message);
-            if (error.message === "Error: 'app.router' is deprecated") {
+            if (error.message === "'app.router' is deprecated") {
                 console.log("");
             } else {
                 LogMessageUtils.error(
@@ -383,7 +382,7 @@ export class ServerListenUtils {
         });
         process.on(event.uncaughtExceptionMonitor, (error: any) => {
             console.log("error from uncaughtExceptionMonitor is :", error.message);
-            if (error.message === "Error: 'app.router' is deprecated") {
+            if (error.message === "'app.router' is deprecated") {
                 console.log("");
             } else {
                 LogMessageUtils.error(
