@@ -14,7 +14,6 @@ export async function loadKernel(kernel: any[]) {
         const db = routesApp[2].dbConnection;
         db();
 
-        LogMessageUtils.success("Kernel", "load kernel", "Modules app have been successfully loaded");
         const kernelExportModule = await require.main?.children[1].exports.Kernel();
         loadedModules(await kernelExportModule[0](), await kernelExportModule[1](), await kernelExportModule[2]());
 
