@@ -366,7 +366,7 @@ export class ServerListenUtils {
             );
         });
         process.on(event.uncaughtException, (error: any) => {
-            if (error.name === "'app.router' is deprecated!") {
+            if (error.name === '\'app.router\' is deprecated!\nPlease see the 3.x to 4.x migration guide for details on how to update your app.') {
                 console.log("");
             } else {
                 LogMessageUtils.error(
@@ -381,9 +381,7 @@ export class ServerListenUtils {
             }
         });
         process.on(event.uncaughtExceptionMonitor, (error: any) => {
-            console.log("error.name is :", error.name)
-            console.log("error.message is :", error.message)
-            if (error.name === "'app.router' is deprecated!") {
+            if (error.name === '\'app.router\' is deprecated!\nPlease see the 3.x to 4.x migration guide for details on how to update your app.') {
                 console.log("");
             } else {
                 LogMessageUtils.error(
