@@ -85,7 +85,7 @@ export class ExpressRoutesUtils {
                 if (stack.route) {
                     const routeLogged: RouteLoggedInterface = {};
                     for (const route of stack.route.stack) {
-                        const method: string | null = route.method ? route.method.toUpperCase() : null;
+                        const method = route.method ? route.method.toUpperCase() : null;
                         if (!routeLogged[method] && method) {
                             const stackPath: string = path.normalize(
                                 [
