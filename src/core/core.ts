@@ -7,7 +7,6 @@ import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
 export async function loadKernel(kernel: any[]) {
     try {
         const routesApp: (Awaited<any>)[] = await Promise.all(kernel.map((loader: any) => loader())); //@ts-ignore
-
         const serverSide = routesApp[1].app;
         serverSide(); //@ts-ignore
         const routers = routesApp[0].registerRoutes;
@@ -16,7 +15,7 @@ export async function loadKernel(kernel: any[]) {
         db();
 
         LogMessageUtils.success("Kernel", "load kernel", "Modules app have been successfully loaded");
-        const kernelExportModule = await require.main?.children[1].exports.Kernel;
+        const kernelExportModule = await require.main?.children[1].exports.Kernel();
         loadedModules(await kernelExportModule[0](), await kernelExportModule[1](), await kernelExportModule[2]());
 
     } catch (error: any) {
