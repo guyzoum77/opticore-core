@@ -381,6 +381,8 @@ export class ServerListenUtils {
             }
         });
         process.on(event.uncaughtExceptionMonitor, (error: any) => {
+            console.log("error.name is :", error.name)
+            console.log("error.message is :", error.message)
             if (error.name === "'app.router' is deprecated!") {
                 console.log("");
             } else {
