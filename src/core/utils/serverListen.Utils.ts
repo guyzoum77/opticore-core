@@ -224,7 +224,11 @@ export class ServerListenUtils {
         process.on(event.exit, (code: number) => {
             switch (code) {
                 case 0:
-                    LogMessageUtils.success("Exited", "completed", "The process finished as expected and everything worked correctly");
+                    LogMessageUtils.success(
+                        "Exited",
+                        "completed",
+                        "The process finished as expected and everything worked correctly"
+                    );
                     break;
                 case 1:
                     LogMessageUtils.error(
@@ -361,31 +365,36 @@ export class ServerListenUtils {
                 status.SERVICE_UNAVAILABLE
             );
         });
-
         process.on(event.uncaughtException, (error: any) => {
-            LogMessageUtils.error(
-                "UncaughtException",
-                "uncaught exception handled",
-                "exception",
-                error.stack,
-                error.name,
-                error.message,
-                status.SERVICE_UNAVAILABLE
-            );
+            if (error.message === "Error: 'app.router' is deprecated") {
+                console.log("");
+            } else {
+                LogMessageUtils.error(
+                    "UncaughtException",
+                    "uncaught exception handled",
+                    "exception",
+                    error.stack,
+                    error.name,
+                    error.message,
+                    status.SERVICE_UNAVAILABLE
+                );
+            }
         });
-
         process.on(event.uncaughtExceptionMonitor, (error: any) => {
-            LogMessageUtils.error(
-                "UncaughtExceptionMonitor",
-                "uncaught exception handled",
-                "exception",
-                error.stack,
-                error.name,
-                error.message,
-                status.SERVICE_UNAVAILABLE
-            );
+            if (error.message === "Error: 'app.router' is deprecated") {
+                console.log("");
+            } else {
+                LogMessageUtils.error(
+                    "UncaughtExceptionMonitor",
+                    "uncaught exception handled",
+                    "exception",
+                    error.stack,
+                    error.name,
+                    error.message,
+                    status.SERVICE_UNAVAILABLE
+                );
+            }
         });
-
         process.on(event.unhandledRejection, (reason: any, promise: Promise<any>) => {
             LogMessageUtils.error(
                 "UnhandledRejection",
@@ -397,7 +406,6 @@ export class ServerListenUtils {
                 status.SERVICE_UNAVAILABLE
             );
         });
-
         process.on(event.warning, (warning: any) => {
             LogMessageUtils.error(
                 "Warning",
@@ -409,7 +417,6 @@ export class ServerListenUtils {
                 status.SERVICE_UNAVAILABLE
             );
         });
-
         process.on(event.message, (message: any) => {
             LogMessageUtils.error(
                 "Message",
@@ -421,7 +428,6 @@ export class ServerListenUtils {
                 status.SERVICE_UNAVAILABLE
             );
         });
-
         process.on(event.multipleResolves, (type: string, promise: Promise<any>, reason: any) => {
             LogMessageUtils.error(
                 "multipleResolves",
@@ -447,7 +453,6 @@ export class ServerListenUtils {
             );
             process.exit(0);
         });
-
         process.on(event.sigterm, (signal) => {
             LogMessageUtils.error(
                 "SIGTERM",
