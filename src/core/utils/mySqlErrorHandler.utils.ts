@@ -1,9 +1,7 @@
 import {colors, Exception, ExceptionHandlerError, HttpStatusCodesConstant, LoggerComponent, mySQL} from "../../index";
 import chalk from "chalk";
 
-export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | null,
-                                       database?: string | null, user?: string | null,
-                                       password?: string | null): void {
+export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | null, database?: string | null, user?: string | null, password?: string | null): void {
     const dateTime: string = `${(new Date().getMonth())}-${(new Date().getDate())}-${(new Date().getFullYear())} ${(new Date().getHours())}:${(new Date().getMinutes())}:${(new Date().getSeconds())}`;
     switch (err.code) {
         case "EAI_AGAIN":

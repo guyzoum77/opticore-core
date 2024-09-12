@@ -1,6 +1,6 @@
 import { injectable } from "inversify";
 import winston, { format } from "winston";
-import { LogLevelEnum } from "../../../domain/enums/logLevel.enum";
+import { LogLevelConstant } from "../../../domain/constants/logLevel.constant";
 import {colors, DailyRotateFile, fs} from "../../..";
 
 
@@ -22,17 +22,17 @@ export default class LoggerUtils {
     }
 
     public logInfo(msg: LogMessage, context?: LogContext): void {
-        this._log(msg, LogLevelEnum.INFO, context);
+        this._log(msg, LogLevelConstant.INFO, context);
     }
     public logWarn(msg: LogMessage, context?: LogContext): void {
-        this._log(msg, LogLevelEnum.WARN, context);
+        this._log(msg, LogLevelConstant.WARN, context);
     }
     public logError(msg: LogMessage, context?: LogContext): void {
-        this._log(msg, LogLevelEnum.ERROR, context);
+        this._log(msg, LogLevelConstant.ERROR, context);
     }
     public logDebug(msg: LogMessage, context?: LogContext): void {
         if (process.env.NODE_ENV !== "production") {
-            this._log(msg, LogLevelEnum.DEBUG, context); // Don"t log debug in production
+            this._log(msg, LogLevelConstant.DEBUG, context); // Don"t log debug in production
         }
     }
 
@@ -53,7 +53,7 @@ export default class LoggerUtils {
         }
     }
 
-    private _log(msg: LogMessage, level: LogLevelEnum, context?: LogContext): void {
+    private _log(msg: LogMessage, level: LogLevelConstant, context?: LogContext): void {
         this._logger.log(level, msg, {context});
     }
 

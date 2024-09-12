@@ -12,6 +12,7 @@ import {
 import CheckerMongoDatabaseConnectionService from "../../application/services/checkerMongoDatabaseConnection.service";
 import CheckerPostgresDatabaseConnectionService from "../../application/services/checkerPostgresDatabaseConnection.service";
 import {ConnectionOptions} from "tls";
+import {DbConnexionConfigError} from "../../errors/dbConnexion.config.error";
 
 
 
@@ -57,71 +58,15 @@ export class DbConnexionConfig {
             LoggerComponent.logInfoMessage("Connection successfully.", "Mongo connection");
         } catch (e: any) {
             if (e.code === 18) {
-                LogMessageUtils.error(
-                    "MongoDB connection",
-                    "authentication failed",
-                    "failed",
-                    e.code,
-                    "bad credentials",
-                    "Authentication failed, be sure the credentials is correct!",
-                    status.UNAUTHORIZED
-                );
-                throw new ExceptionHandlerError(
-                    "Authentication failed, be sure the credentials is correct!",
-                    "MongoConnectionError",
-                    status.UNAUTHORIZED,
-                    true
-                );
+                DbConnexionConfigError.mongoDBAuthenticationFailed(e);
             }
             if (e.cause.code === 'ERR_INVALID_URL') {
-                LogMessageUtils.error(
-                    "MongoDB connection",
-                    "unable to parse",
-                    "url",
-                    e.code,
-                    "parse url",
-                    `Unable to parse ${this.dbHost}:${this.dbPort} with URL`,
-                    status.BAD_REQUEST
-                );
-                throw new ExceptionHandlerError(
-                    `Unable to parse ${this.dbHost}:${this.dbPort} with URL`,
-                    "MongoConnectionError",
-                    status.BAD_REQUEST,
-                    true
-                );
+                DbConnexionConfigError.mongoDBInvalidUrl(e, this.dbHost, this.dbPort);
             }
             if (e.code === undefined) {
-                LogMessageUtils.error(
-                    "MongoDB connection",
-                    "MongoServer selection error",
-                    "MongoServer",
-                    e.code,
-                    "undefined",
-                    `MongoServerSelectionError: getaddrinfo EAI_AGAIN (${this.dbHost} is not allow to database connection)`,
-                    status.BAD_REQUEST
-                );
-                throw new ExceptionHandlerError(
-                    `MongoServerSelectionError: getaddrinfo EAI_AGAIN (${this.dbHost} is not allow to database connection)`,
-                    "MongoConnectionError",
-                    status.BAD_REQUEST,
-                    true
-                );
+                DbConnexionConfigError.mongoDBEaiAgain(e, this.dbHost);
             } else {
-                LogMessageUtils.error(
-                    "MongoDB connection",
-                    "MongoConnection error",
-                    "",
-                    e.code,
-                    "",
-                    e.message,
-                    status.NOT_ACCEPTABLE
-                );
-                throw new ExceptionHandlerError(
-                    `${e.message}`,
-                    "MongoConnectionError",
-                    status.NOT_ACCEPTABLE,
-                    true
-                );
+                DbConnexionConfigError.mongoDbGlobalError(e);
             }
         }
     }
