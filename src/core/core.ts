@@ -7,23 +7,14 @@ import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
 export async function loadKernel(kernel: any[]) {
     try {
         const routesApp: (Awaited<any>)[] = await Promise.all(kernel.map((loader: any) => loader()));
-        for (const item of routesApp) {
-            const serverSide = item.app;
-            serverSide();
+        const serverSide = routesApp[1].app;
+        serverSide();
 
-            const routers = item.registerRoutes;
-            routers().map((router: any) => { return router; });
+        const routers = routesApp[0].registerRoutes;
+        routers().map((router: any) => { return router; });
 
-            const db = item.dbConnection;
-            db();
-        }
-
-        //const serverSide = routesApp[1].app;
-        // serverSide();
-        // const routers = routesApp[0].registerRoutes;
-        // routers().map((router: any) => { return router; });
-        // const db = routesApp[2].dbConnection;
-        // db();
+        const db = routesApp[2].dbConnection;
+        db();
 
         const kernelExportModule = await require.main?.children[1].exports.Kernel();
         loadedModules(await kernelExportModule[0](), await kernelExportModule[1](), await kernelExportModule[2]());
