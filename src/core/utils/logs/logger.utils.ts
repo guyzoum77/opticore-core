@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import winston, { format } from "winston";
 import { LogLevelConstant } from "../../../domain/constants/logLevel.constant";
 import {colors, DailyRotateFile, fs} from "../../..";
+import {LogLevelType} from "../../types/logLevel.type";
 
 
 export type LogMessage = string;
@@ -53,7 +54,7 @@ export default class LoggerUtils {
         }
     }
 
-    private _log(msg: LogMessage, level: LogLevelConstant, context?: LogContext): void {
+    private _log(msg: LogMessage, level: LogLevelType["DEBUG" | "INFO" | "WARN" | "ERROR"], context?: LogContext): void {
         this._logger.log(level, msg, {context});
     }
 
