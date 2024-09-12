@@ -58,6 +58,7 @@ import {MessagesException as Exception} from "./application/exceptions/messages.
 import {mySqlCheckerDatabase} from "./core/database/mySqlChecker.database";
 import {mongoCheckerDatabase} from "./core/database/mongoChecker.database";
 import {postgresCheckerDatabase} from "./core/database/postgresChecker.database";
+import {optionalArgumentConnectionUtil as optionalArgumentConnection} from "./core/utils/connection/optionalArgumentConnection.util";
 
 
 
@@ -86,6 +87,7 @@ export {
     mySqlCheckerDatabase,
     mongoCheckerDatabase,
     postgresCheckerDatabase,
+    optionalArgumentConnection,
     dateTimeFormattedUtils,
     Validator,
     crypto,
