@@ -32,7 +32,6 @@ import {ServerEnvConfig} from "./core/config/serverEnv.config";
 import StackTraceError from "./core/handlers/errors/base/stackTraceError";
 import LoggerFormat from "./core/utils/logs/logger.utils";
 import {LogLevelConstant} from "./domain/constants/logLevel.constant";
-import {RoleEnum} from "./domain/enums/role.enum";
 import ExceptionHandlerError from "./core/handlers/errors/base/stackTraceError";
 import {HttpStatusCodesConstant} from "./domain/constants/httpStatusCodes.constant";
 import {LoggerComponent} from "./presentation/components/logger.component";
