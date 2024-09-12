@@ -122,7 +122,6 @@ export {
     CorsOptionsConfig,
     StackTraceError,
     LogLevelConstant,
-    RoleEnum,
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
     ResponseHttp
