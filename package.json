@@ -1,6 +1,6 @@
 {
   "name": "opticore-core-module",
-  "version": "1.0.86",
+  "version": "1.0.87",
   "description": "all modules  core",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
