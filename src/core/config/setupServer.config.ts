@@ -9,6 +9,6 @@ export function setupServerConfig() {
     const webServer: ServerListenEvent = new ServerListenEvent();
 
     const server = webServer.onStartEvent(app, getAccessEnv.appHost, Number(getAccessEnv.appPort));
-    webServer.onListeningEvent(server, app, getAccessEnv.appHost, Number(getAccessEnv.appPort), dateTimeFormattedUtils);
+    webServer.onListeningEvent(server);
     webServer.onRequestEvent(server, app, getAccessEnv.appHost, Number(getAccessEnv.appPort), dateTimeFormattedUtils);
 }

@@ -1,12 +1,10 @@
-import {express, HttpStatusCodesConstant as status, LogMessageUtils, requestsStoredUtils, UtilityUtils} from "../../index";
+import {express, requestsStoredUtils, UtilityUtils} from "../../index";
 import {Server} from "node:net";
 import colors from "ansi-colors";
 import {IncomingMessage, ServerResponse} from "node:http";
 import EventEmitter from "node:events";
-import chalk from "chalk";
 import {EventConstant as event} from "../utils/constants/event.constant";
 import {eventNameErrorConstant as eventName} from "../utils/constants/eventNameError.constant";
-import {MessagesException as msg} from "../../application/exceptions/messages.exception";
 import {ServerListenEventError} from "../../errors/serverListen.event.error";
 
 
@@ -46,7 +44,6 @@ export class ServerListenEvent {
                     this.utility.getUsageMemory().user,
                     this.utility.getUsageMemory().system
                 );
-                console.log('');
             }
         }).on("error", (err: Error) => {
             ServerListenEventError.onEventError(err);
@@ -57,20 +54,11 @@ export class ServerListenEvent {
     /**
      *
      * @param webServer
-     * @param app
-     * @param host
-     * @param port
-     * @param loadingTime
      *
      * Return
      */
-    public onListeningEvent(webServer: Server, app: express.Application, host: string, port: number, loadingTime: any) {
-        webServer.on(
-            "listening",
-            () => {
-                requestsStoredUtils(app, loadingTime, host, port);
-            }
-        );
+    public onListeningEvent(webServer: Server) {
+        webServer.on("listening", () => {});
     }
 
     /**
