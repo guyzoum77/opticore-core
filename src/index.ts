@@ -59,7 +59,7 @@ import {mySqlCheckerDatabase} from "./core/database/mySqlChecker.database";
 import {mongoCheckerDatabase} from "./core/database/mongoChecker.database";
 import {postgresCheckerDatabase} from "./core/database/postgresChecker.database";
 import {optionalArgumentConnectionUtil as optionalArgumentConnection} from "./core/utils/connection/optionalArgumentConnection.util";
-import {expressRouterUtils as router} from "./core/utils/expressRouter.utils";
+import {expressRouterUtils as routerApp} from "./core/utils/expressRouter.utils";
 
 
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
@@ -79,7 +79,7 @@ export {
     fs,
     Db,
     KernelModules,
-    router,
+    routerApp,
     MongoClient,
     dotenv,
     LoggerFormat,
