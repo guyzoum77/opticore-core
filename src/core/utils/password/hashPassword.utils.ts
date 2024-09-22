@@ -1,5 +1,6 @@
 import crypto from "crypto";
-import {LoggerComponent} from "../../../presentation/components/logger.component";
+import {LogMessageUtils} from "../logMessage.utils";
+import {Exception as msg, HttpStatusCodesConstant as status} from "../../../index";
 
 
 /**
@@ -13,7 +14,15 @@ export class HashPasswordUtils {
             salt = crypto.randomBytes(32).toString('hex');
             genHash = crypto.pbkdf2Sync(password, salt, 10000, 64, 'sha512').toString('hex');
         } catch (err: any) {
-            LoggerComponent.logErrorMessage(err.message, "Hash Password")
+            LogMessageUtils.error(
+                "Hash Password",
+                "",
+                "",
+                "",
+                "",
+                "",
+                status.NOT_ACCEPTABLE
+            );
         }
 
         return {
