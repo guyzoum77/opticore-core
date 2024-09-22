@@ -1,6 +1,5 @@
 import {express, UtilityUtils, eventProcessHandler} from "../../index";
 import {Server} from "node:net";
-import colors from "ansi-colors";
 import {IncomingMessage, ServerResponse} from "node:http";
 import {ServerListenEventError} from "../../errors/serverListen.event.error";
 import {requestCallsEvent} from "./requestCalls.event";

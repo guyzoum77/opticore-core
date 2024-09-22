@@ -65,6 +65,7 @@ import {EventConstant as event} from "./core/utils/constants/event.constant";
 import {eventProcessHandler} from "./core/handlers/eventProcess.handler";
 import {ServerListenEventError as eventErrorOnListeningServer} from "./errors/serverListen.event.error";
 import {requestCallsEvent} from "./core/events/requestCalls.event";
+import {modulesLoadedUtils} from "./core/utils/modulesLoaded.utils";
 
 
 
@@ -137,6 +138,7 @@ export {
     ResponseHttp,
     eventProcessHandler,
     eventErrorOnListeningServer,
-    requestCallsEvent
+    requestCallsEvent,
+    modulesLoadedUtils
 };
 
