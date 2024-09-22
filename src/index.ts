@@ -29,11 +29,9 @@ import CheckerMySqlDatabaseConnectionService from "./application/services/checke
 import {BaseRouterConfig} from "./core/config/baseRouter.config";
 import {EnvConfig} from "./core/config/env.config";
 import StackTraceError from "./core/handlers/errors/base/stackTraceError";
-import LoggerFormat from "./core/utils/logs/logger.utils";
 import {LogLevelConstant} from "./domain/constants/logLevel.constant";
 import ExceptionHandlerError from "./core/handlers/errors/base/stackTraceError";
 import {HttpStatusCodesConstant} from "./domain/constants/httpStatusCodes.constant";
-import {LoggerComponent} from "./presentation/components/logger.component";
 import {RSAKeyDecryption} from "./core/utils/cryptography/decryption/rsaKey.decryption";
 import {RSAKeyEncryption} from "./core/utils/cryptography/encryption/rsaKey.encryption";
 import {ValidatePasswordUtils} from "./core/utils/password/validatePassword.utils";
@@ -63,6 +61,7 @@ import {eventProcessHandler} from "./core/handlers/eventProcess.handler";
 import {ServerListenEventError as eventErrorOnListeningServer} from "./errors/serverListen.event.error";
 import {requestCallsEvent} from "./core/events/requestCalls.event";
 import {modulesLoadedUtils} from "./core/utils/modulesLoaded.utils";
+import {LoggerCore as Logger} from "opticore-logger";
 
 
 
@@ -101,8 +100,7 @@ export {
     DateDiff,
     Pool,
     createLogger,
-    LoggerFormat,
-    LoggerComponent,
+    Logger,
     EnvConfig,
     BaseRouterConfig,
     Db,

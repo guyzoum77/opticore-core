@@ -48,6 +48,7 @@
     "mongodb": "^6.6.1",
     "mysql": "^2.18.1",
     "opticore-database": "^1.0.3",
+    "opticore-logger": "^1.0.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
@@ -57,9 +58,7 @@
     "prisma": "^5.13.0",
     "rand-token": "^1.0.1",
     "reflect-metadata": "^0.2.2",
-    "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "tsup": "^8.0.2",
     "typescript": "^5.4.5",
     "validatorjs": "^3.22.1",
     "winston": "^3.13.0",
@@ -74,7 +73,6 @@
     "@types/express": "^4.17.21",
     "@types/gradient-string": "^1.1.6",
     "@types/hpp": "^0.2.6",
-    "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/mysql": "^2.15.26",
     "@types/node": "^20.12.11",
@@ -85,6 +83,7 @@
     "kill": "^0.0.2",
     "nodemon": "^3.1.0",
     "reflect-metadata": "^0.2.2",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "tsup": "^8.3.0"
   }
 }
