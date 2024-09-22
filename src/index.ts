@@ -64,6 +64,7 @@ import {eventNameErrorConstant as eventName} from "./core/utils/constants/eventN
 import {EventConstant as event} from "./core/utils/constants/event.constant";
 import {eventProcessHandler} from "./core/handlers/eventProcess.handler";
 import {ServerListenEventError as eventErrorOnListeningServer} from "./errors/serverListen.event.error";
+import {requestCallsEvent} from "./core/events/requestCalls.event";
 
 
 
@@ -135,6 +136,7 @@ export {
     AsymmetricCryptionDataWithPublicRSAKeyService,
     ResponseHttp,
     eventProcessHandler,
-    eventErrorOnListeningServer
+    eventErrorOnListeningServer,
+    requestCallsEvent
 };
 

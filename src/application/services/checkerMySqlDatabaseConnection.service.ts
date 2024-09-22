@@ -1,4 +1,4 @@
-import {Exception, HttpStatusCodesConstant, LoggerComponent, mySQL } from "../..";
+import {Exception as msg, HttpStatusCodesConstant, LoggerComponent, LogMessageUtils, mySQL} from "../..";
 import {mySqlErrorHandlerUtils} from "../../core/utils/mySqlErrorHandler.utils";
 
 
@@ -20,20 +20,12 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQ
         if (err) {
             return mySqlErrorHandlerUtils(err, dbHost, null, null, password);
         } else {
-            const data: Object = {
-                successMessage: Exception.dbConnexionSuccess,
-                status: HttpStatusCodesConstant.OK
-            };
-            LoggerComponent.logInfoMessage(JSON.stringify(data), Exception.mysqlErrorCon);
-            dbConnection.end((endConErr: mySQL.MysqlError | undefined): void => {
+            LogMessageUtils.success("Database connection", "success connection", msg.dbConnexionSuccess)
+            return dbConnection.end((endConErr: mySQL.MysqlError | undefined): void => {
                 if (endConErr) {
                     return mySqlErrorHandlerUtils(err, null, database, user, password);
                 } else {
-                    const closingData: Object = {
-                        successMessage: Exception.dbConnexionClosed,
-                        status: HttpStatusCodesConstant.SERVICE_UNAVAILABLE
-                    }
-                    LoggerComponent.logWarnMessage(JSON.stringify(closingData), Exception.mySqlCloseConnection);
+                    LogMessageUtils.success("Database connection", "End connection", msg.dbConnexionClosed);
                 }
             });
         }
