@@ -2,7 +2,9 @@ import {LogMessageUtils} from "../core/utils/logMessage.utils";
 import {MessagesException as msg} from "../application/exceptions/messages.exception";
 import {HttpStatusCodesConstant as status} from "../domain/constants/httpStatusCodes.constant";
 import {eventNameErrorConstant as eventName} from "../core/utils/constants/eventNameError.constant";
-import {express} from "../index";
+import {dateTimeFormattedUtils, express} from "../index";
+import process from "process";
+import colors from "ansi-colors";
 
 export class ServerListenEventError {
     static hostPortUndefined(){
@@ -303,6 +305,14 @@ export class ServerListenEventError {
             status.NOT_ACCEPTABLE
         );
         process.exit(0);
+    }
+    static serverClosing() {
+        console.log(`${colors.bgCyanBright(` ${colors.bold(`${colors.white(` INFO `)}`)}`)} All processes are stopped`);
+        console.log("       Server is closed");
+        process.exit();
+    }
+    static dropNewConnection() {
+        console.log(`${colors.cyan(`ⓘ`)} ${colors.bgCyan(` ${colors.bold(`${colors.white(` Server maxConnection `)}`)} `)}  ${dateTimeFormattedUtils} | ${colors.bgCyan(`${colors.white(` Info `)}`)} The server dropped new connections`);
     }
     static expressErrorHandlingMiddleware(errorEmitter, err: Error, req: express.Request, res: express.Response, next: express.NextFunction){
         if (err) {

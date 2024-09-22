@@ -60,6 +60,11 @@ import {mongoCheckerDatabase} from "./core/database/mongoChecker.database";
 import {postgresCheckerDatabase} from "./core/database/postgresChecker.database";
 import {optionalArgumentConnectionUtil as optionalArgumentConnection} from "./core/utils/connection/optionalArgumentConnection.util";
 import {expressRouterUtils as routerApp} from "./core/utils/expressRouter.utils";
+import {eventNameErrorConstant as eventName} from "./core/utils/constants/eventNameError.constant";
+import {EventConstant as event} from "./core/utils/constants/event.constant";
+import {eventProcessHandler} from "./core/handlers/eventProcess.handler";
+import {ServerListenEventError as eventErrorOnListeningServer} from "./errors/serverListen.event.error";
+
 
 
 export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
@@ -102,6 +107,8 @@ export {
     injectable,
     winston, DailyRotateFile,
     DateDiff,
+    eventName,
+    event,
     Pool,
     HttpStatusCodesConstant,
     LoggerComponent,
@@ -126,6 +133,8 @@ export {
     LogLevelConstant,
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
-    ResponseHttp
+    ResponseHttp,
+    eventProcessHandler,
+    eventErrorOnListeningServer
 };
 

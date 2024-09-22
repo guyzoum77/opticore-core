@@ -1,10 +1,8 @@
-import {express, requestsStoredUtils, UtilityUtils} from "../../index";
+import {express, requestsStoredUtils, UtilityUtils, eventProcessHandler} from "../../index";
 import {Server} from "node:net";
 import colors from "ansi-colors";
 import {IncomingMessage, ServerResponse} from "node:http";
 import EventEmitter from "node:events";
-import {EventConstant as event} from "../utils/constants/event.constant";
-import {eventNameErrorConstant as eventName} from "../utils/constants/eventNameError.constant";
 import {ServerListenEventError} from "../../errors/serverListen.event.error";
 
 
@@ -75,9 +73,8 @@ export class ServerListenEvent {
     public onRequestEvent(webServer: Server, app: express.Application, host: string, port: number, loadingTime: any) {
         webServer.on("request", (req: IncomingMessage, res: ServerResponse) => {
             const currentDatePath: string = `Request called`;
-            const name: string = `${colors.white(` ${currentDatePath} `)}`;
-            console.log("req from onRequestEvent is :", req); // @ts-ignore
-            if( req.originalUr === "undefined") {
+            const name: string = `${colors.white(` ${currentDatePath} `)}`; // @ts-ignore
+            if( req.originalUrl === "undefined") {
                 console.log(`[ ${colors.red(`${currentDatePath}`)} ] ${loadingTime} | ${colors.bgRed(`${colors.white(` Not found `)}`)} [ Host ] http://${host}:${port} - [ Route ] The route do not exist. - [ Status ] ${colors.red(`${colors.white(` 404 `)}`)}`)
             } else {
                 switch (res.statusCode) {
@@ -152,57 +149,6 @@ export class ServerListenEvent {
     }
 
     public stackTraceErrorHandling(): void {
-        // Listener for error events
-        this.errorEmitter.on(eventName.error, (error: Error): void => {
-           ServerListenEventError.listenerError(error);
-        });
-
-        // Catch uncaught exceptions
-        /**
-         *  Process event listeners
-         */
-        process.on(event.beforeExit, (code: number): void => {
-            setTimeout((): void => {
-                ServerListenEventError.processBeforeExit(code);
-            }, 100);
-        });
-        process.on(event.disconnect, (): void => {
-            ServerListenEventError.processDisconnected();
-        });
-        process.on(event.exit, (code: number): void => {
-            ServerListenEventError.exited(code);
-        });
-        process.on(event.rejectionHandled, (promise: Promise<any>): void => {
-            ServerListenEventError.promiseRejectionHandled(promise);
-        });
-        process.on(event.uncaughtException, (error: any): void => {
-            ServerListenEventError.uncaughtException(error);
-        });
-        process.on(event.uncaughtExceptionMonitor, (error: any): void => {
-            ServerListenEventError.uncaughtExceptionMonitor(error);
-        });
-        process.on(event.unhandledRejection, (reason: any, promise: Promise<any>): void => {
-            ServerListenEventError.unhandledRejection(reason, promise);
-        });
-        process.on(event.warning, (warning: any) => {
-            ServerListenEventError.warning(warning);
-        });
-        process.on(event.message, (message: any) => {
-            ServerListenEventError.message(message);
-        });
-        process.on(event.multipleResolves, (type: string, promise: Promise<any>, reason: any) => {
-            ServerListenEventError.multipleResolves(type, promise, reason);
-        });
-        // Handle specific signals
-        process.on(event.sigint, () => {
-            ServerListenEventError.processInterrupted();
-        });
-        process.on(event.sigterm, (signal) => {
-            ServerListenEventError.sigtermSignalReceived(signal);
-        });
-        // Express error-handling middleware
-        this.app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-            ServerListenEventError.expressErrorHandlingMiddleware(this.errorEmitter, err, req, res, next);
-        });
+        eventProcessHandler();
     }
 }
