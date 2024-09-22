@@ -4,7 +4,7 @@ import { dotenv } from "../..";
  * Get env variables
  */
 
-export const getAccessEnv = {
+export const getEnvVariable = {
     appHost:             String(dotenv.config()?.parsed?.APP_HOST),
     appPort:             String(dotenv.config()?.parsed?.APP_PORT),
     prodEnv:             String(dotenv.config()?.parsed?.ENV_PROD),

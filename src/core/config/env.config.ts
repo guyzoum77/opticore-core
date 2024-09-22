@@ -2,12 +2,13 @@ import { dotenv } from "../..";
 
 
 /**
- * ServerEnvConfig is an abstract class that allows with its methods getting
+ * EnvConfig is an abstract class that allows with its methods getting
  * the values of the variables defined in the .env file
  */
-export abstract class ServerEnvConfig {
+export abstract class EnvConfig {
     protected constructor() {
-        const nodeNameEnv = this.createPathEnv(this.nodeEnv);
+        import.meta.url
+        const nodeNameEnv: string = this.createPathEnv(this.nodeEnv);
         dotenv.config({
             path: nodeNameEnv,
         })
@@ -26,7 +27,7 @@ export abstract class ServerEnvConfig {
     }
 
     public createPathEnv (path: string): string {
-        const arrEnv: Array<string> = ["env"];
+        const arrEnv: string[] = ["env"];
         if (path.length > 0 ) {
             const stringToArray: string[] = path.split(".");
             arrEnv.unshift(...stringToArray);

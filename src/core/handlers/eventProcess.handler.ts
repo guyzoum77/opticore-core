@@ -1,18 +1,26 @@
-import {eventName, event, express} from "../../index";
+import {eventName, event} from "../../index";
 import {ServerListenEventError} from "../../errors/serverListen.event.error";
 import EventEmitter from "node:events";
+import express, {Express} from "express";
 
-export function eventProcessHandler() {
-    const errorEmitter = new EventEmitter();
-    const app = express();
-    // Listener for error events
+
+/**
+ *
+ */
+export function eventProcessHandler(): void {
+    const errorEmitter= new EventEmitter();
+    const app: Express = express();
+
+    /**
+     * Listener for error events
+     */
     errorEmitter.on(eventName.error, (error: Error): void => {
         ServerListenEventError.listenerError(error);
     });
 
-    // Catch uncaught exceptions
     /**
-     *  Process event listeners
+     * Catch uncaught exceptions
+     * Process event listeners
      */
     process.on(event.beforeExit, (code: number): void => {
         setTimeout((): void => {
@@ -37,24 +45,30 @@ export function eventProcessHandler() {
     process.on(event.unhandledRejection, (reason: any, promise: Promise<any>): void => {
         ServerListenEventError.unhandledRejection(reason, promise);
     });
-    process.on(event.warning, (warning: any) => {
+    process.on(event.warning, (warning: any): void => {
         ServerListenEventError.warning(warning);
     });
-    process.on(event.message, (message: any) => {
+    process.on(event.message, (message: any): void => {
         ServerListenEventError.message(message);
     });
-    process.on(event.multipleResolves, (type: string, promise: Promise<any>, reason: any) => {
+    process.on(event.multipleResolves, (type: string, promise: Promise<any>, reason: any): void => {
         ServerListenEventError.multipleResolves(type, promise, reason);
     });
-    // Handle specific signals
-    process.on(event.sigint, () => {
+
+    /**
+     * Handle specific signals
+     */
+    process.on(event.sigint, (): void => {
         ServerListenEventError.processInterrupted();
     });
-    process.on(event.sigterm, (signal: any) => {
+    process.on(event.sigterm, (signal: any): void => {
         ServerListenEventError.sigtermSignalReceived(signal);
     });
-    // Express error-handling middleware
-    app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+    /**
+     * Express error-handling middleware
+     */
+    app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction): void => {
         ServerListenEventError.expressErrorHandlingMiddleware(errorEmitter, err, req, res, next);
     });
 }

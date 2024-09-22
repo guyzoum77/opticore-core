@@ -6,7 +6,7 @@ import {
     stream,
     LoggerComponent,
     CustomTypesConfig,
-    getAccessEnv,
+    getEnvVariable,
     LogMessageUtils
 } from "../..";
 import CheckerMongoDatabaseConnectionService from "../../application/services/checkerMongoDatabaseConnection.service";
@@ -17,16 +17,16 @@ import {DbConnexionConfigError} from "../../errors/dbConnexion.config.error";
 
 
 /**
- * DbConnexionConfig is a class extending on the ServerEnvConfig class so that by inheritance,
+ * DbConnexionConfig is a class extending on the EnvConfig class so that by inheritance,
  * certain methods make it possible to retrieve the variables values defined in
  * the .env environment file to establish the connection with the database service.
  */
 export class DbConnexionConfig {
-    private dbPort: string   = getAccessEnv.dataBasePort;
-    private user: string     = getAccessEnv.dataBaseUser;
-    private password: string = getAccessEnv.dataBasePassword;
-    private dbName: string   = getAccessEnv.dataBaseName;
-    private dbHost: string   = getAccessEnv.dataBaseHost;
+    private dbPort: string   = getEnvVariable.dataBasePort;
+    private user: string     = getEnvVariable.dataBaseUser;
+    private password: string = getEnvVariable.dataBasePassword;
+    private dbName: string   = getEnvVariable.dataBaseName;
+    private dbHost: string   = getEnvVariable.dataBaseHost;
 
 
     /**
@@ -40,7 +40,7 @@ export class DbConnexionConfig {
         const dbURL: string = `${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
         const url: string = `mysql://${dbURL}${optionalArgumentConnection}`;
         const dbConnection: mySQL.Connection = mySQL.createConnection(url);
-        CheckerMySqlDatabaseConnectionService(dbConnection, this.user, this.dbName, this.dbHost, this.password);
+        return CheckerMySqlDatabaseConnectionService(dbConnection, this.user, this.dbName, this.dbHost, this.password);
     }
 
 
