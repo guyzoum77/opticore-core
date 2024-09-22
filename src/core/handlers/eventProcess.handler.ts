@@ -1,9 +1,12 @@
 import {eventName, event, express} from "../../index";
 import {ServerListenEventError} from "../../errors/serverListen.event.error";
+import EventEmitter from "node:events";
 
 export function eventProcessHandler() {
+    const errorEmitter: EventEmitter = new EventEmitter();
+    const app = express();
     // Listener for error events
-    this.errorEmitter.on(eventName.error, (error: Error): void => {
+    errorEmitter.on(eventName.error, (error: Error): void => {
         ServerListenEventError.listenerError(error);
     });
 
@@ -51,7 +54,7 @@ export function eventProcessHandler() {
         ServerListenEventError.sigtermSignalReceived(signal);
     });
     // Express error-handling middleware
-    this.app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
-        ServerListenEventError.expressErrorHandlingMiddleware(this.errorEmitter, err, req, res, next);
+    app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        ServerListenEventError.expressErrorHandlingMiddleware(errorEmitter, err, req, res, next);
     });
 }
