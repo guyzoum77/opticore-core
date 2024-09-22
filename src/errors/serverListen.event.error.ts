@@ -314,7 +314,7 @@ export class ServerListenEventError {
     static dropNewConnection() {
         console.log(`${colors.cyan(`ⓘ`)} ${colors.bgCyan(` ${colors.bold(`${colors.white(` Server maxConnection `)}`)} `)}  ${dateTimeFormattedUtils} | ${colors.bgCyan(`${colors.white(` Info `)}`)} The server dropped new connections`);
     }
-    static expressErrorHandlingMiddleware(errorEmitter, err: Error, req: express.Request, res: express.Response, next: express.NextFunction){
+    static expressErrorHandlingMiddleware(errorEmitter: any, err: Error, req: express.Request, res: express.Response, next: express.NextFunction){
         if (err) {
             errorEmitter.emit(eventName.error, err);
             res.status(500).send('An internal server error occurred');
