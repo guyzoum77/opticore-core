@@ -294,7 +294,7 @@ export class ServerListenEventError {
         );
         process.exit(0);
     }
-    static sigtermSignalReceived(signal){
+    static sigtermSignalReceived(signal: any){
         LogMessageUtils.error(
             "SIGTERM",
             "SIGTERM",

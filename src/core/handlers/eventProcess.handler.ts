@@ -3,7 +3,7 @@ import {ServerListenEventError} from "../../errors/serverListen.event.error";
 import EventEmitter from "node:events";
 
 export function eventProcessHandler() {
-    const errorEmitter: EventEmitter = new EventEmitter();
+    const errorEmitter = new EventEmitter();
     const app = express();
     // Listener for error events
     errorEmitter.on(eventName.error, (error: Error): void => {
