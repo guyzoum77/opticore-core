@@ -1,15 +1,13 @@
-import {express, requestsStoredUtils, UtilityUtils, eventProcessHandler} from "../../index";
+import {express, UtilityUtils, eventProcessHandler} from "../../index";
 import {Server} from "node:net";
 import colors from "ansi-colors";
 import {IncomingMessage, ServerResponse} from "node:http";
-import EventEmitter from "node:events";
 import {ServerListenEventError} from "../../errors/serverListen.event.error";
 
 
 export class ServerListenEvent {
     private utility: UtilityUtils = new UtilityUtils();
     public app: express.Application = express();
-    public errorEmitter: EventEmitter = new EventEmitter();
 
     constructor() {
         this.stackTraceErrorHandling();
@@ -43,9 +41,7 @@ export class ServerListenEvent {
                     this.utility.getUsageMemory().system
                 );
             }
-        }).on(
-            "error",
-            (err: Error) => {
+        }).on("error", (err: Error) => {
                 ServerListenEventError.onEventError(err);
             }
         );

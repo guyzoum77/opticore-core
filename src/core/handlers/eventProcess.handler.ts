@@ -50,7 +50,7 @@ export function eventProcessHandler() {
     process.on(event.sigint, () => {
         ServerListenEventError.processInterrupted();
     });
-    process.on(event.sigterm, (signal) => {
+    process.on(event.sigterm, (signal: any) => {
         ServerListenEventError.sigtermSignalReceived(signal);
     });
     // Express error-handling middleware
