@@ -17,7 +17,7 @@ export async function loadKernel(kernel: any[]) {
         db();
 
         const kernelExportModule = await require.main?.children[1].exports.Kernel();
-        loadedModules(await kernelExportModule[0](), await kernelExportModule[1](), await kernelExportModule[2]());
+        loadedModules(await kernelExportModule[0](), await kernelExportModule[2]());
         console.log("");
     } catch (error: any) {
         LogMessageUtils.error(
