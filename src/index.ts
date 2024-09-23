@@ -9,7 +9,6 @@ import dotenv from "dotenv";
 import colors from "ansi-colors";
 import fs from "fs";
 import passport from "passport";
-import { createLogger, transports } from "winston";
 import path from "path";
 import appRoot from "app-root-path";
 import randToken from "rand-token";
@@ -18,9 +17,6 @@ import { PrismaClient } from '@prisma/client';
 import {injectable} from "inversify"; // For dependency injection
 import {ExpressRoutesUtils} from "./core/utils/expressRoutes.utils"
 import {Db, MongoClient} from 'mongodb';
-import winston from 'winston';
-import {format} from "winston";
-import DailyRotateFile from "winston-daily-rotate-file";
 import DateDiff from "date-diff";
 import stream from "stream";
 import {Client, Pool, PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig} from "pg";
@@ -71,11 +67,8 @@ export {
     fs,
     crypto,
     appRoot,
-    winston,
     jsonWebToken,
     mySQL,
-    format,
-    transports,
     bcrypt,
     routerApp,
     dotenv,
@@ -90,7 +83,6 @@ export {
     stream,
     getEnvVariable,
     PrismaClient,
-    DailyRotateFile,
     LogLevelConstant,
     express,
     corsOrigin,
@@ -99,7 +91,6 @@ export {
     injectable,
     DateDiff,
     Pool,
-    createLogger,
     Logger,
     EnvConfig,
     BaseRouterConfig,

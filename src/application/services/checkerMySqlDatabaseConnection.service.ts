@@ -1,4 +1,4 @@
-import {Exception as msg, HttpStatusCodesConstant, LoggerComponent, LogMessageUtils, mySQL} from "../..";
+import {Exception as msg, HttpStatusCodesConstant as status, LogMessageUtils, mySQL} from "../..";
 import {mySqlErrorHandlerUtils} from "../../core/utils/mySqlErrorHandler.utils";
 
 
@@ -25,7 +25,7 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQ
                 if (endConErr) {
                     return mySqlErrorHandlerUtils(err, null, database, user, password);
                 } else {
-                    LogMessageUtils.success("Database connection", "End connection", msg.dbConnexionClosed);
+                    LogMessageUtils.success("Database connection", "End connection", msg.dbConnectionClosed);
                 }
             });
         }

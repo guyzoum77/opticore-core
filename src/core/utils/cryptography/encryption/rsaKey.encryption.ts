@@ -16,9 +16,7 @@ export class RSAKeyEncryption {
     }
 
     static publicEncrypt(publicKey: any, encryptData: any): Buffer {
-        const rsaPublicKey = {
-            key: publicKey
-        };
+        const rsaPublicKey = { key: publicKey };
         const bufferData: Buffer = Buffer.from(encryptData, "utf8");
 
         return crypto.publicEncrypt(rsaPublicKey, bufferData);

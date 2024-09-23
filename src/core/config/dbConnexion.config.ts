@@ -4,15 +4,16 @@ import {
     HttpStatusCodesConstant as status,
     mySQL,
     stream,
-    LoggerComponent,
     CustomTypesConfig,
     getEnvVariable,
-    LogMessageUtils
+    Exception as msg,
+    LogMessageUtils as log, ExceptionHandlerError as ErrorHandler
 } from "../..";
 import CheckerMongoDatabaseConnectionService from "../../application/services/checkerMongoDatabaseConnection.service";
 import CheckerPostgresDatabaseConnectionService from "../../application/services/checkerPostgresDatabaseConnection.service";
 import {ConnectionOptions} from "tls";
 import {DbConnexionConfigError} from "../../errors/dbConnexion.config.error";
+import StackTraceError from "../handlers/errors/base/stackTraceError";
 
 
 
@@ -55,7 +56,7 @@ export class DbConnexionConfig {
         const url: string = `mongodb://${dbUrl}${optionalArgumentConnection}`;
         try {
             await CheckerMongoDatabaseConnectionService(url, this.user, this.password, this.dbName);
-            LoggerComponent.logInfoMessage("Connection successfully.", "Mongo connection");
+            log.success(msg.MongoDBConnectionChecker, msg.MongoConnection, msg.mongoConnectionSuccess);
         } catch (e: any) {
             if (e.code === 18) {
                 DbConnexionConfigError.mongoDBAuthenticationFailed(e);
@@ -115,7 +116,7 @@ export class DbConnexionConfig {
                 types,
                 options
             );
-            LoggerComponent.logInfoMessage("Connection successfully.", "Postgres connection");
+            log.success(msg.PostgresDBConnectionChecker, msg.PostgresConnection, msg.PostgresConnectionSuccess);
         } catch (err: any) {
             throw new ExceptionHandlerError(
                 `${err.message}`,
@@ -124,5 +125,9 @@ export class DbConnexionConfig {
                 true
             );
         }
+    }
+
+    private traceError(props: string, name: string, status: number): StackTraceError {
+        return new ErrorHandler(props, name, status, true);
     }
 }

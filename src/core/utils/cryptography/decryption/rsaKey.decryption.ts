@@ -6,17 +6,13 @@ import crypto from "crypto";
  */
 export class RSAKeyDecryption {
     static privateDecrypt(privateKey: any, decryptData: any): Buffer {
-        const rsaPrivateKey = {
-            key: privateKey
-        };
+        const rsaPrivateKey = { key: privateKey };
 
         return crypto.privateDecrypt(rsaPrivateKey, decryptData);
     }
 
     static publicDecrypt(publicKey: any, decryptData: any): Buffer {
-        const rsaPublicKey = {
-            key: publicKey
-        };
+        const rsaPublicKey = { key: publicKey };
 
         return crypto.publicDecrypt(rsaPublicKey, decryptData);
     }

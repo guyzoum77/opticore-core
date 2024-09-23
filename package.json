@@ -60,9 +60,7 @@
     "reflect-metadata": "^0.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
-    "validatorjs": "^3.22.1",
-    "winston": "^3.13.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "validatorjs": "^3.22.1"
   },
   "devDependencies": {
     "@naholyr/cross-env": "^1.0.0",
@@ -84,6 +82,6 @@
     "nodemon": "^3.1.0",
     "reflect-metadata": "^0.2.2",
     "supertest": "^7.0.0",
-    "tsup": "^8.3.0"
+    "tsup": "^8.2.4"
   }
 }

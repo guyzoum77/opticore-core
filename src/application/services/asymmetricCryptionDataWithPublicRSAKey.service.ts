@@ -1,12 +1,13 @@
 import {
-    Exception,
-    ExceptionHandlerError,
-    LoggerComponent,
+    Exception as msg,
     HttpStatusCodesConstant as statusCode,
     RSAKeyEncryption,
     RSAKeyDecryption,
-    crypto
+    crypto, ExceptionHandlerError as ErrorHandler,
+    HttpStatusCodesConstant as status,
+    LogMessageUtils as log
 } from "../../index";
+import StackTraceError from "../../core/handlers/errors/base/stackTraceError";
 
 
 export default class AsymmetricCryptionDataWithPublicRSAKeyService {
@@ -16,16 +17,25 @@ export default class AsymmetricCryptionDataWithPublicRSAKeyService {
      * @param keyType
      * @protected
      */
-    protected static verifyExistingKey(rsaKey: string, keyType: string): ExceptionHandlerError | string {
+    protected static verifyExistingKey(rsaKey: string, keyType: string): ErrorHandler | string {
         if (!rsaKey) {
-            LoggerComponent.logErrorMessage(keyType + Exception.rsaKeyNotFound, Exception.errorNameRsaVerifyExistingKey);
-            return new ExceptionHandlerError(
-                keyType + Exception.rsaKeyNotFound,
-                Exception.errorNameRsaVerifyExistingKey,
-                statusCode.NOT_FOUND,
-                true
+            const stackTrace: StackTraceError = this.traceError(
+                keyType + msg.verifyExistingKey,
+                msg.verifyExistingKey,
+                status.NOT_FOUND
             );
+            log.error(
+                msg.verifyExistingKey,
+                "RSA Key",
+                "not found",
+                stackTrace.name,
+                stackTrace.stack!,
+                msg.errorNameRsaVerifyExistingKey,
+                status.NOT_FOUND
+            );
+            return stackTrace;
         }
+
         return rsaKey;
     }
 
@@ -42,12 +52,18 @@ export default class AsymmetricCryptionDataWithPublicRSAKeyService {
             const bufferedData: Buffer = Buffer.from(payload, "utf-8");
             return RSAKeyEncryption.publicEncrypt(publicKey, bufferedData);
         } catch (err: any) {
-            throw new ExceptionHandlerError(
+            const stackTrace: StackTraceError = this.traceError(err.code, msg.encryptionWithPublicKey, status.NOT_FOUND);
+            log.error(
+                msg.encryptionWithPublicKey,
+                msg.errorEncryptionPublicKey,
+                err.code,
+                stackTrace.name,
+                stackTrace.stack!,
                 err.message,
-                Exception.errorEncryptionPublicKey,
-                statusCode.NOT_ACCEPTABLE,
-                true
+                status.NOT_ACCEPTABLE
             );
+
+            throw new Error(err.message);
         }
     }
 
@@ -65,12 +81,18 @@ export default class AsymmetricCryptionDataWithPublicRSAKeyService {
             const encryptedPayload: Buffer = this.encryptionWithPublicKey(publicKey, payload);
             return RSAKeyDecryption.privateDecrypt(privateKey, encryptedPayload);
         } catch (err: any) {
-            throw new ExceptionHandlerError(
+            const stackTrace: StackTraceError = this.traceError(err.code, msg.errorDecryption, status.NOT_FOUND);
+            log.error(
+                msg.errorDecryptionWithPrivateKey,
+                msg.errorDecryption,
+                err.code,
+                stackTrace.name,
+                stackTrace.stack!,
                 err.message,
-                Exception.errorDecryption,
-                statusCode.NOT_ACCEPTABLE,
-                true
+                status.NOT_ACCEPTABLE
             );
+
+            throw new Error(err.message);
         }
     }
 
@@ -106,24 +128,40 @@ export default class AsymmetricCryptionDataWithPublicRSAKeyService {
             if (isVerified) {
                 const decryptedData: Buffer = this.decryptionWithPrivateKey(privateKey, publicKey, payload);
                 return decryptedData.toString("utf-8");
-
             } else {
-                LoggerComponent.logErrorMessage(Exception.signatureRSAKeyFailed, Exception.notVerifyingRSAKey);
-                return new ExceptionHandlerError(
-                    Exception.signatureRSAKeyFailed,
-                    Exception.notVerifyingRSAKey,
-                    statusCode.NOT_FOUND,
-                    true
+                const stackTrace: StackTraceError = this.traceError(
+                    msg.notVerifyingRSAKey,
+                    msg.signatureRSAKeyFailed,
+                    status.NOT_FOUND
                 );
+                log.error(
+                    msg.verifyPublicRSAKey,
+                    msg.signatureRSAKeyFailed,
+                    msg.notVerifyingRSAKey,
+                    stackTrace.name,
+                    stackTrace.stack!,
+                    msg.verifyPublicRSAKeyError,
+                    status.NOT_FOUND
+                );
+                return stackTrace;
             }
         } catch (err: any) {
-            LoggerComponent.logErrorMessage(err.message, Exception.errorNameNotVerifyingRSAKey);
-            return new ExceptionHandlerError(
-                Exception.signatureRSAKeyFailed,
-                Exception.errorNameNotVerifyingRSAKey,
-                statusCode.NOT_ACCEPTABLE,
-                true
+            const stackTrace: StackTraceError = this.traceError(err.code, msg.verifyPublicRSAKey, status.NOT_FOUND);
+            log.error(
+                msg.verifyPublicRSAKey,
+                msg.errorDecryption,
+                err.code,
+                stackTrace.name,
+                stackTrace.stack!,
+                err.message,
+                status.NOT_ACCEPTABLE
             );
+
+            throw new Error(err.message);
         }
+    }
+
+    private static traceError(props: string, name: string, status: number): StackTraceError {
+        return new ErrorHandler(props, name, status, true);
     }
 }

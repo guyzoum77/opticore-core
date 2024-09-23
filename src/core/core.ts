@@ -7,12 +7,16 @@ import {
     eventErrorOnListeningServer,
     eventName,
     eventProcessHandler,
+    Exception as msg, ExceptionHandlerError as ErrorHandler,
     getEnvVariable,
+    HttpStatusCodesConstant as status,
+    LogMessageUtils as log,
     requestCallsEvent,
     UtilityUtils
 } from "../index";
 import corsOrigin, {CorsOptions} from "cors";
 import {OptionsUrlencoded} from "body-parser";
+import StackTraceError from "./handlers/errors/base/stackTraceError";
 
 
 export class CoreApplication {
@@ -48,12 +52,31 @@ export class CoreApplication {
             eventErrorOnListeningServer.dropNewConnection();
         }).on(eventName.listening, (): void => {
             this.infoWebApp();
-            let router;
-            let dbCon;
-            kernelModule.map((module: express.Router[] | (() => void)): void => {
-                typeof express.Router === module ? router = module : dbCon = module
+            let router: express.Router[] | undefined;
+            let dbCon: (() => void) | undefined;
+            kernelModule.forEach((module: express.Router[] | (() => void)): void => {
+                if (Array.isArray(module)) {
+                    router = module as express.Router[];
+                } else if (typeof module === "function") {
+                    dbCon = module as () => void;
+                }
             });
-            loadedModules(router, dbCon);
+
+            if (router && dbCon) {
+                loadedModules(router, dbCon);
+            } else {
+                const stackTrace: StackTraceError = this.traceError(msg.loadedModulesError, msg.loadedModules, status.NOT_ACCEPTABLE);
+                log.error(
+                    msg.loadedModules,
+                    "error",
+                    "loading error",
+                    stackTrace.stack,
+                    stackTrace.name,
+                    msg.loadedModulesError,
+                    status.SERVICE_UNAVAILABLE
+                );
+                throw new Error(stackTrace.message);
+            }
         });
     }
 
@@ -78,5 +101,9 @@ export class CoreApplication {
             this.serverUtility.getUsageMemory().user,
             this.serverUtility.getUsageMemory().system
         );
+    }
+
+    private traceError(props: string, name: string, status: number): StackTraceError {
+        return new ErrorHandler(props, name, status, true);
     }
 }

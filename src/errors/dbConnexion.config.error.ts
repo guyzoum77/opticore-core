@@ -1,77 +1,74 @@
-import {LogMessageUtils} from "../core/utils/logMessage.utils";
+import {LogMessageUtils as log, LogMessageUtils} from "../core/utils/logMessage.utils";
 import {HttpStatusCodesConstant as status} from "../domain/constants/httpStatusCodes.constant";
-import {ExceptionHandlerError} from "../index";
+import {Exception as msg, ExceptionHandlerError as ErrorHandler, ExceptionHandlerError} from "../index";
+import StackTraceError from "../core/handlers/errors/base/stackTraceError";
 
 export class DbConnexionConfigError {
-    static mongoDBAuthenticationFailed(e: any) {
-        LogMessageUtils.error(
-            "MongoDB connection",
-            "authentication failed",
-            "failed",
-            e.code,
-            "bad credentials",
-            "Authentication failed, be sure the credentials is correct!",
+    static mongoDBAuthenticationFailed(e: any): void  {
+        const stackTrace: StackTraceError = this.traceError(
+            msg.mongoDBConnection,
+            msg.mongoDBAuthentication,
             status.UNAUTHORIZED
         );
-        throw new ExceptionHandlerError(
-            "Authentication failed, be sure the credentials is correct!",
-            "MongoConnectionError",
-            status.UNAUTHORIZED,
-            true
+        log.error(
+            msg.mongoDBConnection,
+            msg.mongoDBAuthentication,
+            msg.mongoDBAuthenticationFailed,
+            e.code,
+            stackTrace.stack!,
+            msg.mongoDBAuthenticationError,
+            status.UNAUTHORIZED
         );
     }
     
-    static mongoDBInvalidUrl(e: any, dbHost: string, dbPort: string) {
-        LogMessageUtils.error(
-            "MongoDB connection",
-            "unable to parse",
-            "url",
-            e.code,
-            "parse url",
-            `Unable to parse ${dbHost}:${dbPort} with URL`,
+    static mongoDBInvalidUrl(e: any, dbHost: string, dbPort: string): void {
+        const stackTrace: StackTraceError = this.traceError(
+            msg.mongoDBConnection,
+            msg.mongoDBUnableParsingUrl,
             status.BAD_REQUEST
         );
-        throw new ExceptionHandlerError(
+        log.error(
+            msg.mongoDBConnection,
+            msg.mongoDBUnableParsingUrl,
+            msg.mongoDBConnectionUrl,
+            e.code,
+            stackTrace.stack!,
             `Unable to parse ${dbHost}:${dbPort} with URL`,
-            "MongoConnectionError",
-            status.BAD_REQUEST,
-            true
+            status.BAD_REQUEST
         );
     }
     
     static mongoDBEaiAgain(e: any, dbHost: string) {
-        LogMessageUtils.error(
-            "MongoDB connection",
-            "MongoServer selection error",
-            "MongoServer",
+        const stackTrace: StackTraceError = this.traceError(
+            msg.mongoDBConnection,
+            msg.mongoDBServerSelection,
+            status.BAD_REQUEST
+        );
+        log.error(
+            msg.mongoDBConnection,
+            msg.mongoDBServerSelection,
+            msg.mongoDBServer,
             e.code,
-            "undefined",
+            stackTrace.stack!,
             `MongoServerSelectionError: getaddrinfo EAI_AGAIN (${dbHost} is not allow to database connection)`,
             status.BAD_REQUEST
         );
-        throw new ExceptionHandlerError(
-            `MongoServerSelectionError: getaddrinfo EAI_AGAIN (${dbHost} is not allow to database connection)`,
-            "MongoConnectionError",
-            status.BAD_REQUEST,
-            true
-        );
     }
 
-    static mongoDbGlobalError (e: any) {
-        LogMessageUtils.error(
-            "MongoDB connection",
-            "MongoConnection error",
-            "",
+    static mongoDbGlobalError (e: any): void {
+        const stackTrace: StackTraceError = this.traceError(e.message, msg.mongoDBConnection, status.NOT_ACCEPTABLE);
+        log.error(
+            msg.mongoDBConnection,
+            msg.mongoDBConnectionError,
+            msg.mongoDBError,
             e.code,
-            "",
+            stackTrace.stack!,
             e.message,
             status.NOT_ACCEPTABLE
         );
-        throw new ExceptionHandlerError(
-            `${e.message}`,
-            "MongoConnectionError",
-            status.NOT_ACCEPTABLE,
-            true
-        );
+    }
+
+    private static traceError(props: string, name: string, status: number): StackTraceError {
+        return new ErrorHandler(props, name, status, true);
     }
 }

@@ -7,7 +7,6 @@ import { dotenv } from "../..";
  */
 export abstract class EnvConfig {
     protected constructor() {
-        import.meta.url
         const nodeNameEnv: string = this.createPathEnv(this.nodeEnv);
         dotenv.config({
             path: nodeNameEnv,
