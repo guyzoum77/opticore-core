@@ -23,11 +23,14 @@ export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
     public appExpress: express.Application = express();
 
-    constructor(coreOptions: CorsOptions, optionsUrlencoded: OptionsUrlencoded, setting: string, val: any) {
+    constructor(corsOptions: Partial<CorsOptions> = {},
+                optionsUrlencoded: Partial<OptionsUrlencoded> = {},
+                setting: Partial<string> = "",
+                val: Partial<string> = "") {
         this.stackTraceErrorHandling();
         this.appExpress.use(express.json());
         this.appExpress.use(express.urlencoded(optionsUrlencoded));
-        this.appExpress.use(corsOrigin(coreOptions));
+        this.appExpress.use(corsOrigin(corsOptions));
         this.appExpress.set(setting, val);
     }
 
