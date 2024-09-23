@@ -31,7 +31,7 @@ export class CoreApplication {
         this.appExpress.set(setting, val);
     }
 
-    public onStartEvent(host: string, port: number): serverWebApp {
+    public onStartServer(host: string, port: number): serverWebApp {
         return this.appExpress.listen(port, host, (): void => {
             host === "" && port === 0
                 ? eventErrorOnListeningServer.hostPortUndefined()
@@ -43,7 +43,7 @@ export class CoreApplication {
         });
     }
 
-    public onListeningEvent(serverWeb: serverWebApp, host: string, port: number, kernelModule: [express.Router[], () => void]): void {
+    public onListeningOnServerEvent(serverWeb: serverWebApp, host: string, port: number, kernelModule: [express.Router[], () => void]): void {
         serverWeb.on(eventName.error, (err: Error): void => {
             eventErrorOnListeningServer.onEventError(err);
         }).on(eventName.close, (): void => {
@@ -80,7 +80,7 @@ export class CoreApplication {
         });
     }
 
-    public onRequestEvent(serverWeb: serverWebApp, host: string, port: number, loadingTime: any): void {
+    public onRequestOnServerEvent(serverWeb: serverWebApp, host: string, port: number, loadingTime: any): void {
         serverWeb.on("request", (req: IncomingMessage, res: ServerResponse): void => {
             requestCallsEvent(req, res, host, port, loadingTime);
         });
