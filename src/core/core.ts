@@ -34,7 +34,11 @@ export class CoreApplication {
         this.stackTraceErrorHandling();
     }
 
-    public onStartServer(host: string, port: number, registerRouter: express.Router[]): serverWebApp {
+    private registerRouteApp(routers: express.Router[]) {
+        return routers;
+    }
+
+    public onStartServer(host: string, port: number, routers: express.Router[]): serverWebApp {
         return this.appExpress.listen(port, host, (): void => {
             host === "" && port === 0
                 ? eventErrorOnListeningServer.hostPortUndefined()
@@ -42,7 +46,7 @@ export class CoreApplication {
                     ? eventErrorOnListeningServer.hostUndefined()
                     : port === 0
                         ? eventErrorOnListeningServer.portUndefined()
-                        : registerRouter;
+                        : this.registerRouteApp(routers);
         });
     }
 
