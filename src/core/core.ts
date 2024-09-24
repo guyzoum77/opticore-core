@@ -70,6 +70,7 @@ export class CoreApplication {
 
             if (router && dbCon) {
                 loadedModules(router, dbCon);
+                ((): void => { router; dbCon(); })();
             } else {
                 const stackTrace: StackTraceError = this.traceError(msg.loadedModulesError, msg.loadedModules, status.NOT_ACCEPTABLE);
                 log.error(
