@@ -27,11 +27,11 @@ export class CoreApplication {
                 optionsUrlencoded: Partial<OptionsUrlencoded> = {},
                 setting: Partial<string> = "",
                 val: Partial<string> = "") {
-        this.stackTraceErrorHandling();
         this.appExpress.use(express.json());
         this.appExpress.use(express.urlencoded(optionsUrlencoded));
         this.appExpress.use(corsOrigin(corsOptions));
         this.appExpress.set(setting, val);
+        this.stackTraceErrorHandling();
     }
 
     public onStartServer(host: string, port: number): serverWebApp {
@@ -46,7 +46,10 @@ export class CoreApplication {
         });
     }
 
-    public onListeningOnServerEvent(serverWeb: serverWebApp, host: string, port: number, kernelModule: [express.Router[], () => void]): void {
+    public onListeningOnServerEvent(serverWeb: serverWebApp,
+                                    host: string,
+                                    port: number,
+                                    kernelModule: [express.Router[], () => void]): void {
         serverWeb.on(eventName.error, (err: Error): void => {
             eventErrorOnListeningServer.onEventError(err);
         }).on(eventName.close, (): void => {

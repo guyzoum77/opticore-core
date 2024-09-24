@@ -2,24 +2,52 @@ import {LogMessageUtils} from "../core/utils/logMessage.utils";
 import {MessagesException as msg} from "../application/exceptions/messages.exception";
 import {HttpStatusCodesConstant as status} from "../domain/constants/httpStatusCodes.constant";
 import {eventNameErrorConstant as eventName} from "../core/utils/constants/eventNameError.constant";
-import {dateTimeFormattedUtils, express} from "../index";
+import {dateTimeFormattedUtils, ExceptionHandlerError as ErrorHandler, express} from "../index";
 import process from "process";
 import colors from "ansi-colors";
+import StackTraceError from "../core/handlers/errors/base/stackTraceError";
 
 export class ServerListenEventError {
-    static hostPortUndefined(){
-        LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHostUrl, status.BAD_REQUEST);
+    static hostPortUndefined(): void {
+        const stackTrace: StackTraceError = this.traceError(msg.errorHostUrl, msg.listening, status.BAD_REQUEST);
+        LogMessageUtils.error(
+            msg.webServer,
+            msg.listening,
+            msg.webHost,
+            msg.badHost,
+            stackTrace.stack!,
+            msg.errorHostUrl,
+            status.BAD_REQUEST
+        );
         process.exit();
     }
-    static hostUndefined() {
-        LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badHost, msg.hostNotFound, msg.errorHost, status.BAD_REQUEST);
+    static hostUndefined(): void {
+        const stackTrace: StackTraceError = this.traceError(msg.badHost, msg.listening, status.BAD_REQUEST);
+        LogMessageUtils.error(
+            msg.webServer,
+            msg.listening,
+            msg.webHost,
+            msg.badHost,
+            stackTrace.stack!,
+            msg.errorHost,
+            status.BAD_REQUEST
+        );
         process.exit();
     }
-    static portUndefined() {
-        LogMessageUtils.error(msg.webServer, msg.listening, msg.webHost, msg.badPort, msg.badPort, msg.errorPort, status.BAD_REQUEST);
+    static portUndefined(): void {
+        const stackTrace: StackTraceError = this.traceError(msg.badPort, msg.listening, status.BAD_REQUEST);
+        LogMessageUtils.error(
+            msg.webServer,
+            msg.listening,
+            msg.webHost,
+            msg.badPort,
+            stackTrace.stack!,
+            msg.errorPort,
+            status.BAD_REQUEST
+        );
         process.exit();
     }
-    static onEventError(err: Error) {
+    static onEventError(err: Error): void {
         LogMessageUtils.error(
             "Server start error",
             "Error",
@@ -30,18 +58,23 @@ export class ServerListenEventError {
             status.SERVICE_UNAVAILABLE
         );
     }
-    static listenerError(error: Error) {
+    static listenerError(error: Error): void {
+        const stackTrace: StackTraceError = this.traceError(
+            error.message,
+            error.name,
+            status.BAD_REQUEST
+        );
         LogMessageUtils.error(
             "Event error",
             "Error",
-            "Stack trace error",
-            error,
-            "error",
-            error,
+            "",
+            "",
+            error.stack!,
+            error.message,
             status.SERVICE_UNAVAILABLE
         );
     }
-    static processBeforeExit(code: number) {
+    static processBeforeExit(code: number): void {
         LogMessageUtils.error(
             "BeforeExit",
             "process before exit",
@@ -53,7 +86,7 @@ export class ServerListenEventError {
         );
         process.exit(code);
     }
-    static processDisconnected() {
+    static processDisconnected(): void {
         LogMessageUtils.error(
             "Disconnected",
             "process disconnected",
@@ -197,7 +230,7 @@ export class ServerListenEventError {
                 break;
         }
     }
-    static promiseRejectionHandled(promise: Promise<any>){
+    static promiseRejectionHandled(promise: Promise<any>): void {
         LogMessageUtils.error(
             "PromiseRejectionHandled",
             "rejection promise",
@@ -208,7 +241,7 @@ export class ServerListenEventError {
             status.SERVICE_UNAVAILABLE
         );
     }
-    static uncaughtException(error: any) {
+    static uncaughtException(error: any): void {
         if (error.message === '\'app.router\' is deprecated!\nPlease see the 3.x to 4.x migration guide for details on how to update your app.') {
             console.log("");
         } else {
@@ -223,7 +256,7 @@ export class ServerListenEventError {
             );
         }
     }
-    static uncaughtExceptionMonitor(error: any){
+    static uncaughtExceptionMonitor(error: any): void {
         if (error.message === '\'app.router\' is deprecated!\nPlease see the 3.x to 4.x migration guide for details on how to update your app.') {
             console.log("");
         } else {
@@ -249,7 +282,7 @@ export class ServerListenEventError {
             status.SERVICE_UNAVAILABLE
         );
     }
-    static warning(warning: any){
+    static warning(warning: any): void {
         LogMessageUtils.error(
             "Warning",
             "warning",
@@ -260,7 +293,7 @@ export class ServerListenEventError {
             status.SERVICE_UNAVAILABLE
         );
     }
-    static message(message: any) {
+    static message(message: any): void {
         LogMessageUtils.error(
             "Message",
             "message exception",
@@ -271,7 +304,7 @@ export class ServerListenEventError {
             status.SERVICE_UNAVAILABLE
         );
     }
-    static multipleResolves(type: string, promise: Promise<any>, reason: any){
+    static multipleResolves(type: string, promise: Promise<any>, reason: any): void {
         LogMessageUtils.error(
             "multipleResolves",
             "resolves",
@@ -282,7 +315,7 @@ export class ServerListenEventError {
             status.SERVICE_UNAVAILABLE
         );
     }
-    static processInterrupted(){
+    static processInterrupted(): void {
         LogMessageUtils.error(
             "SIGINT",
             "SIGINT",
@@ -294,7 +327,7 @@ export class ServerListenEventError {
         );
         process.exit(0);
     }
-    static sigtermSignalReceived(signal: any){
+    static sigtermSignalReceived(signal: any): void {
         LogMessageUtils.error(
             "SIGTERM",
             "SIGTERM",
@@ -306,18 +339,26 @@ export class ServerListenEventError {
         );
         process.exit(0);
     }
-    static serverClosing() {
+    static serverClosing(): void {
         console.log(`${colors.bgCyanBright(` ${colors.bold(`${colors.white(` INFO `)}`)}`)} All processes are stopped`);
         console.log("       Server is closed");
         process.exit();
     }
-    static dropNewConnection() {
+    static dropNewConnection(): void {
         console.log(`${colors.cyan(`ⓘ`)} ${colors.bgCyan(` ${colors.bold(`${colors.white(` Server maxConnection `)}`)} `)}  ${dateTimeFormattedUtils} | ${colors.bgCyan(`${colors.white(` Info `)}`)} The server dropped new connections`);
     }
-    static expressErrorHandlingMiddleware(errorEmitter: any, err: Error, req: express.Request, res: express.Response, next: express.NextFunction){
+    static expressErrorHandlingMiddleware(errorEmitter: any,
+                                          err: Error,
+                                          req: express.Request,
+                                          res: express.Response,
+                                          next: express.NextFunction): void {
         if (err) {
             errorEmitter.emit(eventName.error, err);
-            res.status(500).send('An internal server error occurred');
+            if (typeof res.status === 'function') {
+                res.status(500).send('Internal Server Error');
+            } else {
+                console.error('res.status is not a function');
+            }
             LogMessageUtils.error(
                 "Express error-handling middleware",
                 "Express error",
@@ -330,5 +371,9 @@ export class ServerListenEventError {
         } else {
             next();
         }
+    }
+
+    private static traceError(props: string, name: string, status: number): StackTraceError {
+        return new ErrorHandler(props, name, status, true);
     }
 }

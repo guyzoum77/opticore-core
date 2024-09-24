@@ -12,7 +12,7 @@ import {LogMessageUtils} from "../utils/logMessage.utils";
  *
  */
 export function bodyParserMiddleware(parseFunction: ParseFunctionType, options: BodyParserOptionsInterface) {
-    return function (req: express.Request, res: express.Response, next: express.NextFunction): void {
+    return function (req: express.Request, res: express.Response, next:  express.NextFunction): void {
         req.headers['content-type']?.includes(options.type)
             ? ((): void => {
                 let body: Uint8Array[] = [];
