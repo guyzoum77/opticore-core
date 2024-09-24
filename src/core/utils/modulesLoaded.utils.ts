@@ -6,7 +6,7 @@ import {dateTimeFormattedUtils} from "./dateTimeFormatted.utils";
 export function modulesLoadedUtils(allAppRoutes: express.Router[], dbConChecker: () => void) {
     LogMessageUtils.success("Kernel", "load kernel", "Modules app have been successfully loaded");
     console.log(`${colors.whiteBright(`  content`)} ${colors.green('Kernel :')} ${colors.cyan(`${colors.bold(`server side`)}`)} has been loaded successfully ${colors.green(`✔`)}`);
-    typeof allAppRoutes instanceof express.Router
+    allAppRoutes
         ? console.log(`${colors.whiteBright(`  content`)} ${colors.green('Kernel :')} ${colors.cyan(`${colors.bold(`Routers service`)} `)} has been loaded successfully ${colors.green(`✔`)}`)
         : console.log(`${colors.red(`✘`)} ${colors.bgRed(` ${colors.bold(`${colors.white(` Register routes `)}`)} `)} | ${dateTimeFormattedUtils} | [ ${colors.red(`${colors.bold(` fail `)}`)} ] | [ ${colors.bold(` loading `)} ] - ${colors.red(` routers `)} - The route register failed to load `);
     typeof dbConChecker == "function"
