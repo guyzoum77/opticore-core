@@ -34,7 +34,7 @@ export class CoreApplication {
         this.stackTraceErrorHandling();
     }
 
-    public onStartServer(host: string, port: number): serverWebApp {
+    public onStartServer(host: string, port: number, registerRouter: express.Router[]): serverWebApp {
         return this.appExpress.listen(port, host, (): void => {
             host === "" && port === 0
                 ? eventErrorOnListeningServer.hostPortUndefined()
@@ -42,7 +42,7 @@ export class CoreApplication {
                     ? eventErrorOnListeningServer.hostUndefined()
                     : port === 0
                         ? eventErrorOnListeningServer.portUndefined()
-                        : "";
+                        : registerRouter;
         });
     }
 
@@ -70,7 +70,7 @@ export class CoreApplication {
 
             if (router && dbCon) {
                 loadedModules(router, dbCon);
-                ((): void => { router; dbCon(); })();
+                ((): void => { dbCon(); })();
             } else {
                 const stackTrace: StackTraceError = this.traceError(msg.loadedModulesError, msg.loadedModules, status.NOT_ACCEPTABLE);
                 log.error(
@@ -96,7 +96,6 @@ export class CoreApplication {
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
     }
-
     private infoWebApp(): void {
         this.serverUtility.infoServer(
             this.serverUtility.getVersions().nodeVersion,
@@ -109,7 +108,6 @@ export class CoreApplication {
             this.serverUtility.getUsageMemory().system
         );
     }
-
     private traceError(props: string, name: string, status: number): StackTraceError {
         return new ErrorHandler(props, name, status, true);
     }

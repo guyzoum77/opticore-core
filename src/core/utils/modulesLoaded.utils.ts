@@ -12,5 +12,4 @@ export function modulesLoadedUtils(allAppRoutes: express.Router[], dbConChecker:
     typeof dbConChecker == "function"
         ? console.log(`${colors.whiteBright(`  content`)} ${colors.green('Kernel :')} ${colors.cyan(`${colors.bold(`database checker connection`)}`)} has been loaded successfully ${colors.green(`✔`)}`)
         : "";
-    console.log("");
 }
