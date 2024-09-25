@@ -84,26 +84,30 @@ import {LoggerCore as Logger} from "opticore-logger";
 export  { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export  { type LogLevelType } from "./core/types/logLevel.type";
 export {
+    type Express,
+    type NextFunction,
+    type Application,
+    type Router,
+    type Response,
+    type CookieOptions,
+    type application,
+    type Errback,
+    type ErrorRequestHandler,
+    type Send,
+    type Request,
+    type Handler,
+    type IRoute,
+    type IRouterHandler,
+    type IRouterMatcher,
+    type RouterOptions,
+    type MediaType
+} from "express";
+
+export {
     colors,
     fs,
     crypto,
     appRoot,
-    Express,
-    NextFunction,
-    Application,
-    Response,
-    CookieOptions,
-    Errback,
-    ErrorRequestHandler,
-    Send,
-    Request,
-    Handler,
-    IRoute,
-    IRouterHandler,
-    IRouterMatcher,
-    RouterOptions,
-    MediaType,
-    application,
     jsonWebToken,
     mySQL,
     bcrypt,
@@ -158,7 +162,6 @@ export {
     eventProcessHandler,
     eventErrorOnListeningServer,
     requestCallsEvent,
-    HttpStatusCodesConstant,
-    Router,
+    HttpStatusCodesConstant
 };
 
