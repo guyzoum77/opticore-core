@@ -36,6 +36,20 @@ export class CoreApplication {
         return routers;
     }
 
+    public kernelModules(kernel: [express.Router[], () => void]): {registerAppRoutes: express.Router[], databaseConn: (() => void) | undefined} {
+        let routerApp: express.Router[];
+        let dbCon: (() => void) | undefined;
+        kernel.forEach((module: express.Router[] | (() => void)): void => {
+            if (Array.isArray(module)) {
+                routerApp = module as express.Router[];
+            } else if (typeof module === "function") {
+                dbCon = module as () => void;
+            }
+        });
+
+        return { registerAppRoutes: routerApp, databaseConn: dbCon }
+    }
+
     public onStartServer(host: string, port: number, routers: express.Router[]): serverWebApp {
         return this.appExpress.listen(port, host, (): void => {
             if (host === "" && port === 0) {
