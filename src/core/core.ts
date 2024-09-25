@@ -25,16 +25,10 @@ export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
     public appExpress: express.Application = express();
 
-    constructor(corsOptions: Partial<CorsOptions> = {},
-                optionsUrlencoded: Partial<OptionsUrlencoded> = {},
-                cookieSessionOptions: Partial<CookieSessionOptions> = {},
-                setting: Partial<string> = "",
-                val: Partial<string> = "") {
+    constructor(corsOptions: Partial<CorsOptions> = {}, optionsUrlencoded: Partial<OptionsUrlencoded> = {}) {
         this.appExpress.use(express.json());
         this.appExpress.use(express.urlencoded(optionsUrlencoded));
         this.appExpress.use(corsOrigin(corsOptions));
-        this.appExpress.use(cookieSession(cookieSessionOptions))
-        this.appExpress.set(setting, val);
         this.stackTraceErrorHandling();
     }
 
