@@ -20,12 +20,13 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQ
         if (err) {
             return mySqlErrorHandlerUtils(err, dbHost, null, null, password);
         } else {
-            LogMessageUtils.success("Database connection", "success connection", msg.dbConnexionSuccess)
+            LogMessageUtils.success("Database connection", "success connection", msg.dbConnexionSuccess);
             return dbConnection.end((endConErr: mySQL.MysqlError | undefined): void => {
                 if (endConErr) {
                     return mySqlErrorHandlerUtils(err, null, database, user, password);
                 } else {
                     LogMessageUtils.success("Database connection", "End connection", msg.dbConnectionClosed);
+                    console.log("");
                 }
             });
         }

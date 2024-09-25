@@ -5,7 +5,7 @@ import {LogMessageUtils} from "../../core/utils/logMessage.utils";
 
 export default async function CheckerPostgresDatabaseConnectionService(connectionString: any,
                                                                        keepAlive?: boolean | undefined,
-                                                                       stream?: (() => (stream.Duplex | undefined)) | undefined,
+                                                                       stream?: any,
                                                                        statement_timeout?: false | number | undefined,
                                                                        ssl?: boolean | ConnectionOptions | undefined,
                                                                        query_timeout?: number | undefined,

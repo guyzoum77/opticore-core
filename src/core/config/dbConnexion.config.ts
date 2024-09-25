@@ -57,6 +57,7 @@ export class DbConnexionConfig {
         try {
             await CheckerMongoDatabaseConnectionService(url, this.user, this.password, this.dbName);
             log.success(msg.MongoDBConnectionChecker, msg.MongoConnection, msg.mongoConnectionSuccess);
+            console.log("");
         } catch (e: any) {
             if (e.code === 18) {
                 DbConnexionConfigError.mongoDBAuthenticationFailed(e);
@@ -117,6 +118,7 @@ export class DbConnexionConfig {
                 options
             );
             log.success(msg.PostgresDBConnectionChecker, msg.PostgresConnection, msg.PostgresConnectionSuccess);
+            console.log("");
         } catch (err: any) {
             throw new ExceptionHandlerError(
                 `${err.message}`,

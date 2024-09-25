@@ -14,8 +14,6 @@ import {
     requestCallsEvent,
     UtilityUtils
 } from "../index";
-import corsOrigin, {CorsOptions} from "cors";
-import {OptionsUrlencoded} from "body-parser";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 
 
@@ -23,14 +21,7 @@ export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
     public appExpress: express.Application = express();
 
-    constructor(corsOptions: Partial<CorsOptions> = {},
-                optionsUrlencoded: Partial<OptionsUrlencoded> = {},
-                setting: Partial<string> = "",
-                val: Partial<string> = "") {
-        this.appExpress.use(express.json());
-        this.appExpress.use(express.urlencoded(optionsUrlencoded));
-        this.appExpress.use(corsOrigin(corsOptions));
-        this.appExpress.set(setting, val);
+    constructor() {
         this.stackTraceErrorHandling();
     }
 
@@ -40,13 +31,15 @@ export class CoreApplication {
 
     public onStartServer(host: string, port: number, routers: express.Router[]): serverWebApp {
         return this.appExpress.listen(port, host, (): void => {
-            host === "" && port === 0
-                ? eventErrorOnListeningServer.hostPortUndefined()
-                : host === ""
-                    ? eventErrorOnListeningServer.hostUndefined()
-                    : port === 0
-                        ? eventErrorOnListeningServer.portUndefined()
-                        : this.registerRouteApp(routers);
+            if (host === "" && port === 0) {
+                eventErrorOnListeningServer.hostPortUndefined();
+            } else if (host === "") {
+                eventErrorOnListeningServer.hostUndefined();
+            } else if (port === 0) {
+                eventErrorOnListeningServer.portUndefined();
+            } else {
+                this.registerRouteApp(routers);
+            }
         });
     }
 
@@ -76,7 +69,11 @@ export class CoreApplication {
                 loadedModules(router, dbCon);
                 ((): void => { dbCon(); })();
             } else {
-                const stackTrace: StackTraceError = this.traceError(msg.loadedModulesError, msg.loadedModules, status.NOT_ACCEPTABLE);
+                const stackTrace: StackTraceError = this.traceError(
+                    msg.loadedModulesError,
+                    msg.loadedModules,
+                    status.NOT_ACCEPTABLE
+                );
                 log.error(
                     msg.loadedModules,
                     "error",
