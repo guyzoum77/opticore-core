@@ -1,4 +1,3 @@
-import express from "express";
 import Validator from 'validatorjs';
 import jsonWebToken from "jsonwebtoken";
 import corsOrigin from "cors";
@@ -15,6 +14,8 @@ import randToken from "rand-token";
 import crypto from "crypto";
 import { PrismaClient } from '@prisma/client';
 import {injectable} from "inversify"; // For dependency injection
+
+
 import {ExpressRoutesUtils} from "./core/utils/expressRoutes.utils"
 import {Db, MongoClient} from 'mongodb';
 import DateDiff from "date-diff";
@@ -43,14 +44,13 @@ import {urlencodedBodyParserType} from "./core/types/urlencoded.type";
 import {LogMessageUtils} from "./core/utils/logMessage.utils";
 import {ResponseHttp} from "./application/http/response.http";
 import {getEnvVariable} from "./domain/env/access.env";
-import {dateTimeFormattedUtils} from "./core/utils/dateTimeFormatted.utils";
+import {dateTimeFormattedUtils as currentDate} from "./core/utils/dateTimeFormatted.utils";
 import {CoreApplication} from "./core/core";
 import {MessagesException as Exception} from "./application/exceptions/messages.exception";
 import {mySqlCheckerDatabase} from "./core/database/mySqlChecker.database";
 import {mongoCheckerDatabase} from "./core/database/mongoChecker.database";
 import {postgresCheckerDatabase} from "./core/database/postgresChecker.database";
 import {optionalArgumentConnectionUtil as optionalArgumentConnection} from "./core/utils/connection/optionalArgumentConnection.util";
-import {expressRouterUtils as routerApp} from "./core/utils/expressRouter.utils";
 import {eventNameErrorConstant as eventName} from "./core/utils/constants/eventNameError.constant";
 import {EventConstant as event} from "./core/utils/constants/event.constant";
 import {eventProcessHandler} from "./core/handlers/eventProcess.handler";
@@ -61,21 +61,23 @@ import {LoggerCore as Logger} from "opticore-logger";
 
 
 
-export type { PoolClient, PoolConfig, CustomTypesConfig, ConnectionConfig };
+
+export  { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
+export  { type LogLevelType } from "./core/types/logLevel.type";
 export {
     colors,
     fs,
     crypto,
     appRoot,
+    //LogLevelType,
     jsonWebToken,
     mySQL,
     bcrypt,
-    routerApp,
     dotenv,
     eventName,
     event,
     optionalArgumentConnection,
-    dateTimeFormattedUtils,
+    currentDate,
     Validator,
     randToken,
     passport,
@@ -84,7 +86,6 @@ export {
     getEnvVariable,
     PrismaClient,
     LogLevelConstant,
-    express,
     corsOrigin,
     cookieParser,
     Client,

@@ -9,11 +9,9 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
         case "EAI_AGAIN":
             logger.error(msg.errorDBHost(dbHost!));
             LogMessageUtils.error(
-                msg.dbConnection,
                 msg.mySQLError,
                 msg.EAI_AGAIN,
-                err.name,
-                err.stack!,
+                err.stack,
                 msg.errorDBHost(dbHost!),
                 status.NOT_ACCEPTABLE
             );
@@ -22,9 +20,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             logger.error(msg.erNotSupportedAuthModeError);
             LogMessageUtils.error(
                 msg.dbConnection,
-                msg.mySQLError,
                 msg.ER_NOT_SUPPORTED_AUTH_MODE,
-                err.name,
                 err.stack!,
                 msg.erNotSupportedAuthModeError,
                 status.NOT_ACCEPTABLE
@@ -34,9 +30,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             logger.error(msg.accessDeniedToDBCon(user!, password!));
             LogMessageUtils.error(
                 msg.dbConnection,
-                msg.mySQLError,
                 msg.ER_ACCESS_DENIED_ERROR,
-                err.name,
                 err.stack!,
                 msg.accessDeniedToDBCon(user!, password!),
                 status.NOT_ACCEPTABLE
@@ -46,9 +40,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             logger.error(msg.unknownDB(database!));
             LogMessageUtils.error(
                 msg.dbConnection,
-                msg.mySQLError,
                 msg.ER_BAD_DB_ERROR,
-                err.name,
                 err.stack!,
                 msg.unknownDB(database!),
                 status.NOT_ACCEPTABLE
@@ -58,9 +50,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             logger.error(err.message);
             LogMessageUtils.error(
                 msg.dbConnection,
-                msg.mySQLError,
                 msg.mysqlErrorCon,
-                err.name,
                 err.stack!,
                 err.message,
                 status.NOT_ACCEPTABLE

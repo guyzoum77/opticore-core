@@ -1,4 +1,5 @@
-import {express, Validator} from "../../index";
+import {Validator} from "../../index";
+import express from "express";
 
 export class ResponseHttp {
     /**
@@ -49,7 +50,12 @@ export class ResponseHttp {
      * @param data
      * @param apiVersion
      */
-    static successWithData (res: express.Response, status: number, context: string, successMessage: string, data: any, apiVersion: any): express.Response<any, Record<string, any>> {
+    static successWithData (res: express.Response,
+                            status: number,
+                            context: string,
+                            successMessage: string,
+                            data: any,
+                            apiVersion: any): express.Response<any, Record<string, any>> {
         return res.status(200).json({
             "@context": context,
             message: successMessage,

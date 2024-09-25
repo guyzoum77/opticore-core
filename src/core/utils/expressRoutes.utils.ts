@@ -1,5 +1,6 @@
-import {path, express} from "../../index";
+import {path} from "../../index";
 import {RouteLoggedInterface} from "../interfaces/routeLogged.interface";
+import express from "express";
 
 export class ExpressRoutesUtils {
 

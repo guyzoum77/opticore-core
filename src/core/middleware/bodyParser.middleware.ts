@@ -1,7 +1,9 @@
-import {Exception, express, HttpStatusCodesConstant} from "../../index";
+import express from "express";
+import {Exception, HttpStatusCodesConstant} from "../../index";
 import {ParseFunctionType} from "../types/parseFunction.type";
 import {BodyParserOptionsInterface} from "../interfaces/bodyParserOptions.interface";
 import {LogMessageUtils} from "../utils/logMessage.utils";
+
 
 /**
  *

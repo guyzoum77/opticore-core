@@ -13,11 +13,11 @@ import {
     LogMessageUtils as log,
     requestCallsEvent,
     UtilityUtils,
-    express
 } from "../index";
 import corsOrigin, {CorsOptions} from "cors";
 import {OptionsUrlencoded} from "body-parser";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
+import express from "express";
 
 
 export class CoreApplication {
@@ -97,10 +97,8 @@ export class CoreApplication {
                 );
                 log.error(
                     msg.loadedModules,
-                    "error",
                     "loading error",
                     stackTrace.stack,
-                    stackTrace.name,
                     msg.loadedModulesError,
                     status.SERVICE_UNAVAILABLE
                 );

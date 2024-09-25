@@ -1,8 +1,7 @@
+import express, {Express} from "express";
+import EventEmitter from "node:events";
 import {eventName, event} from "../../index";
 import {ServerListenEventError} from "../../errors/serverListen.event.error";
-import EventEmitter from "node:events";
-import express, {Express} from "express";
-
 
 /**
  *

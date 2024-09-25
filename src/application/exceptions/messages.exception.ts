@@ -16,7 +16,7 @@ export class MessagesException {
     static publicKeyNotExist: string = "A public key doesn't exist.";
     static errorNamePublicKeyNotExist: string = "No public key";
     static errorAuthorPublicKeyNotExist: string = "PublicKey not existing";
-    static errorDecryption: string = "Error decryption with public key";
+    static errorDecryption: string = "Error decryption with private key";
     static rsaKeyNotFound: string = "RSA key provided is not found.";
     static notVerifyingRSAKey: string = "Not verify RSA Key";
     static errorNameNotVerifyingRSAKey: string = "Error Verify RSA Key";
@@ -32,7 +32,7 @@ export class MessagesException {
     static verifyRSAKeyFailed: string = "Verify RSA Keys Failed";
     static notVerifying: string = "Verification failed";
     static signatureRSAKeysError: string = "Signature RSA Keys Error";
-    static encryptionWithPublicKey: string = "Encryption With PublicKey";
+    static encryptionWithPublicKey: string = "Encryption error";
     static errorDecryptionWithPrivateKey: string = "Error Decryption With PrivateKey";
     static verifyPublicRSAKey: string = "Verify Public RSA Key";
     static PostgresDBConnectionChecker: string = "PostgresDB Connection Checker";
@@ -68,6 +68,7 @@ export class MessagesException {
     static verifyPublicRSAKeyError: string = "Public RSA Key verification is failed";
     static mongoDBAuthenticationError: string = "Authentication failed, be sure the credentials is correct.";
     static loadedModulesError: string = "Required core modules are not loaded properly";
+    static verifyExistingKeyError: string = "The provided key is not found";
 
 
     //

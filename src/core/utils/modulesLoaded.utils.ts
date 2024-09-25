@@ -1,7 +1,8 @@
 import colors from "ansi-colors";
+import express from "express";
 import {LogMessageUtils} from "./logMessage.utils";
-import {express} from "../../index";
 import {dateTimeFormattedUtils} from "./dateTimeFormatted.utils";
+
 
 export function modulesLoadedUtils(allAppRoutes: express.Router[], dbConChecker: () => void) {
     LogMessageUtils.success("Kernel", "load kernel", "Modules app have been successfully loaded");

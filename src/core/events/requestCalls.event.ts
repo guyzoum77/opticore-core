@@ -72,7 +72,8 @@ export function requestCallsEvent(req: IncomingMessage, res: ServerResponse, hos
                     break;
             }
             break;
-        default: // @ts-ignore
+        default:
+            console.log("dump req from request calls event :", req); // @ts-ignore
             console.log(`[ ${colors.blueBright(`${currentDatePath}`)} ] ${loadingTime} | ${colors.blueBright(` ${res.statusMessage} `)} [ Host ] http://${host}:${port} - [ Route ] ${req.originalUrl} - [ Status ] ${colors.blueBright(` ${res.req.socket._httpMessage.statusCode} `)}`);
             break;
     }

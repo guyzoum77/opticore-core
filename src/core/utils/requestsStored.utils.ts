@@ -1,7 +1,6 @@
 import {ExpressRoutesUtils} from "./expressRoutes.utils";
-import {express} from "../../index";
 import colors from "ansi-colors";
-import chalk from "chalk";
+import express from "express";
 
 export function requestsStoredUtils(app: express.Application, loadingTime: any, host: string, port: number) {
     const listRoutes: ExpressRoutesUtils = new ExpressRoutesUtils();

@@ -12,9 +12,7 @@ export class DbConnexionConfigError {
         );
         log.error(
             msg.mongoDBConnection,
-            msg.mongoDBAuthentication,
             msg.mongoDBAuthenticationFailed,
-            e.code,
             stackTrace.stack!,
             msg.mongoDBAuthenticationError,
             status.UNAUTHORIZED
@@ -30,8 +28,6 @@ export class DbConnexionConfigError {
         log.error(
             msg.mongoDBConnection,
             msg.mongoDBUnableParsingUrl,
-            msg.mongoDBConnectionUrl,
-            e.code,
             stackTrace.stack!,
             `Unable to parse ${dbHost}:${dbPort} with URL`,
             status.BAD_REQUEST
@@ -47,8 +43,6 @@ export class DbConnexionConfigError {
         log.error(
             msg.mongoDBConnection,
             msg.mongoDBServerSelection,
-            msg.mongoDBServer,
-            e.code,
             stackTrace.stack!,
             `MongoServerSelectionError: getaddrinfo EAI_AGAIN (${dbHost} is not allow to database connection)`,
             status.BAD_REQUEST
@@ -60,8 +54,6 @@ export class DbConnexionConfigError {
         log.error(
             msg.mongoDBConnection,
             msg.mongoDBConnectionError,
-            msg.mongoDBError,
-            e.code,
             stackTrace.stack!,
             e.message,
             status.NOT_ACCEPTABLE

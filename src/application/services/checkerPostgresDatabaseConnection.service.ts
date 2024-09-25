@@ -1,6 +1,5 @@
 import {Client, CustomTypesConfig, HttpStatusCodesConstant} from "../..";
 import {ConnectionOptions} from "tls";
-import stream from "stream";
 import {LogMessageUtils} from "../../core/utils/logMessage.utils";
 
 export default async function CheckerPostgresDatabaseConnectionService(connectionString: any,

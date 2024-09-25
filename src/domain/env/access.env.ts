@@ -1,8 +1,8 @@
-import { dotenv } from "../..";
-
 /**
  * Get env variables
  */
+import dotenv from "dotenv";
+
 
 export const getEnvVariable = {
     appHost:             String(dotenv.config()?.parsed?.APP_HOST),

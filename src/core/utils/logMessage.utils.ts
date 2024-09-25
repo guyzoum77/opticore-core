@@ -11,9 +11,8 @@ export class LogMessageUtils {
     static info(title: string, action: string, contentAction: string): void {
         console.log(`${colors.cyan(`ⓘ`)} ${colors.bgCyan(` ${colors.bold(`${colors.white(`${title}`)}`)} `)}  ${dateTimeFormattedUtils} | ${colors.bgCyan(`${colors.white(` Info `)}`)} ${contentAction}`);
     }
-    static error(title: string, action: any, typeActionTitle: any, typeActionDescribe: any,
-                 messageTitle: string, messageContent: any, httpCodeValue: number): void {
-        console.log(`${colors.red(`✘`)} ${colors.bgRed(` ${colors.bold(`${colors.white(`${title}`)}`)} `)} | ${dateTimeFormattedUtils} | [ ${colors.red(`${colors.bold(` ${action} `)}`)} ] | [ ${colors.bold(`${typeActionTitle}`)} ] ${colors.red(`${typeActionDescribe}`)} - [ ${colors.bold(`${messageTitle}`)} ] ${colors.red(`${messageContent}`)} - [ ${colors.red(`${colors.bold(` HttpCode `)}`)} ] ${colors.red(`${colors.bold(` ${httpCodeValue} `)}`)} `);
+    static error(title: string, errorType: any, stackTrace: any, messageContent: any, httpCodeValue: number): void {
+        console.log(`${colors.red(`✘`)} ${colors.bgRed(` ${colors.bold(`${colors.white(`${title}`)}`)} `)} | ${dateTimeFormattedUtils} | [ ${colors.red(`${colors.bold(` ${errorType} `)}`)} ] | [ ${colors.bold(`stack trace`)} ] ${colors.red(`${stackTrace}`)} - ${colors.red(`${messageContent}`)} - [ ${colors.red(`${colors.bold(` HttpCode `)}`)} ] ${colors.red(`${colors.bold(` ${httpCodeValue} `)}`)} `);
     }
     static requestError(title: string, errorName: string, errorMessage: string, errorCode: number): void {
         console.log(`[ ${colors.red(`${title}`)} ] ${dateTimeFormattedUtils} | ${colors.bgRed(`${colors.white(` ERROR `)}`)} ${colors.red(`[ ${errorName} ]`)} ${colors.red(`${errorMessage}`)} - [ Status ] ${colors.bgRed(`${colors.white(` ${errorCode} `)}`)}`);

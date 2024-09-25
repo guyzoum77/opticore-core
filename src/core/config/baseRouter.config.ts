@@ -1,10 +1,10 @@
+import express from "express";
+
+
 /**
  * BaseRouterConfig is a class taking in parameter
  * controller and optional middleware
  */
-import express from "express";
-
-
 export class BaseRouterConfig<T, U> {
     public router: express.Router;
     public controller: T;
@@ -17,5 +17,5 @@ export class BaseRouterConfig<T, U> {
         this.routes();
     }
 
-    routes () {}
+    routes (): void {}
 }
