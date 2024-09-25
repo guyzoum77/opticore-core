@@ -1,6 +1,6 @@
 import colors from "ansi-colors";
 import {LogMessageUtils} from "./logMessage.utils";
-import express from "express";
+import {express} from "../../index";
 import {dateTimeFormattedUtils} from "./dateTimeFormatted.utils";
 
 export function modulesLoadedUtils(allAppRoutes: express.Router[], dbConChecker: () => void) {

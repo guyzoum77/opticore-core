@@ -2,8 +2,7 @@ import "reflect-metadata";
 import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
 import {Server as serverWebApp} from "net";
 import {IncomingMessage, ServerResponse} from "node:http";
-import express from "express";
-import cookieSession from "cookie-session";
+
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -13,12 +12,12 @@ import {
     HttpStatusCodesConstant as status,
     LogMessageUtils as log,
     requestCallsEvent,
-    UtilityUtils
+    UtilityUtils,
+    express
 } from "../index";
 import corsOrigin, {CorsOptions} from "cors";
 import {OptionsUrlencoded} from "body-parser";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
-import CookieSessionOptions = CookieSessionInterfaces.CookieSessionOptions;
 
 
 export class CoreApplication {
@@ -37,9 +36,9 @@ export class CoreApplication {
     }
 
     public kernelModules(kernel: [express.Router[], () => void]):
-        {registerAppRoutes: express.Router[], databaseConn: (() => void) | undefined} {
+        {registerAppRoutes: express.Router[], databaseConn: (() => void)} {
         let routerApp: express.Router[] = [];
-        let dbCon: (() => void) | undefined = undefined;
+        let dbCon: (() => void) = () => {};
         kernel.forEach((module: express.Router[] | (() => void)): void => {
             if (Array.isArray(module)) {
                 routerApp = module as express.Router[];
@@ -77,7 +76,7 @@ export class CoreApplication {
             eventErrorOnListeningServer.dropNewConnection();
         }).on(eventName.listening, (): void => {
             this.infoWebApp();
-            let router: express.Router[] | undefined;
+            let router: express.Router[];
             let dbCon: (() => void) | undefined;
             kernelModule.forEach((module: express.Router[] | (() => void)): void => {
                 if (Array.isArray(module)) {
