@@ -3,6 +3,7 @@ import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
 import {Server as serverWebApp} from "net";
 import {IncomingMessage, ServerResponse} from "node:http";
 import express from "express";
+import cookieSession from "cookie-session";
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -14,14 +15,26 @@ import {
     requestCallsEvent,
     UtilityUtils
 } from "../index";
+import corsOrigin, {CorsOptions} from "cors";
+import {OptionsUrlencoded} from "body-parser";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
+import CookieSessionOptions = CookieSessionInterfaces.CookieSessionOptions;
 
 
 export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
     public appExpress: express.Application = express();
 
-    constructor() {
+    constructor(corsOptions: Partial<CorsOptions> = {},
+                optionsUrlencoded: Partial<OptionsUrlencoded> = {},
+                cookieSessionOptions: Partial<CookieSessionOptions> = {},
+                setting: Partial<string> = "",
+                val: Partial<string> = "") {
+        this.appExpress.use(express.json());
+        this.appExpress.use(express.urlencoded(optionsUrlencoded));
+        this.appExpress.use(corsOrigin(corsOptions));
+        this.appExpress.use(cookieSession(cookieSessionOptions))
+        this.appExpress.set(setting, val);
         this.stackTraceErrorHandling();
     }
 
