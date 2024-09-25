@@ -76,7 +76,7 @@ export class CoreApplication {
             eventErrorOnListeningServer.dropNewConnection();
         }).on(eventName.listening, (): void => {
             this.infoWebApp();
-            let router: express.Router[];
+            let router: express.Router[] = [];
             let dbCon: (() => void) | undefined;
             kernelModule.forEach((module: express.Router[] | (() => void)): void => {
                 if (Array.isArray(module)) {
