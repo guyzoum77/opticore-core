@@ -17,8 +17,8 @@ import {use} from "passport";
 export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQL.Connection, user: string,
                                                               database: string, dbHost: string, password: string): void {
     dbConnection.connect((err: mySQL.MysqlError): void => {
-        console.log(`user is ${user}, db is ${database}, host is ${dbHost}, pwd is ${password}`);
         if (err) {
+            console.log(`user is ${user}, db is ${database}, host is ${dbHost}, pwd is ${password}`);
             return mySqlErrorHandlerUtils(err, dbHost, database, user, password);
         } else {
             LogMessageUtils.success("Database connection", "success connection", msg.dbConnexionSuccess);

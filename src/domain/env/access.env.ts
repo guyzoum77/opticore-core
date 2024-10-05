@@ -18,5 +18,6 @@ export const getEnvVariable: EnvVariablesInterface = {
     apiVersion:                  String(dotenv.config()?.parsed?.API_VERSION),
     usernameField:               String(dotenv.config()?.parsed?.USERNAME_FIELD),
     passwordField:               String(dotenv.config()?.parsed?.PASSWORD_FIELD),
-    argumentsDatabaseConnection: String(dotenv.config()?.parsed?.ARGUMENTS_DATABASE_CONNECTION)
+    argumentsDatabaseConnection: String(dotenv.config()?.parsed?.ARGUMENTS_DATABASE_CONNECTION),
+    logEnv:                      String(dotenv.config()?.parsed?.LOG_ENVIRONMENT)
 }

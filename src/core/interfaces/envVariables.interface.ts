@@ -12,4 +12,5 @@ export interface EnvVariablesInterface {
     usernameField: string;
     passwordField: string;
     argumentsDatabaseConnection: string;
+    logEnv: any;
 }
