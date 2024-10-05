@@ -14,6 +14,8 @@ import CheckerPostgresDatabaseConnectionService from "../../application/services
 import {ConnectionOptions} from "tls";
 import {DbConnexionConfigError} from "../../errors/dbConnexion.config.error";
 import StackTraceError from "../handlers/errors/base/stackTraceError";
+import {env} from "../../../dist";
+import {EnvironmentUtils} from "../utils/environment.utils";
 
 
 
@@ -23,12 +25,7 @@ import StackTraceError from "../handlers/errors/base/stackTraceError";
  * the .env environment file to establish the connection with the database service.
  */
 export class DbConnexionConfig {
-    private dbPort: string   = getEnvVariable.dataBasePort;
-    private user: string     = getEnvVariable.dataBaseUser;
-    private password: string = getEnvVariable.dataBasePassword;
-    private dbName: string   = getEnvVariable.dataBaseName;
-    private dbHost: string   = getEnvVariable.dataBaseHost;
-
+    private env: EnvironmentUtils<any> = new env(getEnvVariable);
 
     /**
      * MySQL database connection with an optional arguments
@@ -38,10 +35,10 @@ export class DbConnexionConfig {
      * But if any error is occurring during trying connection, it's specify that error by stack traces.
      */
     public databaseMySQLConnexionChecker(optionalArgumentConnection: string | any): void {
-        const dbURL: string = `${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
+        const dbURL: string = `${this.env.get("dataBaseUser")}:${this.env.get("dataBasePassword")}@${this.env.get("dataBaseHost")}:${this.env.get("dataBasePort")}/${this.env.get("dataBaseName")}`;
         const url: string = `mysql://${dbURL}${optionalArgumentConnection}`;
         const dbConnection: mySQL.Connection = mySQL.createConnection(url);
-        return CheckerMySqlDatabaseConnectionService(dbConnection, this.user, this.dbName, this.dbHost, this.password);
+        return CheckerMySqlDatabaseConnectionService(dbConnection, this.env.get("dataBaseUser"), this.env.get("dataBaseName"), this.env.get("dataBaseHost"), this.env.get("dataBasePassword"));
     }
 
 
@@ -52,10 +49,10 @@ export class DbConnexionConfig {
      * Mongo database connection with optional connection arguments
      */
     public async databaseMongoDBConnectionChecker(optionalArgumentConnection: any): Promise<void> {
-        const dbUrl: string = `${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
+        const dbUrl: string = `${this.env.get("dataBaseUser")}:${this.env.get("dataBasePassword")}@${this.env.get("dataBaseHost")}:${this.env.get("dataBasePort")}/${this.env.get("dataBaseName")}`;
         const url: string = `mongodb://${dbUrl}${optionalArgumentConnection}`;
         try {
-            await CheckerMongoDatabaseConnectionService(url, this.user, this.password, this.dbName);
+            await CheckerMongoDatabaseConnectionService(url, this.env.get("dataBaseUser"), this.env.get("dataBasePassword"), this.env.get("dataBaseName"));
             log.success(msg.MongoDBConnectionChecker, msg.MongoConnection, msg.mongoConnectionSuccess);
             console.log("");
         } catch (e: any) {
@@ -63,10 +60,10 @@ export class DbConnexionConfig {
                 DbConnexionConfigError.mongoDBAuthenticationFailed(e);
             }
             if (e.cause.code === 'ERR_INVALID_URL') {
-                DbConnexionConfigError.mongoDBInvalidUrl(e, this.dbHost, this.dbPort);
+                DbConnexionConfigError.mongoDBInvalidUrl(e, this.env.get("dataBaseHost"), this.env.get("dataBasePort"));
             }
             if (e.code === undefined) {
-                DbConnexionConfigError.mongoDBEaiAgain(e, this.dbHost);
+                DbConnexionConfigError.mongoDBEaiAgain(e, this.env.get("dataBaseHost"));
             } else {
                 DbConnexionConfigError.mongoDbGlobalError(e);
             }
@@ -101,7 +98,7 @@ export class DbConnexionConfig {
                                                     connectionTimeoutMillis?: number | undefined,
                                                     types?: CustomTypesConfig | undefined,
                                                     options?: string | undefined): Promise<void> {
-        const url: string = `postgresql:/${this.user}:${this.password}@${this.dbHost}:${this.dbPort}/${this.dbName}`;
+        const url: string = `postgresql:/${this.env.get("dataBaseUser")}:${this.env.get("dataBasePassword")}@${this.env.get("dataBaseHost")}:${this.env.get("dataBasePort")}/${this.env.get("dataBaseName")}`;
         try {
             await CheckerPostgresDatabaseConnectionService(
                 url,

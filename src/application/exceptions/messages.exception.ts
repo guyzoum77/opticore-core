@@ -90,8 +90,8 @@ export class MessagesException {
     static accessDeniedToDBCon(user: string, password: string): string {
         return `Access denied for user ${user}. Database credentials in .env file are User: ${user} and Password: ${password}.  '${user}''${password}'@'localhost'. Try to set user and password in .env file`;
     }
-    static unknownDB(password: string): string {
-        return `Database ${password} is unknown. Please try to use Database CLI to create your database, or do it manually in your Database Management System`
+    static unknownDB(database: string): string {
+        return `Database ${database} is unknown. Please try to use Database CLI to create your database, or do it manually in your Database Management System`
     }
 
     static errorDBHost(host: string): string {
