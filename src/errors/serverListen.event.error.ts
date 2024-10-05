@@ -104,6 +104,7 @@ export class ServerListenEventError {
                     "completed",
                     "The process finished as expected and everything is ok"
                 );
+                console.log("");
                 const paddingLength: number = 35;
                 const msg0: string = ' '.padEnd(paddingLength, ' ');
                 console.log(chalk.bgGreen.white(msg0.padEnd(paddingLength, ' ')));

@@ -1,6 +1,9 @@
 import colors from "ansi-colors";
 import {IncomingMessage, ServerResponse} from "node:http";
 import {WrappingBodyResponseInterface} from "../interfaces/wrappingBodyResponse.interface";
+import {originalWriteEncodingType} from "../types/originalWriteEncoding.type";
+import {ResponseBodyEndFromResponseEventInterface} from "../interfaces/responseBodyEndFromResponseEvent.interface";
+import {ResponseBodyWriteFromResponseEventInterface} from "../interfaces/responseBodyWriteFromResponseEvent.interface";
 
 export function requestCallsEvent(req: IncomingMessage, res: ServerResponse, host: string, port: number, loadingTime: any) {
     const currentDatePath: string = `Request called`;
@@ -9,50 +12,73 @@ export function requestCallsEvent(req: IncomingMessage, res: ServerResponse, hos
         console.log(`[ ${colors.red(`${currentDatePath}`)} ] ${loadingTime} | ${colors.bgRed(`${colors.white(` Not found `)}`)} [ Host ] http://${host}:${port} - [ Route ] The route do not exist. - [ Status ] ${colors.red(`${colors.white(` 404 `)}`)}`)
     } else {
         /**
-         * Capture du corps de la reponse.
+         * Capture du corps de la réponse
          */
         let responseBody: string = "";
 
         /**
-         * Encapsulation de res.write pour capturer les données écrites dans la réponse.
+         * Encapsulation de res.write pour capturer les données écrites dans la réponse
          */
-        const originalWrite = res.write;
-        res.write = function (...args: any[]) {
+        const originalWrite: OmitThisParameter<ResponseBodyWriteFromResponseEventInterface> = res.write.bind(res);
+        const originalEnd: OmitThisParameter<ResponseBodyEndFromResponseEventInterface> = res.end.bind(res);
+
+        res.write = function (chunk: any, encoding?: BufferEncoding, callback?: (error?: Error | null) => void): boolean {
             /**
-             * Capturez le bloc de données en cours d'écriture
+             * Capturez le corps de la réponse si le bloc est une chaîne ou un tampon
              */
-            if (typeof args[0] === 'string' || Buffer.isBuffer(args[0])) {
-                responseBody += args[0];
+            if (typeof chunk === "string" || Buffer.isBuffer(chunk)) {
+                /**
+                 * Capturer le bloc de données en cours d'écriture
+                 */
+                responseBody += chunk;
             }
 
             /**
-             * Appelez la méthode d'écriture d'origine.
+             * Appeler la méthode d'écriture d'origine
              */
-            return originalWrite.apply(res, arguments);  // Call the original write method
-        };
+            return originalWrite(chunk, <originalWriteEncodingType>encoding, callback);
+        } as typeof res.write;
 
         /**
-         * Encapsulation de res.end pour capturer le corps final.
+         * Envelopper res.end pour capturer le corps final
          */
-        const originalEnd = res.end;
-        res.end = function (...args: any[]) {
-            /**
-             * Capture le bloc final, le cas échéant
-             */
-            if (args[0]) {
-                responseBody += args[0];
+        res.end = function (chunk?: any, callback?: () => void): void {
+            if (chunk) {
+                if (typeof chunk === "string" || Buffer.isBuffer(chunk)) {
+                    /**
+                     * Capturez le dernier morceau, le cas échéant
+                     */
+                    responseBody += chunk;
+                }
             }
 
             /**
-             * Enregistre le corps complet de la réponse
+             * Enregistrez le corps de la réponse complète
              */
             console.log("Response body:", responseBody);
 
             /**
-             * Appelle la méthode end d'origine
+             * Appelez la méthode de fin d'origine avec les arguments corrects
              */
-            return originalEnd.apply(res, arguments);
-        };
+            if (callback) {
+                if (chunk) {
+                    /**
+                     * Si un fragment est fourni et que le rappel existe
+                     */
+                    originalEnd(chunk, callback);
+                } else {
+                    /**
+                     * S'il n'y a pas de bloc, appelez simplement avec rappel
+                     */
+                    originalEnd(callback);
+                }
+            } else {
+                /**
+                 * Appelez simplement originalEnd avec chunk (ou undefined)
+                 */
+                originalEnd(chunk);
+            }
+        } as typeof res.end;
 
         switch (res.statusCode) {
             case 200:
