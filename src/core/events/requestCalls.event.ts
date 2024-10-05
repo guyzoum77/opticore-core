@@ -4,6 +4,8 @@ import {IncomingMessage, ServerResponse} from "node:http";
 export function requestCallsEvent(req: IncomingMessage, res: ServerResponse, host: string, port: number, loadingTime: any) {
     const currentDatePath: string = `Request called`;
     // @ts-ignore
+    console.log("req.originalUrl from requestCallsEvent is :", req.originalUrl);
+
     // if(req.originalUrl === "undefined") {
     //     console.log(`[ ${colors.red(`${currentDatePath}`)} ] ${loadingTime} | ${colors.bgRed(`${colors.white(` Not found `)}`)} [ Host ] http://${host}:${port} - [ Route ] The route do not exist. - [ Status ] ${colors.red(`${colors.white(` 404 `)}`)}`)
     // } else {

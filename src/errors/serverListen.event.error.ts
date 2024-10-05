@@ -7,6 +7,7 @@ import process from "process";
 import colors from "ansi-colors";
 import StackTraceError from "../core/handlers/errors/base/stackTraceError";
 import express from "express";
+import chalk from "chalk";
 
 export class ServerListenEventError {
     static hostPortUndefined(): void {
@@ -101,8 +102,13 @@ export class ServerListenEventError {
                 LogMessageUtils.success(
                     "Exited",
                     "completed",
-                    "The process finished as expected and everything worked correctly"
+                    "The process finished as expected and everything is ok"
                 );
+                const paddingLength: number = 35;
+                const msg0: string = ' '.padEnd(paddingLength, ' ');
+                console.log(chalk.bgGreen.white(msg0.padEnd(paddingLength, ' ')));
+                console.log(`${colors.bgGreen(` [OK] The server shutting down     `)}`);
+                console.log(chalk.bgGreen.white(msg0.padEnd(paddingLength, ' ')));
                 break;
             case 1:
                 const gnleStackTrace: StackTraceError = this.traceError(
@@ -295,19 +301,6 @@ export class ServerListenEventError {
     static uncaughtExceptionMonitor(error: any): void {
         if (error.message === '\'app.router\' is deprecated!\nPlease see the 3.x to 4.x migration guide for details on how to update your app.') {
             console.log("");
-        } else {
-            const stackTrace: StackTraceError = this.traceError(
-                error.message,
-                "uncaught exception handled",
-                status.SERVICE_UNAVAILABLE
-            );
-            LogMessageUtils.error(
-                "UncaughtExceptionMonitor",
-                "uncaught exception handled",
-                stackTrace.stack,
-                error.message,
-                status.SERVICE_UNAVAILABLE
-            );
         }
     }
     static unhandledRejection(reason: any, promise: Promise<any>): void{
@@ -363,17 +356,10 @@ export class ServerListenEventError {
         );
     }
     static processInterrupted(): void {
-        const stackTrace: StackTraceError = this.traceError(
+        LogMessageUtils.success(
+            "[ OK ] Success",
             `Process ${process.pid} has been interrupted`,
-            "SIGINT",
-            status.NOT_ACCEPTABLE
-        );
-        LogMessageUtils.error(
-            "SIGINT",
-            "SIGINT",
-            stackTrace.stack,
-            `Process ${process.pid} has been interrupted`,
-            status.NOT_ACCEPTABLE
+            "The Web server has been stopped !"
         );
         process.exit(0);
     }

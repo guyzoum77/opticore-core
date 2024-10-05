@@ -5,7 +5,6 @@ import express, {
     Router,
     Response,
     CookieOptions,
-    application,
     Errback,
     ErrorRequestHandler,
     Send,
@@ -77,6 +76,7 @@ import {ServerListenEventError as eventErrorOnListeningServer} from "./errors/se
 import {requestCallsEvent} from "./core/events/requestCalls.event";
 import {modulesLoadedUtils} from "./core/utils/modulesLoaded.utils";
 import {LoggerCore as Logger} from "opticore-logger";
+import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 
 
 
@@ -84,13 +84,12 @@ import {LoggerCore as Logger} from "opticore-logger";
 export  { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export  { type LogLevelType } from "./core/types/logLevel.type";
 export {
+    type Router,
     type Express,
     type NextFunction,
     type Application,
-    type Router,
     type Response,
     type CookieOptions,
-    type application,
     type Errback,
     type ErrorRequestHandler,
     type Send,
@@ -124,6 +123,8 @@ export {
     getEnvVariable,
     PrismaClient,
     LogLevelConstant,
+    env,
+    express,
     corsOrigin,
     cookieParser,
     Client,

@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
-import {Server as serverWebApp} from "net";
+import {Server as serverWebApp} from "node:net";
 import {IncomingMessage, ServerResponse} from "node:http";
 
 import {
@@ -18,40 +18,39 @@ import corsOrigin, {CorsOptions} from "cors";
 import {OptionsUrlencoded} from "body-parser";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import express from "express";
+import {KernelModuleInterface} from "./interfaces/kernelModule.interface";
+import {coreListenerEventService} from "../application/services/coreListenerEvent.service";
 
 
 export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
-    public appExpress: express.Application = express();
+    public expressApp: express.Application = express();
 
-    constructor(corsOptions: Partial<CorsOptions> = {}, optionsUrlencoded: Partial<OptionsUrlencoded> = {}) {
-        this.appExpress.use(express.json());
-        this.appExpress.use(express.urlencoded(optionsUrlencoded));
-        this.appExpress.use(corsOrigin(corsOptions));
+    constructor() {
         this.stackTraceErrorHandling();
     }
 
-    private registerRouteApp(routers: express.Router[]) {
+    private registerRouteApp<T extends express.Router>(routers: T[]): T[] {
         return routers;
     }
 
-    public kernelModules(kernel: [express.Router[], () => void]):
-        {registerAppRoutes: express.Router[], databaseConn: (() => void)} {
+    public kernelModules<T extends KernelModuleInterface>(kernel: T[]) {
+        let dbConn: (() => void) = (): void => {};
         let routerApp: express.Router[] = [];
-        let dbCon: (() => void) = () => {};
-        kernel.forEach((module: express.Router[] | (() => void)): void => {
-            if (Array.isArray(module)) {
-                routerApp = module as express.Router[];
-            } else if (typeof module === "function") {
-                dbCon = module as () => void;
-            }
+
+        kernel.forEach((module: any): void => {
+            typeof module === "function"
+                ? dbConn = module as () => void
+                : Array.isArray(module)
+                    ? routerApp = module as express.Router[]
+                    : null;
         });
 
-        return { registerAppRoutes: routerApp, databaseConn: dbCon }
+        return { registerAppRoutes: routerApp, databaseConn: dbConn };
     }
 
-    public onStartServer(host: string, port: number, routers: express.Router[]): serverWebApp {
-        return this.appExpress.listen(port, host, (): void => {
+    public onStartServer(host: string, port: number, routers: express.Router[]) {
+        return this.expressApp.listen(port, host, (): void => {
             if (host === "" && port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
             } else if (host === "") {
@@ -59,15 +58,12 @@ export class CoreApplication {
             } else if (port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-                this.registerRouteApp(routers);
+                this.registerRouteApp(routers).forEach((router: express.Router) => router);
             }
         });
     }
 
-    public onListeningOnServerEvent(serverWeb: serverWebApp,
-                                    host: string,
-                                    port: number,
-                                    kernelModule: [express.Router[], () => void]): void {
+    public onListeningOnServerEvent(serverWeb: serverWebApp, kernelModule: KernelModuleInterface[]): void {
         serverWeb.on(eventName.error, (err: Error): void => {
             eventErrorOnListeningServer.onEventError(err);
         }).on(eventName.close, (): void => {
@@ -76,40 +72,16 @@ export class CoreApplication {
             eventErrorOnListeningServer.dropNewConnection();
         }).on(eventName.listening, (): void => {
             this.infoWebApp();
-            let router: express.Router[] = [];
-            let dbCon: (() => void) | undefined;
-            kernelModule.forEach((module: express.Router[] | (() => void)): void => {
-                if (Array.isArray(module)) {
-                    router = module as express.Router[];
-                } else if (typeof module === "function") {
-                    dbCon = module as () => void;
-                }
-            });
-
-            if (router && dbCon) {
-                loadedModules(router, dbCon);
-                ((): void => { dbCon(); })();
-            } else {
-                const stackTrace: StackTraceError = this.traceError(
-                    msg.loadedModulesError,
-                    msg.loadedModules,
-                    status.NOT_ACCEPTABLE
-                );
-                log.error(
-                    msg.loadedModules,
-                    "loading error",
-                    stackTrace.stack,
-                    msg.loadedModulesError,
-                    status.SERVICE_UNAVAILABLE
-                );
-                throw new Error(stackTrace.message);
-            }
+            coreListenerEventService(kernelModule);
         });
     }
 
     public onRequestOnServerEvent(serverWeb: serverWebApp, host: string, port: number, loadingTime: any): void {
         serverWeb.on("request", (req: IncomingMessage, res: ServerResponse): void => {
+            console.log("event on request from onRequestOnServerEvent is :", req);
             requestCallsEvent(req, res, host, port, loadingTime);
+        }).on("response", (res: ServerResponse) => {
+            console.log("event on response from onRequestOnServerEvent is :", res);
         });
     }
 

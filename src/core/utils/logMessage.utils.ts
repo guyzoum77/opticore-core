@@ -1,4 +1,4 @@
-import colors from "ansi-colors";
+    import colors from "ansi-colors";
 import {dateTimeFormattedUtils} from "./dateTimeFormatted.utils";
 
 export class LogMessageUtils {
