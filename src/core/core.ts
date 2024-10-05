@@ -58,7 +58,7 @@ export class CoreApplication {
             } else if (port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-                this.registerRouteApp(routers).forEach((router: express.Router) => router);
+                this.registerRouteApp(routers).forEach((router: express.Router) => this.expressApp.use(router));
             }
         });
     }
