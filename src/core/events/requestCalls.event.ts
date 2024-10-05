@@ -17,11 +17,13 @@ export function requestCallsEvent(req: IncomingMessage, res: ServerResponse, hos
          * Encapsulation de res.write pour capturer les données écrites dans la réponse.
          */
         const originalWrite = res.write;
-        res.write = function (chunk: any) {
+        res.write = function (...args: any[]) {
             /**
              * Capturez le bloc de données en cours d'écriture
              */
-            responseBody += chunk;
+            if (typeof args[0] === 'string' || Buffer.isBuffer(args[0])) {
+                responseBody += args[0];
+            }
 
             /**
              * Appelez la méthode d'écriture d'origine.
@@ -33,11 +35,13 @@ export function requestCallsEvent(req: IncomingMessage, res: ServerResponse, hos
          * Encapsulation de res.end pour capturer le corps final.
          */
         const originalEnd = res.end;
-        res.end = function (chunk: any) {
+        res.end = function (...args: any[]) {
             /**
              * Capture le bloc final, le cas échéant
              */
-            if (chunk) responseBody += chunk;
+            if (args[0]) {
+                responseBody += args[0];
+            }
 
             /**
              * Enregistre le corps complet de la réponse
