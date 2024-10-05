@@ -14,8 +14,7 @@ import CheckerPostgresDatabaseConnectionService from "../../application/services
 import {ConnectionOptions} from "tls";
 import {DbConnexionConfigError} from "../../errors/dbConnexion.config.error";
 import StackTraceError from "../handlers/errors/base/stackTraceError";
-import {env} from "../../../dist";
-import {EnvironmentUtils} from "../utils/environment.utils";
+import {EnvironmentUtils as env} from "../utils/environment.utils";
 
 
 
@@ -25,7 +24,7 @@ import {EnvironmentUtils} from "../utils/environment.utils";
  * the .env environment file to establish the connection with the database service.
  */
 export class DbConnexionConfig {
-    private env: EnvironmentUtils<any> = new env(getEnvVariable);
+    private env: env<any> = new env(getEnvVariable);
 
     /**
      * MySQL database connection with an optional arguments
