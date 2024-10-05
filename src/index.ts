@@ -77,6 +77,7 @@ import {requestCallsEvent} from "./core/events/requestCalls.event";
 import {modulesLoadedUtils} from "./core/utils/modulesLoaded.utils";
 import {LoggerCore as Logger} from "opticore-logger";
 import {EnvironmentUtils as env} from "./core/utils/environment.utils";
+import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 
 
 
@@ -103,10 +104,11 @@ export {
 } from "express";
 
 export {
-    colors,
-    fs,
-    crypto,
     appRoot,
+    colors,
+    crypto,
+    fs,
+    KernelModuleInterface,
     jsonWebToken,
     mySQL,
     bcrypt,
