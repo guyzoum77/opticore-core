@@ -35,12 +35,7 @@ export class DbConnexionConfig {
      */
     public databaseMySQLConnexionChecker(optionalArgumentConnection: string | any): void {
         const dbURL: string = `${this.env.get("dataBaseUser")}:${this.env.get("dataBasePassword")}@${this.env.get("dataBaseHost")}:${this.env.get("dataBasePort")}/${this.env.get("dataBaseName")}`;
-        let url: string = "";
-        if (!optionalArgumentConnection || optionalArgumentConnection == "" || optionalArgumentConnection === undefined) {
-            url = `mysql://${dbURL}`;
-        } else {
-            url = `mysql://${dbURL}${optionalArgumentConnection}`;
-        }
+        let url: string = `mysql://${dbURL}?${optionalArgumentConnection}`;
         const dbConnection: mySQL.Connection = mySQL.createConnection(url);
         return CheckerMySqlDatabaseConnectionService(dbConnection, this.env.get("dataBaseUser"), this.env.get("dataBaseName"), this.env.get("dataBaseHost"), this.env.get("dataBasePassword"));
     }
