@@ -19,4 +19,4 @@ import {getEnvVariable} from "../../../domain/env/access.env";
  *
  * ---------------------------------------------------------------------------------------------------------------------------------
  */
-export const optionalArgumentConnectionUtil: string = getEnvVariable.argumentsConnection;
+export const optionalArgumentConnectionUtil: string = getEnvVariable.argumentsDatabaseConnection;
