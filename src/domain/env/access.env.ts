@@ -2,9 +2,10 @@
  * Get env variables
  */
 import dotenv from "dotenv";
+import {EnvVariablesInterface} from "../../core/interfaces/envVariables.interface";
 
 
-export const getEnvVariable = {
+export const getEnvVariable: EnvVariablesInterface = {
     appHost:             String(dotenv.config()?.parsed?.APP_HOST),
     appPort:             String(dotenv.config()?.parsed?.APP_PORT),
     prodEnv:             String(dotenv.config()?.parsed?.ENV_PROD),
