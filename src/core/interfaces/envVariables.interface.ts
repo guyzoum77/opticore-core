@@ -11,5 +11,5 @@ export interface EnvVariablesInterface {
     apiVersion: string;
     usernameField: string;
     passwordField: string;
-    argumentsConnection: string;
+    argumentsDatabaseConnection: string;
 }

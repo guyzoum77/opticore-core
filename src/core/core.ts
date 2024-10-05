@@ -78,11 +78,8 @@ export class CoreApplication {
 
     public onRequestOnServerEvent(serverWeb: serverWebApp, host: string, port: number, loadingTime: any): void {
         serverWeb.on("request", (req: IncomingMessage, res: ServerResponse): void => {
-            console.log("event on request from onRequestOnServerEvent is :", req);
             requestCallsEvent(req, res, host, port, loadingTime);
-        }).on("response", (res: ServerResponse) => {
-            console.log("event on response from onRequestOnServerEvent is :", res);
-        });
+        })
     }
 
     private stackTraceErrorHandling(): void {
