@@ -7,7 +7,7 @@ import {ServerListenEventError} from "../../errors/serverListen.event.error";
  *
  */
 export function eventProcessHandler(): void {
-    const errorEmitter= new EventEmitter();
+    const errorEmitter = new EventEmitter();
     const app: Express = express();
 
     /**
@@ -26,30 +26,62 @@ export function eventProcessHandler(): void {
             ServerListenEventError.processBeforeExit(code);
         }, 100);
     });
+
+    /**
+     *
+     */
     process.on(event.disconnect, (): void => {
         ServerListenEventError.processDisconnected();
     });
+
+    /**
+     *
+     */
     process.on(event.exit, (code: number): void => {
         ServerListenEventError.exited(code);
     });
+
+    /**
+     *
+     */
     process.on(event.rejectionHandled, (promise: Promise<any>): void => {
         ServerListenEventError.promiseRejectionHandled(promise);
     });
+
+    /**
+     *
+     */
     process.on(event.uncaughtException, (error: any): void => {
         ServerListenEventError.uncaughtException(error);
     });
+
+    /**
+     *
+     */
     process.on(event.uncaughtExceptionMonitor, (error: any): void => {
         ServerListenEventError.uncaughtExceptionMonitor(error);
     });
+
+    /**
+     *
+     */
     process.on(event.unhandledRejection, (reason: any, promise: Promise<any>): void => {
         ServerListenEventError.unhandledRejection(reason, promise);
     });
+
+    /**
+     *
+     */
     process.on(event.warning, (warning: any): void => {
         ServerListenEventError.warning(warning);
     });
     process.on(event.message, (message: any): void => {
         ServerListenEventError.message(message);
     });
+
+    /**
+     *
+     */
     process.on(event.multipleResolves, (type: string, promise: Promise<any>, reason: any): void => {
         ServerListenEventError.multipleResolves(type, promise, reason);
     });

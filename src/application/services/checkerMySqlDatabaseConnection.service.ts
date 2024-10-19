@@ -1,6 +1,5 @@
 import {Exception as msg, LogMessageUtils, mySQL} from "../..";
 import {mySqlErrorHandlerUtils} from "../../core/utils/mySqlErrorHandler.utils";
-import {use} from "passport";
 
 
 /**
@@ -18,7 +17,6 @@ export default function CheckerMySqlDatabaseConnectionService(dbConnection: mySQ
                                                               database: string, dbHost: string, password: string): void {
     dbConnection.connect((err: mySQL.MysqlError): void => {
         if (err) {
-            console.log(`user is ${user}, db is ${database}, host is ${dbHost}, pwd is ${password}`);
             return mySqlErrorHandlerUtils(err, dbHost, database, user, password);
         } else {
             LogMessageUtils.success("Database connection", "success connection", msg.dbConnexionSuccess);

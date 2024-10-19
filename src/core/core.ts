@@ -1,21 +1,16 @@
 import "reflect-metadata";
-import {modulesLoadedUtils as loadedModules} from "./utils/modulesLoaded.utils";
 import {Server as serverWebApp} from "node:net";
-import {IncomingMessage, ServerResponse} from "node:http";
+import {IncomingMessage, ServerResponse, createServer} from "node:http";
 
 import {
     eventErrorOnListeningServer,
     eventName,
     eventProcessHandler,
-    Exception as msg, ExceptionHandlerError as ErrorHandler,
+    ExceptionHandlerError as ErrorHandler,
     getEnvVariable,
-    HttpStatusCodesConstant as status,
-    LogMessageUtils as log,
     requestCallsEvent,
     UtilityUtils,
 } from "../index";
-import corsOrigin, {CorsOptions} from "cors";
-import {OptionsUrlencoded} from "body-parser";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import express from "express";
 import {KernelModuleInterface} from "./interfaces/kernelModule.interface";
@@ -24,7 +19,7 @@ import {coreListenerEventService} from "../application/services/coreListenerEven
 
 export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
-    public expressApp: express.Application = express();
+    private expressApp: express.Application = express();
 
     constructor() {
         this.stackTraceErrorHandling();
@@ -50,7 +45,7 @@ export class CoreApplication {
     }
 
     public onStartServer(host: string, port: number, routers: express.Router[]) {
-        return this.expressApp.listen(port, host, (): void => {
+        return createServer().listen(port, host, (): void => {
             if (host === "" && port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
             } else if (host === "") {
@@ -79,7 +74,7 @@ export class CoreApplication {
     public onRequestOnServerEvent(serverWeb: serverWebApp, host: string, port: number, loadingTime: any): void {
         serverWeb.on("request", (req: IncomingMessage, res: ServerResponse): void => {
             requestCallsEvent(req, res, host, port, loadingTime);
-        })
+        });
     }
 
     private stackTraceErrorHandling(): void {
