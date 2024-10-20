@@ -59,7 +59,7 @@ export class CoreApplication {
         });
     }
 
-    public onListeningOnServerEvent<T extends KernelModuleType>(serverWeb: serverWebApp, kernelModule: [express.Router[], () => void]): void {
+    public onListeningOnServerEvent<T extends KernelModuleType>(serverWeb: serverWebApp, kernelModule: T): void {
         serverWeb.on(eventName.error, (err: Error): void => {
             eventErrorOnListeningServer.onEventError(err);
         }).on(eventName.close, (): void => {

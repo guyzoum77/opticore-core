@@ -7,7 +7,7 @@ export class RunBootstrap {
     private static app: express.Application = express();
     private static entryApp: CoreApplication = new CoreApplication();
 
-    static run<T extends (app: express.Application) => [express.Router[], () => void]>(Kernel: T): void {
+    static run<T extends (app: express.Application) => KernelModuleType>(Kernel: T): void {
         const [routers, dbConn] = Kernel(this.app);
         const server: Server = this.entryApp.onStartServer(
             this.env.get("appHost"),
@@ -16,7 +16,7 @@ export class RunBootstrap {
         );
         this.entryApp.onListeningOnServerEvent(
             server,
-            Kernel(this.app) as KernelModuleType
+            Kernel(this.app)
         );
         this.entryApp.onRequestOnServerEvent(
             server,

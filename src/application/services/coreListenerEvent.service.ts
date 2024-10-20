@@ -5,11 +5,11 @@ import {Exception as msg, HttpStatusCodesConstant as status, LogMessageUtils as 
 import {KernelModuleInterface} from "../../core/interfaces/kernelModule.interface";
 import {KernelModuleType} from "../../core/types/kernelModule.type";
 
-export function coreListenerEventService<T extends KernelModuleType>(kernelModule: T[]) {
+export function coreListenerEventService<T extends KernelModuleType>(kernelModule: T) {
     let router: express.Router[] = [];
     let dbCon: (() => void) | undefined;
 
-    kernelModule.forEach((module: T): void => {
+    kernelModule.forEach((module): void => {
         if (Array.isArray(module)) {
             router = module as express.Router[];
         } else if (typeof module === "function") {
