@@ -15,6 +15,7 @@ import StackTraceError from "./handlers/errors/base/stackTraceError";
 import express from "express";
 import {KernelModuleInterface} from "./interfaces/kernelModule.interface";
 import {coreListenerEventService} from "../application/services/coreListenerEvent.service";
+import {KernelModuleType} from "./types/kernelModule.type";
 
 
 export class CoreApplication {
@@ -44,7 +45,7 @@ export class CoreApplication {
         return { registerAppRoutes: routerApp, databaseConn: dbConn };
     }
 
-    public onStartServer(host: string, port: number, routers: express.Router[]) {
+    public onStartServer<T extends express.Router[]>(host: string, port: number, routers: T) {
         return createServer().listen(port, host, (): void => {
             if (host === "" && port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -58,7 +59,7 @@ export class CoreApplication {
         });
     }
 
-    public onListeningOnServerEvent(serverWeb: serverWebApp, kernelModule: KernelModuleInterface[]): void {
+    public onListeningOnServerEvent<T extends KernelModuleType>(serverWeb: serverWebApp, kernelModule: [express.Router[], () => void]): void {
         serverWeb.on(eventName.error, (err: Error): void => {
             eventErrorOnListeningServer.onEventError(err);
         }).on(eventName.close, (): void => {

@@ -3,12 +3,13 @@ import {modulesLoadedUtils as loadedModules} from "../../core/utils/modulesLoade
 import StackTraceError from "../../core/handlers/errors/base/stackTraceError";
 import {Exception as msg, HttpStatusCodesConstant as status, LogMessageUtils as log} from "../../index";
 import {KernelModuleInterface} from "../../core/interfaces/kernelModule.interface";
+import {KernelModuleType} from "../../core/types/kernelModule.type";
 
-export function coreListenerEventService(kernelModule: KernelModuleInterface[]) {
+export function coreListenerEventService<T extends KernelModuleType>(kernelModule: T[]) {
     let router: express.Router[] = [];
     let dbCon: (() => void) | undefined;
 
-    kernelModule.forEach((module: KernelModuleInterface): void => {
+    kernelModule.forEach((module: T): void => {
         if (Array.isArray(module)) {
             router = module as express.Router[];
         } else if (typeof module === "function") {
