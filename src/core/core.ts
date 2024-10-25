@@ -10,9 +10,9 @@ import {
     getEnvVariable,
     requestCallsEvent,
     UtilityUtils,
+    express
 } from "../index";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
-import express from "express";
 import {KernelModuleInterface} from "./interfaces/kernelModule.interface";
 import {coreListenerEventService} from "../application/services/coreListenerEvent.service";
 import {KernelModuleType} from "./types/kernelModule.type";
@@ -45,7 +45,7 @@ export class CoreApplication {
         return { registerAppRoutes: routerApp, databaseConn: dbConn };
     }
 
-    public onStartServer<T extends express.Router[]>(host: string, port: number, routers: T) {
+    public onStartServer(host: string, port: number, routers: express.Router[]) {
         return createServer().listen(port, host, (): void => {
             if (host === "" && port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -54,7 +54,7 @@ export class CoreApplication {
             } else if (port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-                this.registerRouteApp(routers).forEach((router: express.Router) => {
+                routers.forEach((router: express.Router) => {
                     this.expressApp.use(router);
                     console.log("Mounted route:", router.stack); // Check route stack
                 });
@@ -62,7 +62,7 @@ export class CoreApplication {
         });
     }
 
-    public onListeningOnServerEvent<T extends KernelModuleType>(serverWeb: serverWebApp, kernelModule: T): void {
+    public onListeningOnServerEvent(serverWeb: serverWebApp, kernelModule: KernelModuleType): void {
         serverWeb.on(eventName.error, (err: Error): void => {
             eventErrorOnListeningServer.onEventError(err);
         }).on(eventName.close, (): void => {
