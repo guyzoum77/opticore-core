@@ -79,7 +79,6 @@ import {modulesLoadedUtils} from "./core/utils/modulesLoaded.utils";
 import {LoggerCore as Logger} from "opticore-logger";
 import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
-import {RunBootstrap} from "./core/bootstrap/run.bootstrap";
 
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
@@ -165,7 +164,6 @@ export {
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
     ResponseHttp,
-    RunBootstrap,
     requestCallsEvent,
     RSAKeyDecryption,
     RSAKeyEncryption,
