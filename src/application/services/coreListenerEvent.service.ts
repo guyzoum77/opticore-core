@@ -5,7 +5,7 @@ import {Exception as msg, HttpStatusCodesConstant as status, LogMessageUtils as 
 import {KernelModuleInterface} from "../../core/interfaces/kernelModule.interface";
 import {KernelModuleType} from "../../core/types/kernelModule.type";
 
-export function coreListenerEventService<T extends KernelModuleType>(kernelModule: T) {
+export function coreListenerEventLoaderModuleService<T extends KernelModuleType>(kernelModule: T) {
     let router: express.Router[] = [];
     let dbCon: (() => void) | undefined;
 

@@ -13,8 +13,7 @@ import {
     express
 } from "../index";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
-import {KernelModuleInterface} from "./interfaces/kernelModule.interface";
-import {coreListenerEventService} from "../application/services/coreListenerEvent.service";
+import {coreListenerEventLoaderModuleService} from "../application/services/coreListenerEvent.service";
 import {KernelModuleType} from "./types/kernelModule.type";
 
 
@@ -24,25 +23,6 @@ export class CoreApplication {
 
     constructor() {
         this.stackTraceErrorHandling();
-    }
-
-    private registerRouteApp<T extends express.Router>(routers: T[]): T[] {
-        return routers;
-    }
-
-    public kernelModules<T extends KernelModuleInterface>(kernel: T[]) {
-        let dbConn: (() => void) = (): void => {};
-        let routerApp: express.Router[] = [];
-
-        kernel.forEach((module: any): void => {
-            typeof module === "function"
-                ? dbConn = module as () => void
-                : Array.isArray(module)
-                    ? routerApp = module as express.Router[]
-                    : null;
-        });
-
-        return { registerAppRoutes: routerApp, databaseConn: dbConn };
     }
 
     public onStartServer(host: string, port: number, routers: express.Router[]) {
@@ -57,6 +37,7 @@ export class CoreApplication {
                 routers.forEach((router: express.Router) => {
                     this.expressApp.use(router);
                     console.log("Mounted route:", router.stack); // Check route stack
+                    console.log("Propriétés du routeur :", Object.keys(router));
                 });
             }
         });
@@ -71,7 +52,7 @@ export class CoreApplication {
             eventErrorOnListeningServer.dropNewConnection();
         }).on(eventName.listening, (): void => {
             this.infoWebApp();
-            coreListenerEventService(kernelModule);
+            coreListenerEventLoaderModuleService(kernelModule);
         });
     }
 
