@@ -1,28 +1,22 @@
-import {getEnvVariable, CoreApplication, env, express, KernelModuleInterface, currentDate} from "../../index";
+import {express, currentDate} from "../../index";
 import {Server} from "node:net";
 import {KernelModuleType} from "../types/kernelModule.type";
+import {CoreConfig} from "../config/core.config";
 
-export class RunBootstrap {
-    private static env: env<any> = new env(getEnvVariable);
-    private static app: express.Application = express();
-    private static entryApp: CoreApplication = new CoreApplication();
 
-    static run<T extends (app: express.Application) => KernelModuleType>(Kernel: T): void {
-        const [routers, dbConn] = Kernel(this.app);
-        const server: Server = this.entryApp.onStartServer(
-            this.env.get("appHost"),
-            Number(this.env.get("appPort")),
-            routers
-        );
-        this.entryApp.onListeningOnServerEvent(
-            server,
-            Kernel(this.app)
-        );
-        this.entryApp.onRequestOnServerEvent(
-            server,
-            this.env.get("appHost"),
-            Number(this.env.get("appPort")),
-            currentDate
-        );
-    }
+export const runBootstrap = (kernel: (app: express.Application) => KernelModuleType): void => {
+    const [routers, dbConn] = kernel(CoreConfig.app);
+    const server: Server = CoreConfig.entryApp.onStartServer(
+        CoreConfig.env.get("appHost"),
+        Number(CoreConfig.env.get("appPort")),
+        routers
+    );
+
+    CoreConfig.entryApp.onListeningOnServerEvent(server, kernel(CoreConfig.app));
+    CoreConfig.entryApp.onRequestOnServerEvent(
+        server,
+        CoreConfig.env.get("appHost"),
+        Number(CoreConfig.env.get("appPort")),
+        currentDate
+    );
 }

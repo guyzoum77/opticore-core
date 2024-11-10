@@ -79,6 +79,7 @@ import {modulesLoadedUtils} from "./core/utils/modulesLoaded.utils";
 import {LoggerCore as Logger} from "opticore-logger";
 import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
+import {runBootstrap} from "./core/bootstrap/run.bootstrap";
 
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
@@ -167,5 +168,6 @@ export {
     requestCallsEvent,
     RSAKeyDecryption,
     RSAKeyEncryption,
+    runBootstrap,
     StackTraceError
 };

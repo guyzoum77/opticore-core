@@ -35,9 +35,10 @@ export class CoreApplication {
                 eventErrorOnListeningServer.portUndefined();
             } else {
                 routers.forEach((router: express.Router) => {
+                    console.log("router before use is : ", router);
                     this.expressApp.use(router);
+                    console.log("router after use is : ", router);
                     console.log("Mounted route:", router.stack); // Check route stack
-                    console.log("Propriétés du routeur :", Object.keys(router));
                 });
             }
         });
