@@ -86,6 +86,7 @@ import {KernelModuleType} from "./core/types/kernelModule.type";
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
 export { type KernelModuleInterface } from "./core/interfaces/kernelModule.interface";
+export {KernelModuleType} from "./core/types/kernelModule.type";
 
 
 export {
@@ -114,7 +115,6 @@ export {
     colors,
     crypto,
     fs,
-    KernelModuleType,
     jsonWebToken,
     mySQL,
     bcrypt,
