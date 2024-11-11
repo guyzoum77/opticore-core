@@ -59,7 +59,8 @@
     "rand-token": "^1.0.1",
     "reflect-metadata": "^0.2.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "validatorjs": "^3.22.1"
   },
   "devDependencies": {
     "@naholyr/cross-env": "^1.0.0",
