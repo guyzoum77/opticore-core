@@ -4,7 +4,7 @@ import {KernelModuleType} from "../types/kernelModule.type";
 import {CoreConfig} from "../config/core.config";
 
 
-export const runBootstrap = <T extends express.Application, K extends KernelModuleType>(kernel: (app: T) => K): void => {
+export const runBootstrap = <K extends KernelModuleType>(kernel: (app: express.Application) => K): void => {
     const [routers, dbConn] = kernel(CoreConfig.app);
     const port: number = Number(CoreConfig.env.get("appPort"));
 
