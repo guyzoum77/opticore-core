@@ -80,6 +80,7 @@ import {LoggerCore as Logger} from "opticore-logger";
 import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {runBootstrap} from "./core/bootstrap/run.bootstrap";
+import {KernelModuleType} from "./core/types/kernelModule.type";
 
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
@@ -107,11 +108,13 @@ export {
 } from "express";
 
 
+
 export {
     appRoot,
     colors,
     crypto,
     fs,
+    KernelModuleType,
     jsonWebToken,
     mySQL,
     bcrypt,

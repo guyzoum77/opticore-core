@@ -25,7 +25,7 @@ export class CoreApplication {
         this.stackTraceErrorHandling();
     }
 
-    public onStartServer(host: string, port: number, routers: express.Router[]) {
+    public onStartServer<T extends express.Router>(host: string, port: number, routers: T[]) {
         return createServer().listen(port, host, (): void => {
             if (host === "" && port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -34,7 +34,7 @@ export class CoreApplication {
             } else if (port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-                routers.forEach((router: express.Router) => {
+                routers.forEach((router: T): void => {
                     console.log("router before use is : ", router);
                     this.expressApp.use(router);
                     console.log("router after use is : ", router);
