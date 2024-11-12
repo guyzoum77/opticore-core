@@ -34,7 +34,8 @@ export class CoreApplication {
             } else if (port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-                routers.forEach((router: T): void => {
+                const register: T[] = this.registerRoutes(this.expressApp, routers);
+                register.forEach((router: T): void => {
                     console.log("router before use is : ", router);
                     this.expressApp.use(router);
                     console.log("router after use is : ", router);
@@ -62,6 +63,30 @@ export class CoreApplication {
             requestCallsEvent(req, res, host, port, loadingTime);
         });
     }
+
+    private registerRoutes<T extends express.Router>(app: express.Application, routers: Array<() => T[]>): T[] {
+        let registeredRouters: T[] = [];
+
+        routers.forEach((routerFn: () => T[], index: number): void => {
+            if (typeof routerFn !== 'function') {
+                console.error(`Router at index ${index} is not a function.`);
+                throw new TypeError(`Router at index ${index} is not a function.`);
+            }
+
+            const routes: T[] = routerFn();
+            if (!Array.isArray(routes)) {
+                console.error(`Router function at index ${index} did not return an array.`);
+                throw new TypeError(`Router function at index ${index} did not return an array.`);
+            }
+
+            routes.forEach((router: T): void => {
+                app.use(router); // Mount each router on the app
+                registeredRouters.push(router);
+            });
+        });
+
+        return registeredRouters;
+    };
 
     private stackTraceErrorHandling(): void {
         eventProcessHandler();

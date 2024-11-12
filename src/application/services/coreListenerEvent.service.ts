@@ -21,10 +21,11 @@ export function coreListenerEventLoaderModuleService<T extends KernelModuleType>
         loadedModules(router, dbCon);
         ((): void => { dbCon(); })();
     } else {
-        const stackTrace: StackTraceError = this.traceError(
+        const stackTrace: StackTraceError = new StackTraceError(
             msg.loadedModulesError,
             msg.loadedModules,
-            status.NOT_ACCEPTABLE
+            status.NOT_ACCEPTABLE,
+            true
         );
         log.error(
             msg.loadedModules,
