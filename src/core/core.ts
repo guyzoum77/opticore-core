@@ -15,7 +15,7 @@ import {
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import {coreListenerEventLoaderModuleService} from "../application/services/coreListenerEvent.service";
 import {KernelModuleType} from "./types/kernelModule.type";
-import {CorsOptions} from "cors";
+import corsOrigin from "cors";
 
 
 export class CoreApplication {
@@ -23,13 +23,13 @@ export class CoreApplication {
     private expressApp: express.Application = express();
     private readonly appRouters: express.Router[];
 
-    constructor(exprRouter: express.Router[], private corsOption?: CorsOptions) {
+    constructor(exprRouter: express.Router[]) {
         this.stackTraceErrorHandling();
         this.appRouters = exprRouter;
 
         this.expressApp.use(express.json());
         this.expressApp.use(express.urlencoded({extended: true}));
-        this.expressApp.use(corsOption);
+        this.expressApp.use(corsOrigin());
 
         this.registerRoutes();
     }
