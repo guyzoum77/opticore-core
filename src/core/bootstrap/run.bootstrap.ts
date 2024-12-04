@@ -8,8 +8,8 @@ export const runBootstrap = <K extends KernelModuleType>(kernel: (app: express.A
     const [routers, dbConn] = kernel(CoreConfig.app);
     const port: number = Number(CoreConfig.env.get("appPort"));
 
-    const server: Server = CoreConfig.entryApp.onStartServer(CoreConfig.env.get("appHost"), port, routers);
-
-    CoreConfig.entryApp.onListeningOnServerEvent(server, kernel(CoreConfig.app));
-    CoreConfig.entryApp.onRequestOnServerEvent(server, CoreConfig.env.get("appHost"), port, currentDate);
+    // const server: Server = CoreConfig.entryApp.onStartServer(CoreConfig.env.get("appHost"), port, routers);
+    //
+    // CoreConfig.entryApp.onListeningOnServerEvent(server, kernel(CoreConfig.app));
+    // CoreConfig.entryApp.onRequestOnServerEvent(server, CoreConfig.env.get("appHost"), port, currentDate);
 }

@@ -15,17 +15,26 @@ import {
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import {coreListenerEventLoaderModuleService} from "../application/services/coreListenerEvent.service";
 import {KernelModuleType} from "./types/kernelModule.type";
+import {CorsOptions} from "cors";
 
 
 export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
     private expressApp: express.Application = express();
+    private readonly appRouters: express.Router[];
 
-    constructor() {
+    constructor(exprRouter: express.Router[], private corsOption?: CorsOptions) {
         this.stackTraceErrorHandling();
+        this.appRouters = exprRouter;
+
+        this.expressApp.use(express.json());
+        this.expressApp.use(express.urlencoded({extended: true}));
+        this.expressApp.use(corsOption);
+
+        this.registerRoutes();
     }
 
-    public onStartServer<T extends express.Router>(host: string, port: number, routers: T[]) {
+    public onStartServer<T extends express.Router>(host: string, port: number) {
         return createServer().listen(port, host, (): void => {
             if (host === "" && port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -34,12 +43,7 @@ export class CoreApplication {
             } else if (port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-                routers.forEach((router: T): void => {
-                    console.log("Inspecting routes before mounting:", router.stack.map(layer => layer.route?.path));
-                    this.expressApp.use(router);
-                    console.log("router after use is : ", router);
-                    console.log("Routes mounted:", router.stack.map(layer => layer.route?.path)); // Confirme que les routes sont montées
-                })
+
             }
         });
     }
@@ -63,10 +67,13 @@ export class CoreApplication {
         });
     }
 
-   public kernelModules(registerRouter: express.Router[], dbConnection: () => void): KernelModuleType {
+    public kernelModules(registerRouter: express.Router[], dbConnection: () => void): KernelModuleType {
        return [registerRouter, dbConnection] as KernelModuleType
-   }
+    }
 
+    private registerRoutes() {
+       return this.appRouters;
+    };
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
     }
