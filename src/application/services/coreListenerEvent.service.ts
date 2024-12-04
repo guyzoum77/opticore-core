@@ -27,13 +27,6 @@ export function coreListenerEventLoaderModuleService<T extends KernelModuleType>
             status.NOT_ACCEPTABLE,
             true
         );
-        log.error(
-            msg.loadedModules,
-            "loading error",
-            stackTrace.stack,
-            msg.loadedModulesError,
-            status.SERVICE_UNAVAILABLE
-        );
         throw new Error(stackTrace.message);
     }
 }
