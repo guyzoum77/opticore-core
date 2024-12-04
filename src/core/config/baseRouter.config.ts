@@ -1,21 +1,18 @@
-import express from "express";
+import {Router} from "express";
 
-
-/**
- * BaseRouterConfig is a class taking in parameter
- * controller and optional middleware
- */
-export class BaseRouterConfig<T, U> {
-    public router: express.Router;
+export class BaseRouter<T, U> {
+    public router: Router;
     public controller: T;
-    public middleware: U | null;
+    public middleware: U;
 
-    constructor (TController: new () => T, UMiddleware?: new () => U) {
-        this.router = express.Router();
+
+    constructor (TController: { new (): T }, UMiddleware: { new (): U }) {
+        this.router = Router();
         this.controller = new TController();
-        this.middleware = UMiddleware ? new UMiddleware() : null;
+        this.middleware = new UMiddleware();
+
         this.routes();
     }
 
-    routes (): void {}
+    routes () {}
 }
