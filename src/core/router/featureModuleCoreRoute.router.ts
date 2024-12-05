@@ -10,4 +10,8 @@ export class FeatureModuleCoreRouteRouter {
     routesApp(router: express.Router[]): express.Router[] {
         return router;
     }
+
+    get routerApp() {
+        return this.router;
+    }
 }
