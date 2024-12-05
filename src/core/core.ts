@@ -1,7 +1,8 @@
 import "reflect-metadata";
 import {Server as serverWebApp} from "node:net";
 import {IncomingMessage, ServerResponse, createServer} from "node:http";
-
+import corsOrigin, {CorsOptions} from "cors";
+import {Router} from "express";
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -15,22 +16,23 @@ import {
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import {coreListenerEventLoaderModuleService} from "../application/services/coreListenerEvent.service";
 import {KernelModuleType} from "./types/kernelModule.type";
-import corsOrigin, {CorsOptions} from "cors";
+
 
 
 export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
-    private expressApp: express.Application = express();
+    private expressApp = express();
 
-    constructor(corsOriginOptions: Partial<CorsOptions>) {
+    constructor(routers: Router[], corsOriginOptions: Partial<CorsOptions>) {
         this.stackTraceErrorHandling();
 
         this.expressApp.use(express.json());
-        this.expressApp.use(express.urlencoded({extended: true}));
+        this.expressApp.use(express.urlencoded({ extended: true }));
         this.expressApp.use(corsOrigin(corsOriginOptions));
+        this.appRouters(routers);
     }
 
-    public onStartServer<T extends express.Router>(host: string, port: number, routers: T[]) {
+    public onStartServer<T extends express.Router>(host: string, port: number) {
         return createServer().listen(port, host, (): void => {
             if (host === "" && port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -39,10 +41,7 @@ export class CoreApplication {
             } else if (port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-                routers.forEach((router: T): void => {
-                    console.log("router is : ", router);
-                    this.expressApp.use(router);
-                });
+
             }
         });
     }
@@ -68,6 +67,12 @@ export class CoreApplication {
 
     public kernelModules(registerRouter: express.Router[], dbConnection: () => void): KernelModuleType {
        return [registerRouter, dbConnection] as KernelModuleType
+    }
+
+    private appRouters(routers: Router[]): void {
+        routers.forEach((router: Router): void => {
+            this.expressApp.use(router);
+        });
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
