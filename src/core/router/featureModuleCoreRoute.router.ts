@@ -1,7 +1,7 @@
 import express from "express";
 
 export class FeatureModuleCoreRouteRouter {
-    public router: express.Application = express();
+    private readonly router: express.Application = express();
 
     constructor(app: express.Application) {
         this.router = app;
@@ -11,7 +11,7 @@ export class FeatureModuleCoreRouteRouter {
         return router;
     }
 
-    get routerApp() {
+    get routerAppExpress(): express.Application {
         return this.router;
     }
 }

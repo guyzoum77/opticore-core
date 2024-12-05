@@ -11,7 +11,7 @@ export class RegisterCoreRouteRouter {
         return routes;
     }
 
-    get routerApp() {
+    get routerAppExpress(): express.Application {
         return this.router;
     }
 }
