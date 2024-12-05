@@ -7,7 +7,7 @@ export class FeatureRouterService {
         this.router = app;
     }
 
-    routerApp<T extends express.Router>(routers: T[]) {
+    routerApp<T extends express.Router>(routers: T[]): T[] {
         return routers;
     }
 }

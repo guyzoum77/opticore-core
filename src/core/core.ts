@@ -15,26 +15,22 @@ import {
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import {coreListenerEventLoaderModuleService} from "../application/services/coreListenerEvent.service";
 import {KernelModuleType} from "./types/kernelModule.type";
-import corsOrigin from "cors";
+import corsOrigin, {CorsOptions} from "cors";
 
 
 export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
     private expressApp: express.Application = express();
-    private readonly appRouters: express.Router[];
 
-    constructor(exprRouter: express.Router[]) {
+    constructor(corsOriginOptions: Partial<CorsOptions>) {
         this.stackTraceErrorHandling();
-        this.appRouters = exprRouter;
 
         this.expressApp.use(express.json());
         this.expressApp.use(express.urlencoded({extended: true}));
-        this.expressApp.use(corsOrigin());
-
-        this.registerRoutes();
+        this.expressApp.use(corsOrigin(corsOriginOptions));
     }
 
-    public onStartServer<T extends express.Router>(host: string, port: number) {
+    public onStartServer<T extends express.Router>(host: string, port: number, routers: T[]) {
         return createServer().listen(port, host, (): void => {
             if (host === "" && port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -43,7 +39,10 @@ export class CoreApplication {
             } else if (port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-
+                routers.forEach((router: T): void => {
+                    console.log("router is : ", router);
+                    this.expressApp.use(router);
+                });
             }
         });
     }
@@ -70,10 +69,6 @@ export class CoreApplication {
     public kernelModules(registerRouter: express.Router[], dbConnection: () => void): KernelModuleType {
        return [registerRouter, dbConnection] as KernelModuleType
     }
-
-    private registerRoutes() {
-       return this.appRouters;
-    };
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
     }
