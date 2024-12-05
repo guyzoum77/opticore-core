@@ -80,7 +80,7 @@ import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {runBootstrap} from "./core/bootstrap/run.bootstrap";
 import {KernelModuleType} from "./core/types/kernelModule.type";
-import {FeatureRouterService as FeatureRouter} from "./application/services/featureRouter.service";
+import {RouterService as OpticoreRouter} from "./application/services/featureRouter.service";
 import {AppCore} from "@/core/app.core";
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
@@ -165,7 +165,7 @@ export {
     rawBodyParserType,
     textBodyParserType,
     urlencodedBodyParserType,
-    FeatureRouter,
+    OpticoreRouter,
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,

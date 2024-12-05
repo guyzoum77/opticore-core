@@ -1,13 +1,14 @@
-import express from "express";
+import express, {Router} from "express";
+import {IRoutes} from "@/core/interfaces/routes.interface";
 
-export class FeatureRouterService {
-    public router: express.Application = express();
+export class RouterService implements IRoutes{
+    public router = Router();
 
-    constructor(app: express.Application) {
+    constructor(app: Router) {
         this.router = app;
     }
 
-    routerApp<T extends express.Router>(routers: T[]): T[] {
-        return routers;
+    routesApps<T extends express.Router>() {
+        return [this.router];
     }
 }
