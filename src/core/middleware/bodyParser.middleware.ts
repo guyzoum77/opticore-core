@@ -3,6 +3,7 @@ import {Exception, HttpStatusCodesConstant} from "../../index";
 import {ParseFunctionType} from "../types/parseFunction.type";
 import {BodyParserOptionsInterface} from "../interfaces/bodyParserOptions.interface";
 import {LogMessageUtils} from "../utils/logMessage.utils";
+import {EventConstant} from "@/core/utils/constants/event.constant";
 
 
 /**
@@ -23,7 +24,7 @@ export function bodyParserMiddleware(parseFunction: ParseFunctionType, options: 
                 });
 
                 req.on("end", (): void => {
-                    const rawBody = Buffer.concat(body).toString();
+                    const rawBody: string = Buffer.concat(body).toString();
                     try {
                         req.body = parseFunction(rawBody);
                     } catch (error) {
@@ -32,13 +33,11 @@ export function bodyParserMiddleware(parseFunction: ParseFunctionType, options: 
                     next();
                 });
 
-                req.on("error", (err: any): void => {
+                req.on(E, (err: any): void => {
                     LogMessageUtils.error(
                         "Error receiving data",
-                        "Request error",
                         "Type error",
                         Exception.invalidRequest,
-                        "Error message",
                         `${res.send(err.message)}`,
                         HttpStatusCodesConstant.BAD_REQUEST
                     );

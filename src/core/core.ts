@@ -28,7 +28,7 @@ export class CoreApplication {
     constructor(routers: express.Router[], corsOriginOptions?: Partial<CorsOptions>) {
         this.port = Number(getEnvVariable.appPort);
         this.host = getEnvVariable.appHost;
-
+        
         this.expressApp.use(express.json());
         this.expressApp.use(express.urlencoded({ extended: true }));
         this.expressApp.use(corsOrigin(corsOriginOptions));
