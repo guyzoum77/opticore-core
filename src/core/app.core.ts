@@ -1,44 +1,40 @@
-import "reflect-metadata";
-import {Server as serverWebApp} from "node:net";
-import {IncomingMessage, ServerResponse, createServer} from "node:http";
-import corsOrigin, {CorsOptions} from "cors";
-import {Router} from "express";
+import express, {Router} from "express";
+import {getEnvVariable} from "@/domain/env/access.env";
+import {IRoutes} from "@/core/interfaces/routes.interface";
+import {createServer, IncomingMessage, ServerResponse} from "node:http";
 import {
     eventErrorOnListeningServer,
     eventName,
     eventProcessHandler,
-    ExceptionHandlerError as ErrorHandler,
-    getEnvVariable,
+    KernelModuleType,
     requestCallsEvent,
-    UtilityUtils,
-    express
+    UtilityUtils
 } from "../index";
-import StackTraceError from "./handlers/errors/base/stackTraceError";
+import {Server as serverWebApp} from "net";
 import {coreListenerEventLoaderModuleService} from "@/application/services/coreListenerEvent.service";
-import {KernelModuleType} from "./types/kernelModule.type";
 
 
-
-export class CoreApplication {
+export class AppCore {
     private serverUtility: UtilityUtils = new UtilityUtils();
-    private expressApp = express();
+    private app: express.Application;
+    private readonly port: number;
+    private readonly host: string;
 
-    constructor(routers: Router[], corsOriginOptions?: Partial<CorsOptions>) {
-        this.stackTraceErrorHandling();
+    constructor(routes: IRoutes[]) {
+        this.app = express();
+        this.port = Number(getEnvVariable.appPort);
+        this.host = getEnvVariable.appHost;
 
-        this.expressApp.use(express.json());
-        this.expressApp.use(express.urlencoded({ extended: true }));
-        this.expressApp.use(corsOrigin(corsOriginOptions));
-        this.appRouters(routers);
+        this.appRouters(routes);
     }
 
-    public onStartServer<T extends express.Router>(host: string, port: number) {
-        return createServer().listen(port, host, (): void => {
-            if (host === "" && port === 0) {
+    public onStartServer() {
+        return createServer().listen(this.port, this.host, (): void => {
+            if (this.host === "" && this.port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
-            } else if (host === "") {
+            } else if (this.host === "") {
                 eventErrorOnListeningServer.hostUndefined();
-            } else if (port === 0) {
+            } else if (this.port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
 
@@ -66,18 +62,19 @@ export class CoreApplication {
     }
 
     public kernelModules(registerRouter: express.Router[], dbConnection: () => void): KernelModuleType {
-       return [registerRouter, dbConnection] as KernelModuleType
+        return [registerRouter, dbConnection] as KernelModuleType
     }
 
-    private appRouters(routers: Router[]): void {
-        routers.forEach((router: Router): void => {
-            console.log("router is : ", router.stack);
-            this.expressApp.use(router);
+    private appRouters(routers: IRoutes[]): void {
+        routers.forEach((router: IRoutes): void => {
+            console.log("router is : ", router.router);
+            this.app.use("/", router.router);
         });
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
     }
+
     private infoWebApp(): void {
         this.serverUtility.infoServer(
             this.serverUtility.getVersions().nodeVersion,
@@ -89,8 +86,5 @@ export class CoreApplication {
             this.serverUtility.getUsageMemory().user,
             this.serverUtility.getUsageMemory().system
         );
-    }
-    private traceError(props: string, name: string, status: number): StackTraceError {
-        return new ErrorHandler(props, name, status, true);
     }
 }

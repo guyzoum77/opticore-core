@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "strictNullChecks": true,
     "module": "commonjs",
+    "pretty": true,
     "target": "es2017",
     "moduleResolution": "node",
     "declaration": true,
@@ -12,8 +13,14 @@
     "noEmit": false,
     "types": ["reflect-metadata"],
     "experimentalDecorators": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+    }
   },
-  "include": ["./src"],
+  "include": ["src/**/*.ts", "src/**/*.json", ".env"],
   "exclude": ["node_modules"]
 }

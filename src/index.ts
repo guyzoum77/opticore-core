@@ -33,7 +33,6 @@ import crypto from "crypto";
 import { PrismaClient } from '@prisma/client';
 import {injectable} from "inversify"; // For dependency injection
 
-
 import {ExpressRoutesUtils} from "./core/utils/expressRoutes.utils"
 import {Db, MongoClient} from 'mongodb';
 import DateDiff from "date-diff";
@@ -82,6 +81,7 @@ import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {runBootstrap} from "./core/bootstrap/run.bootstrap";
 import {KernelModuleType} from "./core/types/kernelModule.type";
 import {FeatureRouterService as FeatureRouter} from "./application/services/featureRouter.service";
+import {AppCore} from "@/core/app.core";
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
@@ -131,6 +131,7 @@ export {
     getEnvVariable,
     PrismaClient,
     LogLevelConstant,
+    AppCore,
     env,
     express,
     corsOrigin,
