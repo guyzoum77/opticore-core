@@ -80,8 +80,8 @@ import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {runBootstrap} from "./core/bootstrap/run.bootstrap";
 import {KernelModuleType} from "./core/types/kernelModule.type";
-import {RegisterCoreRouteRouter as RegisterCoreRoute} from "@/core/router/registerCoreRoute.router";
-import {FeatureModuleCoreRouteRouter as FeatureModuleCoreRouter} from "@/core/router/featureModuleCoreRoute.router";
+import {RegisterCoreRouteRouter} from "@/core/router/registerCoreRoute.router";
+import {FeatureModuleCoreRouteRouter} from "@/core/router/featureModuleCoreRoute.router";
 
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
@@ -174,6 +174,6 @@ export {
     RSAKeyEncryption,
     runBootstrap,
     StackTraceError,
-    FeatureModuleCoreRouter,
-    RegisterCoreRoute
+    RegisterCoreRouteRouter,
+    FeatureModuleCoreRouteRouter
 };
