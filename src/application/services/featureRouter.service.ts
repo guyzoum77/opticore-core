@@ -8,7 +8,7 @@ export class RouterService implements IRoutes{
         this.router = app;
     }
 
-    routesApps<T extends express.Router>() {
-        return [this.router];
+    routesApps<T extends express.Router>(app: Router) {
+        return [app];
     }
 }

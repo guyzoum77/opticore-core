@@ -80,8 +80,9 @@ import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {runBootstrap} from "./core/bootstrap/run.bootstrap";
 import {KernelModuleType} from "./core/types/kernelModule.type";
-import {RouterService as OpticoreRouter} from "./application/services/featureRouter.service";
-import {AppCore} from "@/core/app.core";
+import {RegisterCoreRouteRouter as RegisterCoreRoute} from "@/core/router/registerCoreRoute.router";
+import {FeatureModuleCoreRouteRouter as FeatureModuleCoreRouter} from "@/core/router/featureModuleCoreRoute.router";
+
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
@@ -131,7 +132,6 @@ export {
     getEnvVariable,
     PrismaClient,
     LogLevelConstant,
-    AppCore,
     env,
     express,
     corsOrigin,
@@ -165,7 +165,6 @@ export {
     rawBodyParserType,
     textBodyParserType,
     urlencodedBodyParserType,
-    OpticoreRouter,
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
@@ -174,5 +173,7 @@ export {
     RSAKeyDecryption,
     RSAKeyEncryption,
     runBootstrap,
-    StackTraceError
+    StackTraceError,
+    FeatureModuleCoreRouter,
+    RegisterCoreRoute
 };

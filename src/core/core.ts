@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {Server as serverWebApp} from "node:net";
 import {IncomingMessage, ServerResponse, createServer} from "node:http";
 import corsOrigin, {CorsOptions} from "cors";
-import {Router} from "express";
+import express from "express";
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -11,7 +11,7 @@ import {
     getEnvVariable,
     requestCallsEvent,
     UtilityUtils,
-    express
+    currentDate
 } from "../index";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import {coreListenerEventLoaderModuleService} from "@/application/services/coreListenerEvent.service";
@@ -22,23 +22,25 @@ import {KernelModuleType} from "./types/kernelModule.type";
 export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
     private expressApp = express();
+    private readonly port: number;
+    private readonly host: string;
 
-    constructor(routers: Router[], corsOriginOptions?: Partial<CorsOptions>) {
-        this.stackTraceErrorHandling();
-
+    constructor(routers: express.Router[], corsOriginOptions?: Partial<CorsOptions>) {
         this.expressApp.use(express.json());
         this.expressApp.use(express.urlencoded({ extended: true }));
         this.expressApp.use(corsOrigin(corsOriginOptions));
-        this.appRouters(routers);
+
+        this.stackTraceErrorHandling();
+        this.registerRoutes(routers);
     }
 
-    public onStartServer<T extends express.Router>(host: string, port: number) {
-        return createServer().listen(port, host, (): void => {
-            if (host === "" && port === 0) {
+    public onStartServer<T extends express.Router>() {
+        return createServer().listen(this.port, this.host, (): void => {
+            if (this.host === "" && this.port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
-            } else if (host === "") {
+            } else if (this.host === "") {
                 eventErrorOnListeningServer.hostUndefined();
-            } else if (port === 0) {
+            } else if (this.port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
 
@@ -59,9 +61,9 @@ export class CoreApplication {
         });
     }
 
-    public onRequestOnServerEvent(serverWeb: serverWebApp, host: string, port: number, loadingTime: any): void {
-        serverWeb.on("request", (req: IncomingMessage, res: ServerResponse): void => {
-            requestCallsEvent(req, res, host, port, loadingTime);
+    public onRequestOnServerEvent(serverWeb: serverWebApp): void {
+        serverWeb.on(eventName.request, (req: IncomingMessage, res: ServerResponse): void => {
+            requestCallsEvent(req, res, this.host, this.port, currentDate);
         });
     }
 
@@ -69,11 +71,8 @@ export class CoreApplication {
        return [registerRouter, dbConnection] as KernelModuleType
     }
 
-    private appRouters(routers: Router[]): void {
-        routers.forEach((router: Router): void => {
-            console.log("router is : ", router.stack);
-            this.expressApp.use(router);
-        });
+    private registerRoutes(appRoutes: express.Router[]): express.Router[] {
+        return appRoutes.map((route: express.Router) => this.expressApp.use(route));
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
