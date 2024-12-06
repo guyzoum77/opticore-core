@@ -25,7 +25,7 @@ export class CoreApplication {
     private readonly port: number;
     private readonly host: string;
 
-    constructor(routers: express.Router[], corsOriginOptions?: Partial<CorsOptions>) {
+    constructor(corsOriginOptions?: Partial<CorsOptions>) {
         this.port = Number(getEnvVariable.appPort);
         this.host = getEnvVariable.appHost;
         
@@ -34,10 +34,9 @@ export class CoreApplication {
         this.expressApp.use(corsOrigin(corsOriginOptions));
 
         this.stackTraceErrorHandling();
-        this.registerRoutes(routers);
     }
 
-    public onStartServer<T extends express.Router>() {
+    public onStartServer<T extends express.Router>(routers: express.Router[]) {
         return createServer().listen(this.port, this.host, (): void => {
             if (this.host === "" && this.port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -46,7 +45,7 @@ export class CoreApplication {
             } else if (this.port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-
+                this.registerRoutes(routers);
             }
         });
     }
