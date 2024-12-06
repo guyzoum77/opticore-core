@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {Server as serverWebApp} from "node:net";
 import {IncomingMessage, ServerResponse, createServer} from "node:http";
 import corsOrigin, {CorsOptions} from "cors";
-import express from "express";
+import express, {Router} from "express";
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -36,7 +36,7 @@ export class CoreApplication {
         this.stackTraceErrorHandling();
     }
 
-    public onStartServer<T extends express.Router>(routers: express.Router[]) {
+    public onStartServer<T extends express.Router>(routers: Router[]) {
         return createServer().listen(this.port, this.host, (): void => {
             if (this.host === "" && this.port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -73,7 +73,7 @@ export class CoreApplication {
        return [registerRouter, dbConnection] as KernelModuleType
     }
 
-    private registerRoutes(appRoutes: express.Router[]): express.Router[] {
+    private registerRoutes(appRoutes: Router[]): Router[] {
         return appRoutes.map((route: express.Router) => this.expressApp.use(route));
     }
     private stackTraceErrorHandling(): void {

@@ -1,17 +1,7 @@
-import express from "express";
+import {Router} from "express";
 
 export class RegisterCoreRouteRouter {
-    private readonly router: express.Application = express();
-
-    constructor(app: express.Application) {
-        this.router = app;
-    }
-
-    routers (routes: express.Router[]): express.Router[] {
+    routers(routes: Router): Router {
         return routes;
-    }
-
-    get routerAppExpress(): express.Application {
-        return this.router;
     }
 }
