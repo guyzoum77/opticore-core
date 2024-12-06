@@ -1,17 +1,9 @@
-import express from "express";
+import {Router} from "express";
 
 export class FeatureModuleCoreRouteRouter {
-    private readonly router: express.Application = express();
+    private readonly router = Router();
 
-    constructor(app: express.Application) {
-        this.router = app;
-    }
-
-    appRouter(route: express.Router): express.Router {
-        return route;
-    }
-
-    get routerApp(): express.Application {
+    get routerModuleApp() {
         return this.router;
     }
 }
