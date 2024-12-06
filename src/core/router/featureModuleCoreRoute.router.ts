@@ -7,11 +7,11 @@ export class FeatureModuleCoreRouteRouter {
         this.router = app;
     }
 
-    routesApp(router: express.Router[]): express.Router[] {
-        return router;
+    appRouter(route: express.Router): express.Router {
+        return route;
     }
 
-    get routerAppExpress(): express.Application {
+    get routerApp(): express.Application {
         return this.router;
     }
 }
