@@ -1,8 +1,8 @@
 import "reflect-metadata";
-import { Server as serverWebApp } from "node:net";
-import { IncomingMessage, ServerResponse, createServer } from "node:http";
-import corsOrigin, { CorsOptions } from "cors";
-import express, { Router } from "express";
+import {Server as serverWebApp} from "node:net";
+import {IncomingMessage, ServerResponse, createServer} from "node:http";
+import corsOrigin, {CorsOptions} from "cors";
+import express, {Router} from "express";
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -14,8 +14,8 @@ import {
     currentDate
 } from "../index";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
-import { coreListenerEventLoaderModuleService } from "@/application/services/coreListenerEvent.service";
-import { KernelModuleType } from "./types/kernelModule.type";
+import {coreListenerEventLoaderModuleService} from "@/application/services/coreListenerEvent.service";
+import {KernelModuleType} from "./types/kernelModule.type";
 
 
 
@@ -25,7 +25,7 @@ export class CoreApplication {
     private readonly port: number;
     private readonly host: string;
 
-    constructor(routers: Router[], corsOriginOptions?: Partial<CorsOptions>) {
+    constructor(corsOriginOptions?: Partial<CorsOptions>) {
         this.port = Number(getEnvVariable.appPort);
         this.host = getEnvVariable.appHost;
         
@@ -36,20 +36,25 @@ export class CoreApplication {
         this.stackTraceErrorHandling();
     }
 
-    public onStartServer<T extends express.Router>(routers: Router[]) {
-        return createServer().listen(this.port, this.host, (): void => {
-            if (this.host === "" && this.port === 0) {
-                eventErrorOnListeningServer.hostPortUndefined();
-            } else if (this.host === "") {
-                eventErrorOnListeningServer.hostUndefined();
-            } else if (this.port === 0) {
-                eventErrorOnListeningServer.portUndefined();
-            } else {
-                routers.forEach((route: Router): void => {
-                    this.expressApp.use(route);
-                });
+    public onStartServer<T extends express.Router>(routers: Router) {
+        return createServer().listen(
+            this.port,
+            this.host,
+            (): void => {
+                if (this.host === "" && this.port === 0) {
+                    eventErrorOnListeningServer.hostPortUndefined();
+                } else if (this.host === "") {
+                    eventErrorOnListeningServer.hostUndefined();
+                } else if (this.port === 0) {
+                    eventErrorOnListeningServer.portUndefined();
+                } else {
+                    this.expressApp.use(routers);
+                    // routers.map((route: Router) => {
+                    //     return this.expressApp.use(route);
+                    // });
+                }
             }
-        });
+        );
     }
 
     public onListeningOnServerEvent(serverWeb: serverWebApp, kernelModule: KernelModuleType): void {
@@ -76,8 +81,8 @@ export class CoreApplication {
     }
 
     private registerRoutes(appRoutes: Router[]) {
-        appRoutes.forEach((route: Router): void => {
-            this.expressApp.use(route);
+        return appRoutes.map((route: Router) => {
+            return this.expressApp.use(route)
         });
     }
     private stackTraceErrorHandling(): void {
