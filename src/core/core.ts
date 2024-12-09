@@ -45,7 +45,14 @@ export class CoreApplication {
             } else if (this.port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-                this.registerRoutes(routers);
+               const routes: Router[] = this.registerRoutes(routers);
+                routes.map((route: Router) => {
+                    console.log("route stack before : ", route.stack);
+                    console.log("route before : ", route);
+                    this.expressApp.use(route);
+                    console.log("route stack after : ", route.stack);
+                    console.log("route after : ", route);
+                })
             }
         });
     }
