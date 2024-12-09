@@ -11,7 +11,7 @@ import {
     getEnvVariable,
     requestCallsEvent,
     UtilityUtils,
-    currentDate
+    currentDate, RegisterCoreRouteRouter, IRouteDefinition, HttpStatusCodesConstant as status
 } from "../index";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import {coreListenerEventLoaderModuleService} from "@/application/services/coreListenerEvent.service";
@@ -22,18 +22,23 @@ import {KernelModuleType} from "./types/kernelModule.type";
 export class CoreApplication {
     private serverUtility: UtilityUtils = new UtilityUtils();
     private expressApp = express();
+    private readonly routerExpressApp: express.Application;
     private readonly port: number;
     private readonly host: string;
 
-    constructor(corsOriginOptions?: Partial<CorsOptions>) {
+    constructor(app: express.Application,
+                allFeatureRoutes: { featureRoute: IRouteDefinition[] }[],
+                corsOriginOptions?: Partial<CorsOptions>) {
         this.port = Number(getEnvVariable.appPort);
         this.host = getEnvVariable.appHost;
-        
+        this.routerExpressApp = app;
+
         this.expressApp.use(express.json());
         this.expressApp.use(express.urlencoded({ extended: true }));
         this.expressApp.use(corsOrigin(corsOriginOptions));
 
         this.stackTraceErrorHandling();
+        this.registerRoutes(allFeatureRoutes);
     }
 
     public onStartServer<T extends express.Router>(routers: Router) {
@@ -41,17 +46,17 @@ export class CoreApplication {
             this.port,
             this.host,
             (): void => {
-                if (this.host === "" && this.port === 0) {
-                    eventErrorOnListeningServer.hostPortUndefined();
-                } else if (this.host === "") {
-                    eventErrorOnListeningServer.hostUndefined();
-                } else if (this.port === 0) {
-                    eventErrorOnListeningServer.portUndefined();
-                } else {
-                    this.expressApp.use(routers);
-                    // routers.map((route: Router) => {
-                    //     return this.expressApp.use(route);
-                    // });
+                try {
+                    if (this.host === "" && this.port === 0) {
+                        eventErrorOnListeningServer.hostPortUndefined();
+                    } else if (this.host === "") {
+                        eventErrorOnListeningServer.hostUndefined();
+                    } else if (this.port === 0) {
+                        eventErrorOnListeningServer.portUndefined();
+                    } else {
+                    }
+                } catch (err: any) {
+                    this.traceError(err.message, "Error", status.NOT_ACCEPTABLE);
                 }
             }
         );
@@ -80,10 +85,9 @@ export class CoreApplication {
        return [registerRouter, dbConnection] as KernelModuleType
     }
 
-    private registerRoutes(appRoutes: Router[]) {
-        return appRoutes.map((route: Router) => {
-            return this.expressApp.use(route)
-        });
+    private registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
+        const registerRouter: RegisterCoreRouteRouter = new RegisterCoreRouteRouter(this.routerExpressApp);
+        registerRouter.registerRoutes(allFeatureRoutes);
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();

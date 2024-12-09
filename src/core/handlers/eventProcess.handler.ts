@@ -1,4 +1,5 @@
 import express, {Express} from "express";
+import process from 'node:process';
 import EventEmitter from "node:events";
 import {eventName, event} from "../../index";
 import {ServerListenEventError} from "@/errors/serverListen.event.error";
