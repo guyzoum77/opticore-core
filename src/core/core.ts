@@ -74,7 +74,7 @@ export class CoreApplication {
     }
 
     private registerRoutes(appRoutes: Router[]): Router[] {
-        return appRoutes.map((route: Router) => route);
+        return appRoutes.map((route: Router) => this.expressApp.use(route));
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
