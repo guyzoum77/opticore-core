@@ -1,8 +1,8 @@
 import "reflect-metadata";
-import {Server as serverWebApp} from "node:net";
-import {IncomingMessage, ServerResponse, createServer} from "node:http";
-import corsOrigin, {CorsOptions} from "cors";
-import express, {Router} from "express";
+import { Server as serverWebApp } from "node:net";
+import { IncomingMessage, ServerResponse, createServer } from "node:http";
+import corsOrigin, { CorsOptions } from "cors";
+import express, { Router } from "express";
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -14,8 +14,8 @@ import {
     currentDate
 } from "../index";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
-import {coreListenerEventLoaderModuleService} from "@/application/services/coreListenerEvent.service";
-import {KernelModuleType} from "./types/kernelModule.type";
+import { coreListenerEventLoaderModuleService } from "@/application/services/coreListenerEvent.service";
+import { KernelModuleType } from "./types/kernelModule.type";
 
 
 
@@ -34,11 +34,9 @@ export class CoreApplication {
         this.expressApp.use(corsOrigin(corsOriginOptions));
 
         this.stackTraceErrorHandling();
-        const routes = this.registerRoutes(routers);
-        routes.forEach((route: Router): void => { this.expressApp.use(route); });
     }
 
-    public onStartServer<T extends express.Router>() {
+    public onStartServer<T extends express.Router>(routers: Router[]) {
         return createServer().listen(this.port, this.host, (): void => {
             if (this.host === "" && this.port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -47,7 +45,9 @@ export class CoreApplication {
             } else if (this.port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-
+                routers.forEach((route: Router): void => {
+                    this.expressApp.use(route);
+                });
             }
         });
     }
@@ -76,10 +76,9 @@ export class CoreApplication {
     }
 
     private registerRoutes(appRoutes: Router[]) {
-        return appRoutes;
-        //     .forEach((route: Router): void => {
-        //     this.expressApp.use(route);
-        // });
+        appRoutes.forEach((route: Router): void => {
+            this.expressApp.use(route);
+        });
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
