@@ -1,7 +1,7 @@
 import express from "express";
 import {IRouteDefinition} from "@/core/interfaces/routeDefinition.interface";
 import {LogMessageUtils} from "@/core/utils/logMessage.utils";
-import {HttpStatusCodesConstant} from "@/domain/constants/httpStatusCodes.constant";
+import {HttpStatusCodesConstant as status} from "@/domain/constants/httpStatusCodes.constant";
 
 export class RegisterCoreRouteRouter {
     private router: express.Application;
@@ -25,7 +25,7 @@ export class RegisterCoreRouteRouter {
                         "",
                         "",
                         `Handler at path ${path} does not contain a valid stack.`,
-                        HttpStatusCodesConstant
+                        status.NOT_ACCEPTABLE
                     );
 
                 handler.stack.forEach((layer: any, index: number): void => {
