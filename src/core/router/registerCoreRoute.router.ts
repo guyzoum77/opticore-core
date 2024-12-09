@@ -50,7 +50,7 @@ export class RegisterCoreRouteRouter {
                         const methods: string = Object.keys(layer.route?.methods || {}).join(", ");
                         console.log("handler into handler.stack.forEach is : ", handler);
 
-                        registeredRoutes.push(`[Layer ${index}] Sub-path: ${routePath}, Methods: ${methods}`);
+                        //registeredRoutes.push(`[Layer ${index}] Sub-path: ${routePath}, Methods: ${methods}`);
                         registeredRoutes.push({ path: routePath, methods: methods });
                     });
 
