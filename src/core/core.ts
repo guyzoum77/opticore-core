@@ -34,7 +34,8 @@ export class CoreApplication {
         this.expressApp.use(corsOrigin(corsOriginOptions));
 
         this.stackTraceErrorHandling();
-        this.registerRoutes(routers);
+        const routes = this.registerRoutes(routers);
+        routes.forEach((route: Router): void => { this.expressApp.use(route); });
     }
 
     public onStartServer<T extends express.Router>() {
@@ -74,10 +75,11 @@ export class CoreApplication {
        return [registerRouter, dbConnection] as KernelModuleType
     }
 
-    private registerRoutes(appRoutes: Router[]): void {
-        appRoutes.forEach((route: Router): void => {
-            this.expressApp.use(route);
-        });
+    private registerRoutes(appRoutes: Router[]) {
+        return appRoutes;
+        //     .forEach((route: Router): void => {
+        //     this.expressApp.use(route);
+        // });
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
