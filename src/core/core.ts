@@ -25,7 +25,7 @@ export class CoreApplication {
     private readonly port: number;
     private readonly host: string;
 
-    constructor(corsOriginOptions?: Partial<CorsOptions>) {
+    constructor(routers: Router[], corsOriginOptions?: Partial<CorsOptions>) {
         this.port = Number(getEnvVariable.appPort);
         this.host = getEnvVariable.appHost;
         
@@ -34,9 +34,10 @@ export class CoreApplication {
         this.expressApp.use(corsOrigin(corsOriginOptions));
 
         this.stackTraceErrorHandling();
+        this.registerRoutes(routers);
     }
 
-    public onStartServer<T extends express.Router>(routers: Router[]) {
+    public onStartServer<T extends express.Router>() {
         return createServer().listen(this.port, this.host, (): void => {
             if (this.host === "" && this.port === 0) {
                 eventErrorOnListeningServer.hostPortUndefined();
@@ -45,7 +46,7 @@ export class CoreApplication {
             } else if (this.port === 0) {
                 eventErrorOnListeningServer.portUndefined();
             } else {
-               this.registerRoutes(routers);
+
             }
         });
     }
@@ -74,9 +75,8 @@ export class CoreApplication {
     }
 
     private registerRoutes(appRoutes: Router[]): void {
-        appRoutes.forEach((route: Router) => {
+        appRoutes.forEach((route: Router): void => {
             this.expressApp.use(route);
-            console.log("routes coming from registerRoutes fom core : ", route.stack);
         });
     }
     private stackTraceErrorHandling(): void {
