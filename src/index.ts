@@ -85,10 +85,10 @@ import {FeatureModuleCoreRouteRouter} from "@/core/router/featureModuleCoreRoute
 import {RoutersAppCore} from "@/core/routersApp.core";
 import {RegistrarRoutersCore} from "@/core/registrarRouters.core";
 
-
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
 export { type KernelModuleInterface } from "./core/interfaces/kernelModule.interface";
+import { type IRouteDefinition} from "@/core/interfaces/routeDefinition.interface";
 export { type KernelModuleType } from "./core/types/kernelModule.type";
 
 
@@ -118,6 +118,7 @@ export {
     colors,
     crypto,
     fs,
+    IRouteDefinition,
     jsonWebToken,
     mySQL,
     bcrypt,

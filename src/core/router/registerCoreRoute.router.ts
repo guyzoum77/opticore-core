@@ -1,4 +1,5 @@
 import express from "express";
+import {IRouteDefinition} from "@/core/interfaces/routeDefinition.interface";
 
 export class RegisterCoreRouteRouter {
     private router: express.Application;
@@ -10,11 +11,15 @@ export class RegisterCoreRouteRouter {
 
     /**
      * Dynamically register multiple routers.
-     * @param routes - Array of route definitions
+     * @param allFeatureRoutes - Array of route definitions
      */
-    registerRoutes(routes: { path: string; router: express.Router }[]): void {
-        routes.forEach((route) => {
-            this.router.use(route.path, route.router);
+    registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]): void {
+        allFeatureRoutes.forEach(({ featureRoute }): void => {
+            featureRoute.forEach(({ path, handler }): void => {
+                console.log(`Registering route path: ${path}`); // Log each registered route
+                console.log(`Registering route handler: ${handler}`); // Log each registered route handler
+                this.router.use(path, handler);
+            });
         });
     }
 }
