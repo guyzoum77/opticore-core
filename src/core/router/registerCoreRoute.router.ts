@@ -13,7 +13,7 @@ export class RegisterCoreRouteRouter {
      * @param routes - Array of route definitions
      */
     registerRoutes(routes: { path: string; router: express.Router }[]): void {
-        routes.forEach(route => {
+        routes.forEach((route) => {
             this.router.use(route.path, route.router);
         });
     }
