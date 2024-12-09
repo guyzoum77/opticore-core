@@ -82,7 +82,8 @@ import {runBootstrap} from "./core/bootstrap/run.bootstrap";
 import {KernelModuleType} from "./core/types/kernelModule.type";
 import {RegisterCoreRouteRouter} from "@/core/router/registerCoreRoute.router";
 import {FeatureModuleCoreRouteRouter} from "@/core/router/featureModuleCoreRoute.router";
-import {RegisterCore} from "@/core/register.core";
+import {RoutersAppCore} from "@/core/routersApp.core";
+import {RegistrarRoutersCore} from "@/core/registrarRouters.core";
 
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
@@ -176,6 +177,7 @@ export {
     runBootstrap,
     StackTraceError,
     RegisterCoreRouteRouter,
-    RegisterCore,
+    RoutersAppCore,
+    RegistrarRoutersCore,
     FeatureModuleCoreRouteRouter
 };
