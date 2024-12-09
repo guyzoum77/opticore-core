@@ -1,9 +1,20 @@
-import {Router} from "express";
+import express from "express";
 
 export class FeatureModuleCoreRouteRouter {
-    private readonly router = Router();
+    private router: express.Application;
 
-    get routerModuleApp() {
-        return this.router;
+    constructor(app: express.Application) {
+        this.router = app;
+    }
+
+
+    /**
+     * Dynamically register API endpoints.
+     * @param apis - Array of API definitions
+     */
+    endPointRoutes(apis: { path: string; handler: express.Router }[]): void {
+        apis.forEach((api) => {
+            this.router.use(api.path, api.handler);
+        });
     }
 }
