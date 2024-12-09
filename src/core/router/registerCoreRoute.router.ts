@@ -16,18 +16,16 @@ export class RegisterCoreRouteRouter {
     registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]): void {
         allFeatureRoutes.forEach(({ featureRoute }): void => {
             featureRoute.forEach(({ path, handler }): void => {
-                console.log("Registering route path: ", path); // Log each registered route
-                console.log("Registering route handler: ", handler.stack); // Log each registered route handler
+                console.log(`Registering base route path: ${path}`);
 
                 if (handler.stack) {
                     handler.stack.forEach((layer: any, index: number): void => {
-                        console.log(`Layer path: ${layer.route?.path || 'N/A'}`);
-                        console.log(`Layer methods: ${Object.keys(layer.route?.methods || {}).join(', ') || 'N/A'}`);
-
                         const routePath = layer.route?.path || "N/A";
                         const methods: string = Object.keys(layer.route?.methods || {}).join(", ");
-                        console.log(`[${index}] Path: ${routePath}, Methods: ${methods}`);
+                        console.log(`[${index}] Sub-path: ${routePath}, Methods: ${methods}`);
                     });
+                } else {
+                    console.warn(`Handler at path ${path} does not contain a valid stack.`);
                 }
 
                 this.router.use(path, handler);
