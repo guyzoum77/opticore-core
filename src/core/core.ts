@@ -41,7 +41,7 @@ export class CoreApplication {
         this.registerRoutes(allFeatureRoutes);
     }
 
-    public onStartServer<T extends express.Router>(routers: Router) {
+    public onStartServer<T extends express.Router>() {
         return createServer().listen(
             this.port,
             this.host,
