@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {Server as serverWebApp} from "node:net";
 import {IncomingMessage, ServerResponse, createServer} from "node:http";
 import corsOrigin, {CorsOptions} from "cors";
-import express, {Router} from "express";
+import express from "express";
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -38,7 +38,7 @@ export class CoreApplication {
         this.stackTraceErrorHandling();
     }
 
-    public onStartServer<T extends express.Router>() {
+    public onStartServer(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
         return createServer().listen(
             this.port,
             this.host,
@@ -51,6 +51,7 @@ export class CoreApplication {
                     } else if (this.port === 0) {
                         eventErrorOnListeningServer.portUndefined();
                     } else {
+                        this.registerRoutes(allFeatureRoutes);
                     }
                 } catch (err: any) {
                     this.traceError(err.message, "Error", status.NOT_ACCEPTABLE);
@@ -78,13 +79,19 @@ export class CoreApplication {
         });
     }
 
-    public kernelModules(registerRouter: express.Router[], dbConnection: () => void): KernelModuleType {
+    public kernelModules(registerRouter: { featureRoute: IRouteDefinition[] }[], dbConnection: () => void): KernelModuleType {
        return [registerRouter, dbConnection] as KernelModuleType
     }
 
     private registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
-        const registerRouter: RegisterCoreRouteRouter = new RegisterCoreRouteRouter(this.routerExpressApp);
-        registerRouter.register(allFeatureRoutes);
+        const registerRouter: RegisterCoreRouteRouter = new RegisterCoreRouteRouter();
+        const routers = registerRouter.register(allFeatureRoutes);
+
+        routers.map((router) => {
+            router.featureRoute.map((route) => {
+                this.expressApp.use(route.path, route.handler);
+            });
+        });
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();

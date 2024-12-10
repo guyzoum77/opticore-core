@@ -1,3 +1,3 @@
-import express from "express";
+import {IRouteDefinition} from "@/core/interfaces/routeDefinition.interface";
 
-export type KernelModuleType = [express.Router[], () => void];
+export type KernelModuleType = [{ featureRoute: IRouteDefinition[] }[], () => void];
