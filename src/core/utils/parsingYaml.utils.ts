@@ -44,7 +44,7 @@ export class YamlParsing {
         try {
             const yamlContent: string = await readFile(filePath, 'utf-8');
             await this.parsing(yamlContent);
-        } catch (error) {
+        } catch (error: any) {
             LogMessageUtils.error(
                 "YAML Parsing failed",
                 "Error reading YAML file",
