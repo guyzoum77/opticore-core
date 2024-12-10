@@ -16,6 +16,7 @@ import {
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import {coreListenerEventLoaderModuleService} from "@/application/services/coreListenerEvent.service";
 import {KernelModuleType} from "./types/kernelModule.type";
+import {TAnyFunction} from "@/core/types/anyFunction.type";
 
 
 
@@ -38,7 +39,7 @@ export class CoreApplication {
         this.stackTraceErrorHandling();
     }
 
-    public onStartServer(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
+    public onStartServer(argFn: TAnyFunction) {
         return createServer().listen(
             this.port,
             this.host,
@@ -51,7 +52,7 @@ export class CoreApplication {
                     } else if (this.port === 0) {
                         eventErrorOnListeningServer.portUndefined();
                     } else {
-                        this.registerRoutes(allFeatureRoutes);
+                        argFn();
                     }
                 } catch (err: any) {
                     this.traceError(err.message, "Error", status.NOT_ACCEPTABLE);
@@ -83,13 +84,6 @@ export class CoreApplication {
        return [registerRouter, dbConnection] as KernelModuleType
     }
 
-    private registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
-        allFeatureRoutes.map((router) => {
-            router.featureRoute.map((route) => {
-                this.expressApp.use(route.path, route.handler);
-            });
-        });
-    }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
     }
