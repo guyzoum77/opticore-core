@@ -1,6 +1,5 @@
 import "reflect-metadata";
-import {Server as serverWebApp} from "node:net";
-import {IncomingMessage, ServerResponse, createServer} from "node:http";
+import {IncomingMessage, ServerResponse, Server as serverWebApp} from "node:http";
 import corsOrigin, {CorsOptions} from "cors";
 import express from "express";
 import {
@@ -11,12 +10,11 @@ import {
     getEnvVariable,
     requestCallsEvent,
     UtilityUtils,
-    currentDate, RegisterCoreRouteRouter, IRouteDefinition, HttpStatusCodesConstant as status
+    currentDate, IRouteDefinition, HttpStatusCodesConstant as status
 } from "../index";
 import StackTraceError from "./handlers/errors/base/stackTraceError";
 import {coreListenerEventLoaderModuleService} from "@/application/services/coreListenerEvent.service";
 import {KernelModuleType} from "./types/kernelModule.type";
-import {TAnyFunction} from "@/core/types/anyFunction.type";
 
 
 
@@ -39,8 +37,8 @@ export class CoreApplication {
         this.stackTraceErrorHandling();
     }
 
-    public onStartServer(argFn: TAnyFunction) {
-        return createServer().listen(
+    public onStartServer(routers: { featureRoute: IRouteDefinition[] }[]) {
+        return this.expressApp.listen(
             this.port,
             this.host,
             (): void => {
@@ -52,7 +50,7 @@ export class CoreApplication {
                     } else if (this.port === 0) {
                         eventErrorOnListeningServer.portUndefined();
                     } else {
-                        argFn();
+                       this.registerRoutes(routers);
                     }
                 } catch (err: any) {
                     this.traceError(err.message, "Error", status.NOT_ACCEPTABLE);
@@ -84,6 +82,13 @@ export class CoreApplication {
        return [registerRouter, dbConnection] as KernelModuleType
     }
 
+    private registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
+        allFeatureRoutes.map((router) => {
+            router.featureRoute.map((route) => {
+                this.expressApp.use(route.path, route.handler);
+            });
+        });
+    }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
     }
