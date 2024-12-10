@@ -89,6 +89,7 @@ export { type PoolClient, type PoolConfig, type CustomTypesConfig, type Connecti
 export { type LogLevelType } from "./core/types/logLevel.type";
 export { type KernelModuleInterface } from "./core/interfaces/kernelModule.interface";
 import { type IRouteDefinition} from "@/core/interfaces/routeDefinition.interface";
+import {YamlParsing} from "@/core/utils/parsingYaml.utils";
 export { type KernelModuleType } from "./core/types/kernelModule.type";
 
 
@@ -180,5 +181,6 @@ export {
     RegisterCoreRouteRouter,
     RoutersAppCore,
     RegistrarRoutersCore,
-    FeatureModuleCoreRouteRouter
+    FeatureModuleCoreRouteRouter,
+    YamlParsing
 };

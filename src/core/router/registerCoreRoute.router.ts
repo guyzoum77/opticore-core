@@ -18,54 +18,21 @@ export class RegisterCoreRouteRouter {
     registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
         const registeredRoutes: any[] = [];
 
-        // allFeatureRoutes.forEach(({ featureRoute }): void => {
-        //     featureRoute.forEach(({ path, handler }): void => {
-        //         handler.stack
-        //             ? this.router.use(path, handler)
-        //             : LogMessageUtils.error(
-        //                 "Invalid handler",
-        //                 "",
-        //                 "",
-        //                 `Handler at path ${path} does not contain a valid stack.`,
-        //                 status.NOT_ACCEPTABLE
-        //             );
-        //
-        //         handler.stack.forEach((layer: any, index: number): void => {
-        //             const routePath = layer.route?.path || "N/A";
-        //             const methods: string = Object.keys(layer.route?.methods || {}).join(", ");
-        //             console.log(`Registering base route path: ${path}`);
-        //             console.log(`[${index}] Sub-path: ${routePath}, Methods: ${methods}`);
-        //         })
-        //     });
-        // });
-
         allFeatureRoutes.forEach(({ featureRoute }): void => {
             featureRoute.forEach(({ path, handler }): void => {
-                if (handler.stack) {
-                    this.router.use(path, handler);
-                    registeredRoutes.push({ path: path, handler: handler });
-
-                    handler.stack.forEach((layer: any, index: number, handler): void => {
-                        const routePath = layer.route?.path || "N/A";
-                        const methods: string = Object.keys(layer.route?.methods || {}).join(", ");
-                        console.log("handler into handler.stack.forEach is : ", handler);
-
-                        //registeredRoutes.push(`[Layer ${index}] Sub-path: ${routePath}, Methods: ${methods}`);
-                        registeredRoutes.push({ path: routePath, methods: methods });
-                    });
-
-                } else {
-                    LogMessageUtils.error(
+                handler.stack
+                    ? this.router.use(path, handler)
+                    : LogMessageUtils.error(
                         "Invalid handler",
-                        "Router error",
+                        "",
                         "",
                         `Handler at path ${path} does not contain a valid stack.`,
                         status.NOT_ACCEPTABLE
                     );
-                }
+                //registeredRoutes.push({path: path, handler: handler});
             });
         });
 
-        return registeredRoutes;
+        //return registeredRoutes;
     }
 }
