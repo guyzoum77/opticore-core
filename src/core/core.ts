@@ -26,9 +26,7 @@ export class CoreApplication {
     private readonly port: number;
     private readonly host: string;
 
-    constructor(app: express.Application,
-                allFeatureRoutes: { featureRoute: IRouteDefinition[] }[],
-                corsOriginOptions?: Partial<CorsOptions>) {
+    constructor(app: express.Application, corsOriginOptions?: Partial<CorsOptions>) {
         this.port = Number(getEnvVariable.appPort);
         this.host = getEnvVariable.appHost;
         this.routerExpressApp = app;
@@ -38,7 +36,6 @@ export class CoreApplication {
         this.expressApp.use(corsOrigin(corsOriginOptions));
 
         this.stackTraceErrorHandling();
-        this.registerRoutes(allFeatureRoutes);
     }
 
     public onStartServer<T extends express.Router>() {
@@ -87,7 +84,7 @@ export class CoreApplication {
 
     private registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
         const registerRouter: RegisterCoreRouteRouter = new RegisterCoreRouteRouter(this.routerExpressApp);
-        registerRouter.registerRoutes(allFeatureRoutes);
+        registerRouter.register(allFeatureRoutes);
     }
     private stackTraceErrorHandling(): void {
         eventProcessHandler();
