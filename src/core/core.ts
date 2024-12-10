@@ -84,10 +84,7 @@ export class CoreApplication {
     }
 
     private registerRoutes(allFeatureRoutes: { featureRoute: IRouteDefinition[] }[]) {
-        const registerRouter: RegisterCoreRouteRouter = new RegisterCoreRouteRouter();
-        const routers = registerRouter.register(allFeatureRoutes);
-
-        routers.map((router) => {
+        allFeatureRoutes.map((router) => {
             router.featureRoute.map((route) => {
                 this.expressApp.use(route.path, route.handler);
             });
