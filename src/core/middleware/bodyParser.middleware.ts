@@ -3,7 +3,6 @@ import {Exception, HttpStatusCodesConstant} from "../../index";
 import {ParseFunctionType} from "../types/parseFunction.type";
 import {BodyParserOptionsInterface} from "../interfaces/bodyParserOptions.interface";
 import {LogMessageUtils} from "../utils/logMessage.utils";
-import {EventConstant} from "@/core/utils/constants/event.constant";
 
 
 /**
@@ -33,7 +32,7 @@ export function bodyParserMiddleware(parseFunction: ParseFunctionType, options: 
                     next();
                 });
 
-                req.on(E, (err: any): void => {
+                req.on("error", (err: any): void => {
                     LogMessageUtils.error(
                         "Error receiving data",
                         "Type error",

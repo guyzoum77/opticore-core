@@ -1,4 +1,4 @@
-import {getEnvVariable} from "../../../domain/env/access.env";
+import {getEnvVariable} from "@/domain/env/access.env";
 
 /** --------------------------------------------------------------------------------------------------------------------------------
  * Arguments : A connection URL can also take arguments. Here is the same example from above with placeholder

@@ -2,6 +2,7 @@ import "reflect-metadata";
 import {IncomingMessage, ServerResponse, Server as serverWebApp} from "node:http";
 import corsOrigin, {CorsOptions} from "cors";
 import express from "express";
+import bodyParser from "body-parser";
 import {
     eventErrorOnListeningServer,
     eventName,
@@ -29,6 +30,11 @@ export class CoreApplication {
         this.port = Number(getEnvVariable.appPort);
         this.host = getEnvVariable.appHost;
         this.routerExpressApp = app;
+
+        this.expressApp.use(bodyParser.urlencoded({ extended: true }));
+        this.expressApp.use(bodyParser.json({ type: 'application/*+json' }));
+        this.expressApp.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
+        this.expressApp.use(bodyParser.text({ type: 'text/html' }));
 
         this.expressApp.use(express.json());
         this.expressApp.use(express.urlencoded({ extended: true }));
