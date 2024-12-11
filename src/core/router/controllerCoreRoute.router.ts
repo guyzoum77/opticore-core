@@ -16,7 +16,10 @@ export class ControllerCoreRouteRouter<TController, TAuthenticator> extends Base
      * @param actionName Name of the controller action to invoke (e.g., 'create').
      * @param middleware Optional array of middleware functions.
      */
-    action(method: 'get' | 'post' | 'put' | 'delete', path: string, actionName: keyof TController, middleware: express.RequestHandler[] = []): void {
+    action(method: 'get' | 'post' | 'put' | 'delete',
+           path: string,
+           actionName: keyof TController,
+           middleware: express.RequestHandler[] = []): void {
         this.router[method](path, ...middleware, async (req: express.Request, res: express.Response): Promise<void> => {
             const controllerInstance: TController = this.controller;
             if (typeof controllerInstance[actionName] === 'function') {
