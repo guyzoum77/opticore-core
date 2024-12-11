@@ -1,62 +1,38 @@
-import express, {Router} from "express";
-import {BaseRouterConfig} from "@/core/config/baseRouter.config";
-import {LogMessageUtils} from "@/core/utils/logMessage.utils";
-import {HttpStatusCodesConstant as status} from "@/domain/constants/httpStatusCodes.constant";
-import process from "node:process";
+import {Request, Response, NextFunction, Router} from "express";
+import {IRouterConfig} from "@/core/interfaces/routerConfig.interface";
+import passport, {AuthenticateOptions} from "passport";
 
 
-export class ControllerCoreRouteRouter<TController, TAuthenticator = null> extends BaseRouterConfig<TController, TAuthenticator> {
-    constructor(
-        controllerClass: new () => TController,
-        authenticator?: new () => TAuthenticator | null
-    ) {
-        super(controllerClass, authenticator);
+export class OptControllerCoreRouter {
+    private readonly router: Router;
+    private routes: IRouterConfig[];
+
+    constructor() {
+        this.router = Router();
+        this.routes = [];
     }
 
-    /**
-     * Registers a route dynamically.
-     *
-     * @param method HTTP method (e.g., 'post', 'get', 'put', 'delete').
-     * @param path Route path (e.g., '/create').
-     * @param actionName Name of the controller action to invoke (e.g., 'create').
-     * @param middleware Optional array of middleware functions.
-     */
-    action(
-        method: "get" | "post" | "put" | "delete",
+    public addRoute(
+        method: 'get' | 'post' | 'put' | 'delete',
         path: string,
-        actionName: keyof TController,
-        middleware: express.RequestHandler[] = []
+        handler: (req: Request, res: Response, next: NextFunction) => void,
+        middleware: boolean = false // By default, middleware is not applied.
     ): void {
-        this.router[method](path, ...middleware, (req: express.Request, res: express.Response, next: express.NextFunction) => {
-            const controllerInstance: TController = this.controller;
+        this.routes.push({ path, method, handler, middleware });
+    }
 
-            if (typeof controllerInstance[actionName] === "function") {
-                try {
-                    (controllerInstance[actionName] as any)(req, res, next);
-                } catch (error: any) {
-                    LogMessageUtils.error(
-                        "Controller Instance Action Name",
-                        "Controller error",
-                        error.stack,
-                        error.message,
-                        status.INTERNAL_SERVER_ERROR,
-                    );
-                    res.status(500).json({ message: "Une erreur est survenue", error });
-                }
+    // Method to configure all routes
+    public routeConfigured(strategy: string, options: AuthenticateOptions): Router {
+        this.routes.forEach((route: IRouterConfig): void => {
+            const { path, method, handler, middleware } = route;
+            if (middleware) {
+                // If middleware is enabled, Strategy authentication is applied
+                this.router[method](path, passport.authenticate(strategy, options), handler);
             } else {
-                LogMessageUtils.error(
-                    "Controller Instance Action Name",
-                    "Action name error",
-                    `${process.cwd()} + /src/core/router/controllerCoreRoute.router.ts`,
-                    "The Controller instance actionName is not a function",
-                    status.NOT_ACCEPTABLE,
-                );
-                res.status(400).json({ message: `Action ${String(actionName)} introuvable` });
+                this.router[method](path, handler);
             }
         });
-    }
 
-    getRouter(): Router {
         return this.router;
     }
 }
