@@ -1,20 +1,19 @@
 import {Router} from "express";
 
-export class BaseRouterConfig<T, U> {
+export class BaseRouterConfig<TController, TAuthenticator = null> {
     public router: Router;
-    public controller: T;
-    public middleware: U | null;
+    public controller: TController;
+    public middleware: TAuthenticator | null;
 
-
-    constructor (TController: { new (): T }, UMiddleware?: { new (): U }) {
+    constructor(
+        TController: { new(): TController },
+        TAuthenticator?: { new(): (TAuthenticator | null) } | undefined
+    ) {
         this.router = Router();
         this.controller = new TController();
-        this.middleware = UMiddleware
-            ? new UMiddleware()
-            : null;
-
+        this.middleware = TAuthenticator ? new TAuthenticator() : null;
         this.routes();
     }
 
-    routes () {}
+    routes(): void {}
 }
