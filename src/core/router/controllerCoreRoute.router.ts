@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Router} from "express";
 import {BaseRouterConfig} from "@/core/config/baseRouter.config";
 import {LogMessageUtils} from "@/core/utils/logMessage.utils";
 import {HttpStatusCodesConstant as status} from "@/domain/constants/httpStatusCodes.constant";
@@ -27,12 +27,12 @@ export class ControllerCoreRouteRouter<TController, TAuthenticator = null> exten
         actionName: keyof TController,
         middleware: express.RequestHandler[] = []
     ): void {
-        this.router[method](path, ...middleware, async (req: express.Request, res: express.Response): Promise<void> => {
+        this.router[method](path, ...middleware, (req: express.Request, res: express.Response, next: express.NextFunction) => {
             const controllerInstance: TController = this.controller;
 
             if (typeof controllerInstance[actionName] === "function") {
                 try {
-                    await (controllerInstance[actionName] as any)(req, res);
+                    (controllerInstance[actionName] as any)(req, res, next);
                 } catch (error: any) {
                     LogMessageUtils.error(
                         "Controller Instance Action Name",
@@ -56,7 +56,7 @@ export class ControllerCoreRouteRouter<TController, TAuthenticator = null> exten
         });
     }
 
-    getRouter(): express.Router {
+    getRouter(): Router {
         return this.router;
     }
 }
