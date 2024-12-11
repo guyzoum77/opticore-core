@@ -10,9 +10,9 @@ export class ResponseHttp {
      * @param apiVersion
      */
     static error(res: express.Response,
-                    status: number,
-                    message: string | Validator.ValidationErrors,
-                    apiVersion: any): express.Response<any, Record<string, any>> {
+                 status: number,
+                 message: string | Validator.ValidationErrors,
+                 apiVersion: any): express.Response<any, Record<string, any>> {
         return res.status(status).json({
             errorMessage: message,
             responseStatus: status,
