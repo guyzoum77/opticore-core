@@ -86,7 +86,7 @@ import {RoutersAppCore} from "@/core/routersApp.core";
 import {RegistrarRoutersCore} from "@/core/registrarRouters.core";
 import {YamlParsing} from "@/core/utils/parsingYaml.utils";
 import {oPTSingleRouter} from "@/core/router/oPTSingleRoute.router";
-import {OPTMultipleRouter} from "@/core/router/oPTMultipleRoute.router";
+import {oPTMultipleRouter} from "@/core/router/oPTMultipleRoute.router";
 
 import { type IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
@@ -182,7 +182,7 @@ export {
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
     oPTSingleRouter,
-    OPTMultipleRouter,
+    oPTMultipleRouter,
     ResponseHttp,
     requestCallsEvent,
     RSAKeyDecryption,
