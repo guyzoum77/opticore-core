@@ -14,12 +14,12 @@ export class oPTMultipleRouter<TController, TAuthenticator> extends BaseRouterCo
 
     routes() {
         this.routeConfigs.forEach((route: TRouteConfigType): void => {
-            const { path, method, handler, authMiddleware } = route;
+            const { path, method, handler, middlewares } = route;
 
             // Check if authMiddleware is provided
-            if (authMiddleware) {
+            if (middlewares) {
                 // Apply authMiddleware if it exists
-                this.router[method](path, authMiddleware, handler);
+                this.router[method](path, middlewares, handler);
             } else {
                 // If no authMiddleware is provided, just use the handler
                 this.router[method](path, handler);
