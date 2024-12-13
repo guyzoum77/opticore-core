@@ -14,25 +14,34 @@ export class oPTSingleRouter {
         this.routes = [];
     }
 
-    public route(
-        method: TRouteConfigMethodType,
-        path: string,
-        handler: (req: Request, res: Response, next: NextFunction) => void,
-        middleware: boolean = false // By default, middleware is not applied.
+    /**
+     *
+     * @param method
+     * @param path
+     * @param handler
+     * @param middleware  //By default, middleware is not applied.
+     */
+    public route(method: TRouteConfigMethodType,
+                 path: string,
+                 handler: (req: Request, res: Response, next: NextFunction) => void,
+                 middleware: boolean = false
     ): void {
         this.routes.push({ path, method, handler, middleware });
     }
 
-    // Method to configure all routes
+    /**
+     * Method to configure all routes
+     *
+     * @param strategy
+     * @param options
+     */
     public getRoute(strategy: string, options: IAuthPassportOptions): Router {
         this.routes.forEach((route: IRouterConfig): void => {
             const { path, method, handler, middleware } = route;
-            if (middleware) {
-                // If middleware is enabled, Strategy authentication is applied
-                this.router[method](path, passport.authenticate(strategy, options), handler);
-            } else {
-                this.router[method](path, handler);
-            }
+
+            middleware
+                ? this.router[method](path, passport.authenticate(strategy, options), handler)
+                : this.router[method](path, handler);
         });
 
         return this.router;

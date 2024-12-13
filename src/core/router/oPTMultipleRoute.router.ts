@@ -1,6 +1,6 @@
 import {BaseRouterConfig} from "@/core/config/baseRouter.config";
 import {TRouteConfigType} from "@/core/types/routeConfig.type";
-import {Router} from "express";
+import {IRouterConfig} from "@/core/interfaces/routerConfig.interface";
 
 export class oPTMultipleRouter<TController, TAuthenticator> extends BaseRouterConfig<TController, TAuthenticator> {
     private routeConfigs: TRouteConfigType[];
@@ -15,19 +15,12 @@ export class oPTMultipleRouter<TController, TAuthenticator> extends BaseRouterCo
     routes() {
         this.routeConfigs.forEach((route: TRouteConfigType): void => {
             const { path, method, handler, middlewares } = route;
-
-            // Check if authMiddleware is provided
-            if (middlewares) {
-                // Apply authMiddleware if it exists
-                this.router[method](path, middlewares, handler);
-            } else {
-                // If no authMiddleware is provided, just use the handler
-                this.router[method](path, handler);
-            }
+            
+            middlewares
+                ? this.router[method](path, middlewares, handler)
+                : this.router[method](path, handler);
         });
-    }
 
-    public getRouter(): Router {
         return this.router;
     }
 }

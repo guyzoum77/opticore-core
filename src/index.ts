@@ -98,7 +98,6 @@ export { type LogLevelType } from "./core/types/logLevel.type";
 export { type KernelModuleInterface } from "./core/interfaces/kernelModule.interface";
 export { type KernelModuleType } from "./core/types/kernelModule.type";
 
-
 export {
     type Router,
     type Express,
@@ -117,8 +116,6 @@ export {
     type RouterOptions,
     type MediaType
 } from "express";
-
-
 
 export {
     appRoot,

@@ -1,9 +1,9 @@
-import {TRouteConfigMethodType} from "@/core/types/routeConfigMethod.type";
-import express from "express";
+import { TRouteConfigMethodType } from "@/core/types/routeConfigMethod.type";
+import { Request, Response, NextFunction, RequestHandler } from "express";
 
 export type TRouteConfigType = {
     path: string;
     method: TRouteConfigMethodType;
-    middlewares?: express.RequestHandler[] | null;
-    handler: (req: express.Request, res: express.Response, next: express.NextFunction) => void;
+    middlewares?: RequestHandler[] | null;
+    handler: (req: Request, res: Response, next: NextFunction) => void;
 }
