@@ -7,7 +7,7 @@ export class BaseRouterConfig<TController, TAuthenticator = null> {
 
     constructor(
         TController: { new(): TController },
-        TAuthenticator?: { new(): (TAuthenticator | null) } | undefined
+        TAuthenticator?: { new(...args: any[]): (TAuthenticator | null) } | undefined
     ) {
         this.router = Router();
         this.controller = new TController();

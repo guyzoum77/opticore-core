@@ -80,17 +80,22 @@ import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {runBootstrap} from "./core/bootstrap/run.bootstrap";
 import {KernelModuleType} from "./core/types/kernelModule.type";
-import {RegisterCoreRouteRouter} from "@/core/router/registerCoreRoute.router";
-import {FeatureModuleCoreRouteRouter} from "@/core/router/featureModuleCoreRoute.router";
+import {oPTRegisterRouters} from "@/core/router/oPTRegister.router";
+import {oPTFeatureRouter} from "@/core/router/oPTFeature.router";
 import {RoutersAppCore} from "@/core/routersApp.core";
 import {RegistrarRoutersCore} from "@/core/registrarRouters.core";
+import {YamlParsing} from "@/core/utils/parsingYaml.utils";
+import {oPTSingleRouter} from "@/core/router/oPTSingleRoute.router";
+import {OPTMultipleRouter} from "@/core/router/oPTMultipleRoute.router";
+
+import { type IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
+import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
+import { type TRouteConfigMethodType } from "@/core/types/routeConfigMethod.type";
+import { type TRouteConfigType } from "@/core/types/routeConfig.type";
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
 export { type KernelModuleInterface } from "./core/interfaces/kernelModule.interface";
-import { type IRouteDefinition} from "@/core/interfaces/routeDefinition.interface";
-import {YamlParsing} from "@/core/utils/parsingYaml.utils";
-import {OptControllerCoreRouter} from "@/core/router/controllerCoreRoute.router";
 export { type KernelModuleType } from "./core/types/kernelModule.type";
 
 
@@ -121,6 +126,9 @@ export {
     crypto,
     fs,
     IRouteDefinition,
+    IAuthPassportOptions,
+    TRouteConfigMethodType,
+    TRouteConfigType,
     jsonWebToken,
     mySQL,
     bcrypt,
@@ -173,16 +181,17 @@ export {
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
-    OptControllerCoreRouter,
+    oPTSingleRouter,
+    OPTMultipleRouter,
     ResponseHttp,
     requestCallsEvent,
     RSAKeyDecryption,
     RSAKeyEncryption,
     runBootstrap,
     StackTraceError,
-    RegisterCoreRouteRouter,
+    oPTRegisterRouters,
     RoutersAppCore,
     RegistrarRoutersCore,
-    FeatureModuleCoreRouteRouter,
+    oPTFeatureRouter,
     YamlParsing
 };

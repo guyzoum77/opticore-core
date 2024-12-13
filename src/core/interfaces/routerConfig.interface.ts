@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
+import {TRouteConfigMethodType} from "@/core/types/routeConfigMethod.type";
 
 
 export interface IRouterConfig {
     path: string;
-    method: 'get' | 'post' | 'put' | 'delete';
+    method: TRouteConfigMethodType;
     handler: (req: Request, res: Response, next: NextFunction) => void;
     middleware?: boolean; // An Optional middleware to enable/passport.authenticate
 }

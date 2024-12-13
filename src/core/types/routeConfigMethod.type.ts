@@ -1,0 +1,1 @@
+export type TRouteConfigMethodType = "get" | "post" | "put" | "delete" | "patch";

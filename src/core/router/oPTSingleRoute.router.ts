@@ -1,9 +1,11 @@
-import {Request, Response, NextFunction, Router} from "express";
-import {IRouterConfig} from "@/core/interfaces/routerConfig.interface";
-import passport, {AuthenticateOptions} from "passport";
+import passport from "passport";
+import { Request, Response, NextFunction, Router } from "express";
+import { IRouterConfig} from "@/core/interfaces/routerConfig.interface";
+import { IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
+import { TRouteConfigMethodType } from "@/core/types/routeConfigMethod.type";
 
 
-export class OptControllerCoreRouter {
+export class oPTSingleRouter {
     private readonly router: Router;
     private routes: IRouterConfig[];
 
@@ -12,8 +14,8 @@ export class OptControllerCoreRouter {
         this.routes = [];
     }
 
-    public addRoute(
-        method: 'get' | 'post' | 'put' | 'delete',
+    public route(
+        method: TRouteConfigMethodType,
         path: string,
         handler: (req: Request, res: Response, next: NextFunction) => void,
         middleware: boolean = false // By default, middleware is not applied.
@@ -22,7 +24,7 @@ export class OptControllerCoreRouter {
     }
 
     // Method to configure all routes
-    public routeConfigured(strategy: string, options: AuthenticateOptions): Router {
+    public getRoute(strategy: string, options: IAuthPassportOptions): Router {
         this.routes.forEach((route: IRouterConfig): void => {
             const { path, method, handler, middleware } = route;
             if (middleware) {
