@@ -2,12 +2,12 @@ import passport from "passport";
 import { Request, Response, NextFunction, Router } from "express";
 import { IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
 import { TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
-import { ISingleRouterConfigInterface } from "@/core/interfaces/singleRouterConfig.interface";
+import {ISingleRouterConfig} from "@/core/interfaces/singleRouterConfig.interface";
 
 
 export class oPTSingleRouter {
     private readonly router: Router;
-    private routes: ISingleRouterConfigInterface[];
+    private routes: ISingleRouterConfig[];
 
     constructor() {
         this.router = Router();
@@ -36,7 +36,7 @@ export class oPTSingleRouter {
      * @param options
      */
     public getRoute(strategy: string, options: IAuthPassportOptions): Router {
-        this.routes.forEach((route: ISingleRouterConfigInterface): void => {
+        this.routes.forEach((route: ISingleRouterConfig): void => {
             const { path, method, handler, middleware } = route;
 
             middleware
