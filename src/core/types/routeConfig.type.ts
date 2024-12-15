@@ -1,9 +1,9 @@
-import { TRouteConfigMethodType } from "@/core/types/routeConfigMethod.type";
-import { Request, Response, NextFunction, RequestHandler } from "express";
+import { TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
+import { RequestHandler } from "express";
 
-export type TRouteConfigType = {
+export type TRouteConfigType<TController> = {
     path: string;
-    method: TRouteConfigMethodType;
+    method: TRouteConfigHttpMethod;
     middlewares?: RequestHandler[] | null;
-    handler: (req: Request, res: Response, next: NextFunction) => void;
+    handler: keyof TController;
 }

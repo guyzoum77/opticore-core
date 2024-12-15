@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import {TRouteConfigMethodType} from "@/core/types/routeConfigMethod.type";
+import {TRouteConfigHttpMethod} from "@/core/types/routeConfigHttpMethod.type";
 
 
-export interface IRouterConfig {
+export interface ISingleRouterConfigInterface {
     path: string;
-    method: TRouteConfigMethodType;
+    method: TRouteConfigHttpMethod;
     handler: (req: Request, res: Response, next: NextFunction) => void;
     middleware?: boolean;
 }

@@ -90,7 +90,7 @@ import {oPTMultipleRouter} from "@/core/router/oPTMultipleRoute.router";
 
 import { type IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
-import { type TRouteConfigMethodType } from "@/core/types/routeConfigMethod.type";
+import { type TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
 import { type TRouteConfigType } from "@/core/types/routeConfig.type";
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
@@ -124,7 +124,7 @@ export {
     fs,
     IRouteDefinition,
     IAuthPassportOptions,
-    TRouteConfigMethodType,
+    TRouteConfigHttpMethod,
     TRouteConfigType,
     jsonWebToken,
     mySQL,

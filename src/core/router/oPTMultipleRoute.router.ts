@@ -1,49 +1,50 @@
-import { Router } from "express";
-import { BaseRouterConfig } from "@/core/config/baseRouter.config";
-import { TRouteConfigType } from "@/core/types/routeConfig.type";
-import { IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
-import {LogMessageUtils} from "@/core/utils/logMessage.utils";
-import { HttpStatusCodesConstant as status } from "@/domain/constants/httpStatusCodes.constant";
-import process from "node:process";
+import { Router, RequestHandler, Request, Response, NextFunction } from "express";
+import { TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
+import { IMultipleRouterConfig } from "@/core/interfaces/multipleRouterConfig.interface";
+import { IMultipleRouteDefinition } from "@/core/interfaces/multipleRouteDefinition.interface";
+import { TAuthenticatorFunction } from "@/core/types/authenticatorFunction.type";
 
-export class oPTMultipleRouter<TController, TAuthenticator> extends BaseRouterConfig<TController, TAuthenticator> {
-    private routeConfigs: TRouteConfigType[];
-    private readonly controller: TController;
+
+export class oPTMultipleRouter<TContext> {
+    private readonly router: Router;
+    private routes: IMultipleRouterConfig<TContext>[];
+    private controller: any;
     private readonly basePath: string;
+    private readonly authenticator?: TAuthenticatorFunction<TContext>;
 
-    constructor(basePath: string = "/",
-                controller: new (...args: any[]) => TController,
-                authenticator: { new (...args: any[]): TAuthenticator } | null,
-                routeConfigs: TRouteConfigType[]) {
-        super(controller, authenticator);
-        this.basePath     = basePath;
-        this.routeConfigs = routeConfigs;
-        this.controller   = new controller();
+    constructor(controller: any, routes: IMultipleRouterConfig<TContext>[], authenticator?: TAuthenticatorFunction<TContext>) {
+        this.router = Router();
+        this.routes = routes;
+        this.controller = controller;
+        this.basePath = controller.basePath || '';
+        this.authenticator = authenticator;
     }
 
-    routes(): IRouteDefinition[] {
-        const router = Router();
+    public getRoute(): IMultipleRouteDefinition {
+        this.routes.forEach((route: IMultipleRouterConfig<TContext>): void => {
+            const { path, method, middlewares, handler } = route;
+            const fullPath: string = `${this.basePath}${path}`;
 
-        this.routeConfigs.forEach((route: TRouteConfigType): void => {
-            const { path, method, handler, middlewares } = route;
+            // Wrap the handler to adapt to Express
+            const expressHandler: RequestHandler = (req: Request, res: Response, next: NextFunction): void => {
+                const context: TContext = { req, res, next } as unknown as TContext;
+                handler(context);
+            };
 
-            if (typeof this.controller[handler as keyof TController] !== "function") {
-                LogMessageUtils.error(
-                    "Handler",
-                    "Handler not found",
-                    process.cwd() + "/src/core/router/oPTMultipleRoute.router.ts",
-                    `Handler ${String(handler)} does not exist on the controller.`,
-                    status.NOT_FOUND
-                );
-                throw "";
+            if (this.authenticator) {
+                const authMiddleware: RequestHandler = (req: Request, res: Response, next: NextFunction): void => {
+                    const context: TContext = { req, res, next } as unknown as TContext;
+                    this.authenticator!(context)
+                        ? next()
+                        : res.status(401).send("Authentication failed");
+                };
+
+                this.router[method as TRouteConfigHttpMethod](fullPath, ...middlewares, authMiddleware, expressHandler);
+            } else {
+                this.router[method as TRouteConfigHttpMethod](fullPath, ...middlewares, expressHandler);
             }
-
-            const routeHandler = (this.controller[handler as keyof TController] as any).bind(this.controller);
-            middlewares && middlewares.length > 0
-                ? router[method](path, ...middlewares, routeHandler)
-                : router[method](path, routeHandler);
         });
 
-        return [{ path: this.basePath, handler: router }];
+        return { path: this.basePath, handler: this.router };
     }
 }

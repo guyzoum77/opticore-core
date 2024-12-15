@@ -1,0 +1,1 @@
+export type TRouteConfigHttpMethod = "get" | "post" | "put" | "delete" | "patch" | "options" | "head";
