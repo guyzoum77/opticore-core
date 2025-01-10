@@ -85,14 +85,13 @@ import {oPTFeatureRouter} from "@/core/router/oPTFeature.router";
 import {RoutersAppCore} from "@/core/routersApp.core";
 import {RegistrarRoutersCore} from "@/core/registrarRouters.core";
 import {YamlParsing} from "@/core/utils/parsingYaml.utils";
-import {oPTSingleRouter} from "@/core/router/oPTSingleRoute.router";
-import {oPTMultipleRouter} from "@/core/router/oPTMultipleRoute.router";
 
 import { type IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
 import { type TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
 import { type TRouteConfigType } from "@/core/types/routeConfig.type";
 import { type ICustomContext } from "@/core/interfaces/customContext.interface";
+import {OpticoreRouter} from "@/core/router/opticoreRoutes.router";
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
@@ -181,8 +180,7 @@ export {
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
-    oPTSingleRouter,
-    oPTMultipleRouter,
+    OpticoreRouter,
     ResponseHttp,
     requestCallsEvent,
     RSAKeyDecryption,
