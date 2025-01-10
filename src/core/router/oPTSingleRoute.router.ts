@@ -24,8 +24,7 @@ export class oPTSingleRouter {
     public route(method: TRouteConfigHttpMethod,
                  path: string,
                  handler: (req: Request, res: Response, next: NextFunction) => void,
-                 middleware: boolean = false
-    ): void {
+                 middleware: boolean = false): void {
         this.routes.push({ path, method, handler, middleware });
     }
 

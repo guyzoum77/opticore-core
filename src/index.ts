@@ -92,11 +92,13 @@ import { type IRouteDefinition } from "@/core/interfaces/routeDefinition.interfa
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
 import { type TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
 import { type TRouteConfigType } from "@/core/types/routeConfig.type";
+import { type ICustomContext } from "@/core/interfaces/customContext.interface";
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
 export { type KernelModuleInterface } from "./core/interfaces/kernelModule.interface";
 export { type KernelModuleType } from "./core/types/kernelModule.type";
+
 
 export {
     type Router,
@@ -124,6 +126,7 @@ export {
     fs,
     IRouteDefinition,
     IAuthPassportOptions,
+    ICustomContext,
     TRouteConfigHttpMethod,
     TRouteConfigType,
     jsonWebToken,
