@@ -78,26 +78,25 @@ import {modulesLoadedUtils} from "./core/utils/modulesLoaded.utils";
 import {LoggerCore as Logger} from "opticore-logger";
 import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
-import {runBootstrap} from "./core/bootstrap/run.bootstrap";
 import {KernelModuleType} from "./core/types/kernelModule.type";
 import {oPTRegisterRouters} from "@/core/router/oPTRegister.router";
 import {oPTFeatureRouter} from "@/core/router/oPTFeature.router";
 import {RoutersAppCore} from "@/core/routersApp.core";
-import {RegistrarRoutersCore} from "@/core/registrarRouters.core";
 import {YamlParsing} from "@/core/utils/parsingYaml.utils";
+import {OpticoreRouter} from "opticore-router";
 
 import { type IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
 import { type TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
 import { type TRouteConfigType } from "@/core/types/routeConfig.type";
 import { type ICustomContext } from "@/core/interfaces/customContext.interface";
-import {OpticoreRouter} from "opticore-router";
+import {passportUseGuard} from "@/core/middleware/passportGuard.middleware";
+
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
 export { type KernelModuleInterface } from "./core/interfaces/kernelModule.interface";
 export { type KernelModuleType } from "./core/types/kernelModule.type";
-
 
 export {
     type Router,
@@ -180,16 +179,16 @@ export {
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
+    oPTRegisterRouters,
+    oPTFeatureRouter,
+    OpticoreRouter,
+    passportUseGuard,
+    RoutersAppCore,
     ResponseHttp,
     requestCallsEvent,
     RSAKeyDecryption,
     RSAKeyEncryption,
-    runBootstrap,
     StackTraceError,
-    oPTRegisterRouters,
-    RoutersAppCore,
-    RegistrarRoutersCore,
-    oPTFeatureRouter,
-    OpticoreRouter,
     YamlParsing
 };
+
