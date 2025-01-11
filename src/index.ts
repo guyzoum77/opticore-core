@@ -91,7 +91,7 @@ import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions
 import { type TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
 import { type TRouteConfigType } from "@/core/types/routeConfig.type";
 import { type ICustomContext } from "@/core/interfaces/customContext.interface";
-import {OpticoreRouter} from "@/core/router/opticoreRoutes.router";
+import {OpticoreRouter} from "opticore-router";
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
@@ -180,7 +180,6 @@ export {
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
-    OpticoreRouter,
     ResponseHttp,
     requestCallsEvent,
     RSAKeyDecryption,
@@ -191,5 +190,6 @@ export {
     RoutersAppCore,
     RegistrarRoutersCore,
     oPTFeatureRouter,
+    OpticoreRouter,
     YamlParsing
 };
