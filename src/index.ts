@@ -32,7 +32,7 @@ import randToken from "rand-token";
 import crypto from "crypto";
 import { PrismaClient } from '@prisma/client';
 import {injectable} from "inversify"; // For dependency injection
-import {Strategy as JwtStr, StrategyOptions, ExtractJwt} from 'passport-jwt';
+import {Strategy as JwtStr, ExtractJwt} from 'passport-jwt';
 
 import {ExpressRoutesUtils} from "./core/utils/expressRoutes.utils"
 import {Db, MongoClient} from 'mongodb';
@@ -91,6 +91,7 @@ import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions
 import { type TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
 import { type TRouteConfigType } from "@/core/types/routeConfig.type";
 import { type ICustomContext } from "@/core/interfaces/customContext.interface";
+import { type StrategyOptions } from "passport-jwt";
 import {passportUseGuard} from "@/core/middleware/passportGuard.middleware";
 
 
@@ -128,8 +129,8 @@ export {
     ICustomContext,
     TRouteConfigHttpMethod,
     TRouteConfigType,
-    StrategyOptions,
     ExtractJwt,
+    StrategyOptions,
     jsonWebToken,
     mySQL,
     bcrypt,
