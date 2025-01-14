@@ -32,7 +32,7 @@ export class oPTMultipleRouter<TContext> {
             };
 
             if (this.authenticator) {
-                const authMiddleware: RequestHandler = (req: Request, res: Response, next: NextFunction): void => {
+                const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
                     const context: TContext = { req, res, next } as unknown as TContext;
                     this.authenticator!(context)
                         ? next()
