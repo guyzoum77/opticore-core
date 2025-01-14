@@ -26,9 +26,13 @@ export class oPTMultipleRouter<TContext> {
             const fullPath: string = `${this.basePath}${path}`;
 
             // Wrap the handler to adapt to Express
-            const expressHandler: RequestHandler = (req: Request, res: Response, next: NextFunction): void => {
-                const context: TContext = { req, res, next } as unknown as TContext;
-                handler(context);
+            const expressHandler: RequestHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+                try {
+                    const context: TContext = { req, res, next } as unknown as TContext;
+                    await handler(context); // Await the handler in case it returns a Promise
+                } catch (error) {
+                    next(error); // Pass errors to Express error handling
+                }
             };
 
             if (this.authenticator) {

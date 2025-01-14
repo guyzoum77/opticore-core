@@ -1,8 +1,9 @@
 import {TRouteConfigHttpMethod} from "@/core/types/routeConfigHttpMethod.type";
+import {NextFunction, RequestHandler} from "express";
 
 export interface IMultipleRouterConfig<TContext> {
     path: string;
     method: TRouteConfigHttpMethod;
-    middlewares: any[];
-    handler: (context: TContext) => void;
+    middlewares: Array<(req: Request, res: Response, next: NextFunction) => void>;
+    handler: (context: TContext) => Promise<void> | void;
 }
