@@ -22,7 +22,7 @@ export class oPTMultipleRouter<TContext> {
 
     public getRoute(): IMultipleRouteDefinition {
         this.routes.forEach((route: IMultipleRouterConfig<TContext>): void => {
-            const { path, method, middlewares, handler } = route;
+            const { path, method, middlewares, handler } = route as IMultipleRouterConfig<TContext>;
             const fullPath: string = `${this.basePath}${path}`;
 
             // Wrap the handler to adapt to Express
