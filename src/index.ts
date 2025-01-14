@@ -92,7 +92,7 @@ import { type TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.
 import { type TRouteConfigType } from "@/core/types/routeConfig.type";
 import { type ICustomContext } from "@/core/interfaces/customContext.interface";
 import { type StrategyOptions } from "passport-jwt";
-import {passportUseGuard} from "@/core/middleware/passportGuard.middleware";
+import {passportUseGuard} from "@/core/middleware/guard/passportGuard.middleware";
 
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
