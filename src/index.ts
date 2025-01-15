@@ -85,7 +85,8 @@ import {OpticoreRouter} from "opticore-router";
 
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
 import { type StrategyOptions } from "passport-jwt";
-import {passportUseGuard} from "@/core/middleware/guard/passportGuard.middleware";
+import { passportUseGuard } from "@/core/middleware/guard/passportGuard.middleware";
+import { IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
 
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
@@ -118,6 +119,7 @@ export {
     crypto,
     fs,
     IAuthPassportOptions,
+    IRouteDefinition,
     ExtractJwt,
     StrategyOptions,
     jsonWebToken,
