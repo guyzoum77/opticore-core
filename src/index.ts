@@ -81,7 +81,7 @@ import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {KernelModuleType} from "./core/types/kernelModule.type";
 import {YamlParsing} from "@/core/utils/parsingYaml.utils";
-import {OpticoreRouter} from "opticore-router";
+import {OpticoreRouter, OpticoreRegisterRouters, OPTRouters, OPTRouter, RoutersAppCore} from "opticore-router";
 
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
 import { type StrategyOptions } from "passport-jwt";
@@ -177,6 +177,10 @@ export {
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
     OpticoreRouter,
+    OpticoreRegisterRouters,
+    OPTRouters,
+    OPTRouter,
+    RoutersAppCore,
     passportUseGuard,
     ResponseHttp,
     requestCallsEvent,
