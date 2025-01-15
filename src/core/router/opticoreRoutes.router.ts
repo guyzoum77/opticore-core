@@ -8,7 +8,12 @@ import {TRouteHandler} from "@/core/types/routeHandler.type";
 import {IAuthPassportOptions} from "@/core/interfaces/authPassportOptions";
 
 export class OpticoreRouters {
-    static route(method: TRouteConfigHttpMethod, path: string, handler: TRouteHandler, middleware: boolean = false, strategy: string, options: IAuthPassportOptions) {
+    static route(method: TRouteConfigHttpMethod, 
+                 path: string,
+                 handler: TRouteHandler,
+                 middleware: boolean = false,
+                 strategy: string,
+                 options: IAuthPassportOptions) {
         const OPTRouter: oPTSingleRouter = new oPTSingleRouter();
         OPTRouter.route(method, path, handler, middleware);
 

@@ -43,9 +43,9 @@ export class oPTMultipleRouter<TContext> {
                         : res.status(401).send("Authentication failed");
                 };
 
-                this.router[method as TRouteConfigHttpMethod](fullPath, ...middlewares as RequestHandler, authMiddleware, expressHandler);
+                this.router[method as TRouteConfigHttpMethod](fullPath, ...middlewares, authMiddleware, expressHandler);
             } else {
-                this.router[method as TRouteConfigHttpMethod](fullPath, ...middlewares as RequestHandler, expressHandler);
+                this.router[method as TRouteConfigHttpMethod](fullPath, ...middlewares, expressHandler);
             }
         });
 
