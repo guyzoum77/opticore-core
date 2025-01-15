@@ -87,7 +87,7 @@ import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions
 import { type StrategyOptions } from "passport-jwt";
 import { passportUseGuard } from "@/core/middleware/guard/passportGuard.middleware";
 import { type IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
-
+import { type ICustomContext } from "opticore-router";
 
 export { type PoolClient, type PoolConfig, type CustomTypesConfig, type ConnectionConfig } from "pg";
 export { type LogLevelType } from "./core/types/logLevel.type";
@@ -122,6 +122,7 @@ export {
     IRouteDefinition,
     ExtractJwt,
     StrategyOptions,
+    ICustomContext,
     jsonWebToken,
     mySQL,
     bcrypt,
