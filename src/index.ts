@@ -80,17 +80,10 @@ import {LoggerCore as Logger} from "opticore-logger";
 import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {KernelModuleType} from "./core/types/kernelModule.type";
-import {oPTRegisterRouters} from "@/core/router/oPTRegister.router";
-import {oPTFeatureRouter} from "@/core/router/oPTFeature.router";
-import {RoutersAppCore} from "@/core/routersApp.core";
 import {YamlParsing} from "@/core/utils/parsingYaml.utils";
 import {OpticoreRouter} from "opticore-router";
 
-import { type IRouteDefinition } from "@/core/interfaces/routeDefinition.interface";
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
-import { type TRouteConfigHttpMethod } from "@/core/types/routeConfigHttpMethod.type";
-import { type TRouteConfigType } from "@/core/types/routeConfig.type";
-import { type ICustomContext } from "@/core/interfaces/customContext.interface";
 import { type StrategyOptions } from "passport-jwt";
 import {passportUseGuard} from "@/core/middleware/guard/passportGuard.middleware";
 
@@ -124,11 +117,7 @@ export {
     colors,
     crypto,
     fs,
-    IRouteDefinition,
     IAuthPassportOptions,
-    ICustomContext,
-    TRouteConfigHttpMethod,
-    TRouteConfigType,
     ExtractJwt,
     StrategyOptions,
     jsonWebToken,
@@ -184,11 +173,8 @@ export {
     AsymmetricCryptionDataWithPrivateRSAKeyService,
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
-    oPTRegisterRouters,
-    oPTFeatureRouter,
     OpticoreRouter,
     passportUseGuard,
-    RoutersAppCore,
     ResponseHttp,
     requestCallsEvent,
     RSAKeyDecryption,
