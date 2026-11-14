@@ -1,7 +1,6 @@
 import {colors, fs, path} from "../../index";
 import process from "node:process";
-import chalk from 'chalk';
-
+import { chalk } from './chalk.utils';
 
 export class UtilityUtils {
 

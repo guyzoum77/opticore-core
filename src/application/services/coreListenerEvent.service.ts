@@ -11,7 +11,7 @@ export function coreListenerEventLoaderModuleService<T extends KernelModuleType>
 
     kernelModule.forEach((module): void => {
         if (Array.isArray(module)) {
-            router = module as express.Router[];
+            router = module as unknown as express.Router[];
         } else if (typeof module === "function") {
             dbCon = module as () => void;
         }

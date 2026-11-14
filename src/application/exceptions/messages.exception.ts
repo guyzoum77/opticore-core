@@ -87,8 +87,13 @@ export class MessagesException {
     static ER_NOT_SUPPORTED_AUTH_MODE: string = "ER_NOT_SUPPORTED_AUTH_MODE";
     static EAI_AGAIN: string = "EAI_AGAIN";
 
-    static accessDeniedToDBCon(user: string, password: string): string {
-        return `Access denied for user ${user}. Database credentials in .env file are User: ${user} and Password: ${password}.  '${user}''${password}'@'localhost'. Try to set user and password in .env file`;
+    /**
+     * Message logged when the database refuses the credentials.
+     * The password is never written to the logs; the parameter is kept for backward compatibility.
+     */
+    static accessDeniedToDBCon(user: string, password?: string): string {
+        const passwordState: string = password ? "set (hidden)" : "empty";
+        return `Access denied for user ${user}. Database credentials in .env file are User: ${user} and Password: ${passwordState}. Try to set user and password in .env file`;
     }
     static unknownDB(database: string): string {
         return `Database ${database} is unknown. Please try to use Database CLI to create your database, or do it manually in your Database Management System`

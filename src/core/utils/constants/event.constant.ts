@@ -8,7 +8,6 @@ export const EventConstant = {
     unhandledRejection: "unhandledRejection",
     warning: "warning",
     message: "message",
-    multipleResolves: "multipleResolves",
     worker: "worker",
     sigint: "SIGINT",
     sigterm: "SIGTERM"

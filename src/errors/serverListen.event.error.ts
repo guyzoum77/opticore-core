@@ -7,7 +7,7 @@ import process from "process";
 import colors from "ansi-colors";
 import StackTraceError from "../core/handlers/errors/base/stackTraceError";
 import express from "express";
-import chalk from "chalk";
+import { chalk } from "../core/utils/chalk.utils";
 
 export class ServerListenEventError {
     static hostPortUndefined(): void {
@@ -339,20 +339,6 @@ export class ServerListenEventError {
             "message exception",
             stackTrace.stack,
             `process got message ${message}`,
-            status.SERVICE_UNAVAILABLE
-        );
-    }
-    static multipleResolves(type: string, promise: Promise<any>, reason: any): void {
-        const stackTrace: StackTraceError = this.traceError(
-            `${promise} -- ${reason}`,
-            "multipleResolves",
-            status.SERVICE_UNAVAILABLE
-        );
-        LogMessageUtils.error(
-            "multipleResolves",
-            `Multiple resolves detected : ${type}`,
-            stackTrace.stack,
-            `${promise} -- ${reason}`,
             status.SERVICE_UNAVAILABLE
         );
     }

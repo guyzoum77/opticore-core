@@ -4,4 +4,5 @@ src
 .gitignore
 .npmignore
 tsconfig.json
-tsup.config.ts
+tsdown.config.ts
+test

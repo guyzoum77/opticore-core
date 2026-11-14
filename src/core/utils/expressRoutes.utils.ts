@@ -15,7 +15,11 @@ export class ExpressRoutesUtils {
      *
      * @param regexp
      */
-    static getPathFromRegex(regexp: RegExp): string {
+    static getPathFromRegex(regexp?: RegExp): string {
+        // Express 5 layers (router 2) keep matcher functions, not a `regexp`: the mount path cannot be recovered.
+        if (!(regexp instanceof RegExp)) {
+            return '';
+        }
         return regexp
             .toString()
             .replace('/^', '')

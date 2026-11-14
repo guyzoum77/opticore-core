@@ -1,23 +1,26 @@
 /**
  * Get env variables
+ *
+ * The `.env` file is read once (quietly: dotenv >= 17 prints a banner otherwise).
  */
 import dotenv from "dotenv";
 import {EnvVariablesInterface} from "../../core/interfaces/envVariables.interface";
 
+const parsedEnv: Record<string, string> | undefined = dotenv.config({ quiet: true })?.parsed;
 
 export const getEnvVariable: EnvVariablesInterface = {
-    appHost:                     String(dotenv.config()?.parsed?.APP_HOST),
-    appPort:                     String(dotenv.config()?.parsed?.APP_PORT),
-    prodEnv:                     String(dotenv.config()?.parsed?.ENV_PROD),
-    devEnv:                      String(dotenv.config()?.parsed?.ENV_DEV),
-    dataBaseHost:                String(dotenv.config()?.parsed?.DATA_BASE_HOST),
-    dataBasePort:                String(dotenv.config()?.parsed?.DATA_BASE_PORT),
-    dataBaseUser:                String(dotenv.config()?.parsed?.DATA_BASE_USER),
-    dataBasePassword:            String(dotenv.config()?.parsed?.DATA_BASE_PASSWORD),
-    dataBaseName:                String(dotenv.config()?.parsed?.DATA_BASE_NAME),
-    apiVersion:                  String(dotenv.config()?.parsed?.API_VERSION),
-    usernameField:               String(dotenv.config()?.parsed?.USERNAME_FIELD),
-    passwordField:               String(dotenv.config()?.parsed?.PASSWORD_FIELD),
-    argumentsDatabaseConnection: String(dotenv.config()?.parsed?.ARGUMENTS_DATABASE_CONNECTION),
-    logEnv:                      String(dotenv.config()?.parsed?.LOG_ENVIRONMENT)
+    appHost:                     String(parsedEnv?.APP_HOST),
+    appPort:                     String(parsedEnv?.APP_PORT),
+    prodEnv:                     String(parsedEnv?.ENV_PROD),
+    devEnv:                      String(parsedEnv?.ENV_DEV),
+    dataBaseHost:                String(parsedEnv?.DATA_BASE_HOST),
+    dataBasePort:                String(parsedEnv?.DATA_BASE_PORT),
+    dataBaseUser:                String(parsedEnv?.DATA_BASE_USER),
+    dataBasePassword:            String(parsedEnv?.DATA_BASE_PASSWORD),
+    dataBaseName:                String(parsedEnv?.DATA_BASE_NAME),
+    apiVersion:                  String(parsedEnv?.API_VERSION),
+    usernameField:               String(parsedEnv?.USERNAME_FIELD),
+    passwordField:               String(parsedEnv?.PASSWORD_FIELD),
+    argumentsDatabaseConnection: String(parsedEnv?.ARGUMENTS_DATABASE_CONNECTION),
+    logEnv:                      String(parsedEnv?.LOG_ENVIRONMENT)
 }

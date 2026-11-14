@@ -1,14 +1,15 @@
-import {Exception as msg, HttpStatusCodesConstant as status, LogMessageUtils, mySQL} from "../../index";
+import {Exception as msg, HttpStatusCodesConstant as status, LogMessageUtils} from "../../index";
+import type {QueryError} from "mysql2";
 import {LoggerCore} from "opticore-logger";
 
-export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | null,
+export function mySqlErrorHandlerUtils(err: QueryError, dbHost?: string | null,
                                        database?: string | null, user?: string | null,
                                        password?: string | null): void {
     const logger: LoggerCore = new LoggerCore();
     
     switch (err.code) {
         case "EAI_AGAIN":
-            logger.error(msg.errorDBHost(dbHost!));
+            logger.error({ message: msg.errorDBHost(dbHost!) });
             LogMessageUtils.error(
                 msg.mySQLError,
                 msg.EAI_AGAIN,
@@ -18,7 +19,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             );
             break;
         case "ER_NOT_SUPPORTED_AUTH_MODE":
-            logger.error(msg.erNotSupportedAuthModeError);
+            logger.error({ message: msg.erNotSupportedAuthModeError });
             LogMessageUtils.error(
                 msg.dbConnection,
                 msg.ER_NOT_SUPPORTED_AUTH_MODE,
@@ -28,7 +29,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             );
             break;
         case "ER_ACCESS_DENIED_ERROR":
-            logger.error(msg.accessDeniedToDBCon(user!, password!));
+            logger.error({ message: msg.accessDeniedToDBCon(user!, password!) });
             LogMessageUtils.error(
                 msg.dbConnection,
                 msg.ER_ACCESS_DENIED_ERROR,
@@ -38,7 +39,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             );
             break;
         case "ER_BAD_DB_ERROR":
-            logger.error(msg.unknownDB(database!));
+            logger.error({ message: msg.unknownDB(database!) });
             LogMessageUtils.error(
                 msg.dbConnection,
                 msg.ER_BAD_DB_ERROR,
@@ -48,7 +49,7 @@ export function mySqlErrorHandlerUtils(err: mySQL.MysqlError, dbHost?: string | 
             );
             break;
         default:
-            logger.error(err.message);
+            logger.error({ message: err.message });
             LogMessageUtils.error(
                 msg.dbConnection,
                 msg.mysqlErrorCon,

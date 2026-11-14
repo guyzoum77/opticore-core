@@ -41,20 +41,16 @@ export default async function CheckerPostgresDatabaseConnectionService(connectio
         (onRejected: any): void => {
             LogMessageUtils.error("Postgres client end error",
                 "Rejected",
+                onRejected?.stack,
                 "Postgres client end rejected",
-                "End client rejected",
-                "Rejected",
-                onRejected,
                 HttpStatusCodesConstant.BAD_REQUEST
             );
         }
     ).catch((onError: any): void => {
         LogMessageUtils.error("Postgres connection error",
             "Exception",
-            "Error exception",
-            "Exception handling",
             "Postgres connection exception handling",
-            onError.message,
+            onError?.message,
             HttpStatusCodesConstant.BAD_REQUEST
         );
     });

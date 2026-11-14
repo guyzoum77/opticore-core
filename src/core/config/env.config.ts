@@ -10,6 +10,7 @@ export abstract class EnvConfig {
         const nodeNameEnv: string = this.createPathEnv(this.nodeEnv);
         dotenv.config({
             path: nodeNameEnv,
+            quiet: true,
         })
     }
 

@@ -81,13 +81,6 @@ export function eventProcessHandler(): void {
     });
 
     /**
-     *
-     */
-    process.on(event.multipleResolves, (type: string, promise: Promise<any>, reason: any): void => {
-        ServerListenEventError.multipleResolves(type, promise, reason);
-    });
-
-    /**
      * Handle specific signals
      */
     process.on(event.sigint, (): void => {

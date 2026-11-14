@@ -20,7 +20,7 @@ import Validator from 'validatorjs';
 import jsonWebToken from "jsonwebtoken";
 import corsOrigin from "cors";
 import cookieParser from "cookie-parser";
-import mySQL from "mysql";
+import mySQL from "mysql2";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import colors from "ansi-colors";
@@ -28,7 +28,6 @@ import fs from "fs";
 import passport from "passport";
 import path from "path";
 import appRoot from "app-root-path";
-import randToken from "rand-token";
 import crypto from "crypto";
 import { PrismaClient } from '@prisma/client';
 import {injectable} from "inversify"; // For dependency injection
@@ -81,7 +80,26 @@ import {EnvironmentUtils as env} from "./core/utils/environment.utils";
 import {KernelModuleInterface} from "./core/interfaces/kernelModule.interface";
 import {KernelModuleType} from "./core/types/kernelModule.type";
 import {YamlParsing} from "@/core/utils/parsingYaml.utils";
-import {OpticoreRouter, OpticoreRegisterRouters, OPTRouters, OPTRouter, RoutersAppCore} from "opticore-router";
+import {randTokenUtils as randToken} from "./core/utils/randToken.utils";
+import {
+    OpticoreRoutingFactory,
+    OpticoreRegisterRouter,
+    OpticoreRouterCollectionRouterFactory,
+    OpticoreStandaloneRouterFactory,
+    OpticoreAppRouterFactory
+} from "opticore-router";
+
+/**
+ * Backward-compatible aliases: opticore-router renamed its classes
+ * (OpticoreRouter -> OpticoreRoutingFactory, OpticoreRegisterRouters -> OpticoreRegisterRouter,
+ * OPTRouters -> OpticoreRouterCollectionRouterFactory, OPTRouter -> OpticoreStandaloneRouterFactory,
+ * RoutersAppCore -> OpticoreAppRouterFactory). The old names keep pointing to the new classes.
+ */
+const OpticoreRouter = OpticoreRoutingFactory;
+const OpticoreRegisterRouters = OpticoreRegisterRouter;
+const OPTRouters = OpticoreRouterCollectionRouterFactory;
+const OPTRouter = OpticoreStandaloneRouterFactory;
+const RoutersAppCore = OpticoreAppRouterFactory;
 
 import { type IAuthPassportOptions } from "@/core/interfaces/authPassportOptions";
 import { type StrategyOptions } from "passport-jwt";
@@ -93,6 +111,7 @@ export { type PoolClient, type PoolConfig, type CustomTypesConfig, type Connecti
 export { type LogLevelType } from "./core/types/logLevel.type";
 export { type KernelModuleInterface } from "./core/interfaces/kernelModule.interface";
 export { type KernelModuleType } from "./core/types/kernelModule.type";
+export { type RandTokenGenerator, type RandTokenGeneratorOptions, type RandTokenSource } from "./core/utils/randToken.utils";
 
 export {
     type Router,
@@ -177,6 +196,11 @@ export {
     AsymmetricCryptionDataWithPublicRSAKeyService,
     CheckerMySqlDatabaseConnectionService,
     OpticoreRouter,
+    OpticoreRoutingFactory,
+    OpticoreRegisterRouter,
+    OpticoreRouterCollectionRouterFactory,
+    OpticoreStandaloneRouterFactory,
+    OpticoreAppRouterFactory,
     OpticoreRegisterRouters,
     OPTRouters,
     OPTRouter,

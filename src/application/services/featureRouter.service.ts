@@ -1,7 +1,6 @@
 import express, {Router} from "express";
-import {IRoutes} from "@/core/interfaces/routes.interface";
 
-export class RouterService implements IRoutes{
+export class RouterService {
     public router = Router();
 
     constructor(app: Router) {
